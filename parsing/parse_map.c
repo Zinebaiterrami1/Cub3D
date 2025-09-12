@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/12 10:48:48 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/12 18:49:39 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,22 @@ int parse_map(char *file_name)
 
 int get_first_line_map(const char *line)
 {
-    int i;
+    int i = 0;
 
-    i = 0;
-    while(line[i])
+    while (line[i])
     {
-        if(line[i] != '1' && line[i] != '0' &&
+        if (line[i] != '1' && line[i] != '0' &&
             line[i] != ' ' && line[i] != '\t' &&
-            line[i] != 'S' && line[i] != 'E' &&
-            line[i] != 'N' && line[i] != 'W')
+            line[i] != 'N' && line[i] != 'S' &&
+            line[i] != 'E' && line[i] != 'W')
             return (0);
         i++;
     }
     return (1);
 }
 
-int count_line_map(int fd)
+
+/*int count_line_map(int fd)
 {
     int count;
     char *line;
@@ -103,44 +103,44 @@ char    **read_map()
     map[i] = NULL;
     close(fd);
     return (map);
-}
+}*/
 
 
-// char *read_map(int fd)
-// {
-//     char *tmp;
-//     char *old_str;
-//     char *new_str;
-//     // int i = 0;
+char *read_map(int fd)
+{
+    char *tmp;
+    char *old_str;
+    char *new_str;
+    // int i = 0;
     
-//     tmp = get_next_line(fd);
-//     // new_str = malloc(1);
-//     // if(!new_str)
-//     //     return(NULL);
-//     // new_str[0] = '\0';
-//     // printf("First map line: %s", tmp);
-//     while(tmp && !get_first_line_map(tmp))
-//     {
-//         // printf("First map line: %s", tmp);
-//         // printf("TMP: %s", tmp);
-//         free(tmp);
-//         tmp = get_next_line(fd);
-//     }
-//     // printf("TMP: %s", tmp); // See what get_next_line returns
-//     while(tmp)
-//     {
-//         old_str = new_str;
-//         printf("Appending line: %s", tmp);
-//         new_str = ft_strjoin(old_str, tmp);
-//         free(old_str);
-//         free(tmp);
-//         tmp = get_next_line(fd);
-//     }
-//     // printf("%s", new_str);
-//     // while(new_str[i])
-//     // {
-//     //     printf("%c", new_str[i]);
-//     //     i++;
-//     // }
-//     return (new_str);
-// }
+    tmp = get_next_line(fd);
+    new_str = malloc(1);
+    if(!new_str)
+        return(NULL);
+    new_str[0] = '\0';
+    // printf("First map line: %s", tmp);
+    while(tmp && !get_first_line_map(tmp))
+    {
+        // printf("First map line: %s", tmp);
+        // printf("TMP: %s", tmp);
+        free(tmp);
+        tmp = get_next_line(fd);
+    }
+    printf("TMP: %s\n", tmp); // See what get_next_line returns
+    while(tmp)
+    {
+        old_str = new_str;
+        // printf("Appending line: %s", tmp);
+        new_str = ft_strjoinn(old_str, tmp);
+        free(old_str);
+        free(tmp);
+        tmp = get_next_line(fd);
+    }
+    // printf("%s", new_str);
+    // while(new_str[i])
+    // {
+    //     printf("%c", new_str[i]);
+    //     i++;
+    // }
+    return (new_str);
+}
