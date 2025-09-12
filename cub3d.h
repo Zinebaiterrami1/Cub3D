@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/11 13:13:38 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/12 10:34:18 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@
 
 int             parse_map(char *file_name);
 int             count_line_map(int fd);
-char            **read_map(int fd);
-
+char            **read_map();
+int get_first_line_map(const char *line);
 #endif
