@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "get_next_line/get_next_line.h"
+#include "cub3d.h"
 
 typedef struct s_textures {
     char *NO;
@@ -95,6 +96,8 @@ int parse_color(char *line, int print_color)
 // ------------------- MAIN -------------------
 int main()
 {
+    char **map;
+
     int fd = open("map.cub", O_RDONLY);
     if (fd < 0)
     {
@@ -105,7 +108,6 @@ int main()
     t_textures tex = {0};
     char *line;
     int error = 0;
-
     while ((line = get_next_line(fd)))
     {
         int i = 0;
@@ -119,13 +121,35 @@ int main()
         }
         else
         {
+            if(line[i] == '1' || line[i] == '0' || line[i] == ' ' || line[i] == '\t')
+            {
+                map = get_map(line, fd);
+                // int k;
+                // k = 0;
+                // while(map[k])
+                // {
+                //     printf("%s", map[k]);
+                //     k++;
+                // }
+                // len_line = find_big_line(map);
+                // printf("len line : %d line : %s\n", len_line, map[i]);
+            }
             check_texture_line(&tex, line);
         }
-
         free(line);
     }
     close(fd);
+    // int max_len = find_big_line(map);
+    // map = square_map(map, max_len);
 
+    // Debug print
+    trim_newline(map);
+    int max_len = find_big_line(map);
+    map = square_map(map, max_len);
+
+// Debug print
+    for (int i = 0; map[i]; i++)
+        printf("[%s]\n", map[i]);
     // Vérification des textures
     if (tex.NO) check_path(tex.NO); else { printf("❌ Texture NO manquante\n"); error = 1; }
     if (tex.SO) check_path(tex.SO); else { printf("❌ Texture SO manquante\n"); error = 1; }
@@ -143,6 +167,12 @@ int main()
         printf("\n❌ La map contient des erreurs.\n");
     else
         printf("\n✅ Map valide, toutes les textures et couleurs sont correctes.\n");
-
+    // int k;
+    // k = 0;
+    // while(map[k])
+    // {
+    //     printf("%s\n", map[k]);
+    //     k++;
+    // }
     return error;
 }
