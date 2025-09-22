@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/15 15:38:51 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/21 08:32:55 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,7 @@ int find_big_line(char **map);
 char **square_map(char **map, int len);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
 void trim_newline(char **map);
+
+void valid_map(char **full_map);
+void print_valid();
 #endif

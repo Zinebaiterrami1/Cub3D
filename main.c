@@ -148,8 +148,9 @@ int main()
     map = square_map(map, max_len);
 
 // Debug print
-    for (int i = 0; map[i]; i++)
-        printf("[%s]\n", map[i]);
+    // for (int i = 0; map[i]; i++)
+    //     printf("[%s]\n", map[i]);
+    valid_map(map);
     // Vérification des textures
     if (tex.NO) check_path(tex.NO); else { printf("❌ Texture NO manquante\n"); error = 1; }
     if (tex.SO) check_path(tex.SO); else { printf("❌ Texture SO manquante\n"); error = 1; }
