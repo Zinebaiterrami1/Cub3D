@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/23 12:16:33 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:31:48 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -403,21 +403,20 @@ void trim_newline(char **map)
 
 int check_top_border(char **map, int cols)
 {
-    int y;
+    int y = 0;
+            printf("Line dfds: %s\n", map[0]);
 
-    y = 0;
-    while(y < cols)
+    while (y < cols)
     {
-        if(map[0][y] == '0')
+        if (map[0][y] != '1' && map[0][y] != ' ' && map[0][y] != '\t')
         {
-            printf("Invalid map\nOpen at top border\n");
+            printf("Invalid map: Top border must be only '1' or spaces\n");
+            printf("Line : %s\n", map[0]);
             return (0);
         }
-        else if(map[0][y] == '1')
-            return (1);
         y++;
     }
-    return (0);
+    return (1);
 }
 
 int check_bottom_border(char **map, int rows, int cols)
@@ -456,11 +455,14 @@ int check_left_right_border(char **map, int rows, int cols)
             printf("Invalid map\nOpen at right border\n");
             return (0);
         }
+        x++;
     }
+    x = 0;
     while(x < rows)
     {
         if(map[x][0] == '1' && map[x][cols - 1] == '1')
             return (1);
+        x++;
     }
     return (0);
 }
@@ -484,6 +486,7 @@ int check_inside(char **map, int rows, int cols)
                     map[x][y - 1] == ' ' || map[x][y + 1] == ' ')
                 {
                     printf("Invalid map\n '0' next to space\n");
+                    printf("line : %s\n", map[x]);
                     return (0);
                 }
             }
@@ -491,6 +494,7 @@ int check_inside(char **map, int rows, int cols)
         }
         x++;
     }
+    printf("line ff: %s\n", map[x]);
     return (1);
 }
 
@@ -513,6 +517,7 @@ int check_player_pos(char **map, int rows, int cols)
                 map[x][y] == 'E' || map[x][y] == 'W')
                     count_pos++;
         }
+        x++;
     }
     if(count_pos != 1)
     {
@@ -538,7 +543,8 @@ int check_inside_2(char **map, int rows, int cols)
         {
             if(c != 'N' && c != 'S' &&
                 c != 'E' && c != 'W' &&
-                c != '1' && c != '0')
+                c != '1' && c != '0' &&
+                c != ' ' && c != '\t')
             {
                 printf("Invalid map\nWrong character %c at (%d, %d)\n", c , x, y);
                 return (0);
@@ -552,7 +558,6 @@ int check_inside_2(char **map, int rows, int cols)
 
 int check_space_map(char **map, int rows, int cols)
 {
-    //fct to check if space is surrounded by spaces
     int x;
     int y;
     
@@ -578,11 +583,76 @@ int check_space_map(char **map, int rows, int cols)
         }
         x++;
     }
+    return (1);
 }
+
+void valid_map(char **full_map)
+{
+    int rows = 0;
+    int cols = find_big_line(full_map);
+
+    while (full_map[rows])
+        rows++;
+
+    if (!check_top_border(full_map, cols))
+    {
+        printf("here1\n");
+        return;
+    }
+    if (!check_bottom_border(full_map, rows, cols))
+        {
+        printf("here2\n");
+        return;
+    }
+    if (!check_left_right_border(full_map, rows, cols))
+        {
+        printf("here3\n");
+        return;
+    }
+    if (!check_inside(full_map, rows, cols))
+        {
+        printf("here4\n");
+        return;
+    }
+    if (!check_inside_2(full_map, rows, cols))
+        {
+        printf("here5\n");
+        return;
+    }
+    if (!check_player_pos(full_map, rows, cols))
+        {
+        printf("here6\n");
+        return;
+    }
+    if (!check_space_map(full_map, rows, cols))
+        {
+        printf("here7\n");
+        return;
+    }
+
+    printf("✅ Map is valid!\n");
+}
+
+// void valid_map(char **full_map)
+// {
+//     int rows = 0;
+//     int cols = find_big_line(full_map);
+
+//     while (full_map[rows])
+//         rows++;
+//     if (!check_top_border(full_map, cols))
+//     {
+//         printf("here1\n");
+//         return;
+//     }
+//     print_valid();
+// }
+
 void print_valid()
 {
     printf("\nValid map✅✅\n");
 }
+
 //handli 0 ila kan morah \0 wla space
 //then khas nchecki border diyal map ikon only fih 1
 //then ila kan space wst map khaso ikon surrounded by 1

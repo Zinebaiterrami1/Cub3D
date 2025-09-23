@@ -121,20 +121,24 @@ int main()
         }
         else
         {
-            if(line[i] == '1' || line[i] == '0' || line[i] == ' ' || line[i] == '\t')
-            {
-                map = get_map(line, fd);
-                // int k;
-                // k = 0;
-                // while(map[k])
-                // {
-                //     printf("%s", map[k]);
-                //     k++;
-                // }
-                // len_line = find_big_line(map);
-                // printf("len line : %d line : %s\n", len_line, map[i]);
-            }
+            // if(line[i] == '1' || line[i] == '0' || line[i] == ' ' || line[i] == '\t')
+            // {
+            //     map = get_map(line, fd);
+            //     // int k;
+            //     // k = 0;
+            //     // while(map[k])
+            //     // {
+            //     //     printf("%s", map[k]);
+            //     //     k++;
+            //     // }
+            //     // len_line = find_big_line(map);
+            //     // printf("len line : %d line : %s\n", len_line, map[i]);
+            // }
             check_texture_line(&tex, line);
+        }
+        if(line[i] != 'N' && line[i] != 'S' && line[i] != 'W' && line[i] != 'E' && line[i] != 'F' && line[i] != 'C' && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+        {
+            map = get_map(line, fd);
         }
         free(line);
     }
@@ -148,8 +152,8 @@ int main()
     map = square_map(map, max_len);
 
 // Debug print
-    // for (int i = 0; map[i]; i++)
-    //     printf("[%s]\n", map[i]);
+    for (int i = 0; map[i]; i++)
+        printf("[%s]\n", map[i]);
     valid_map(map);
     // Vérification des textures
     if (tex.NO) check_path(tex.NO); else { printf("❌ Texture NO manquante\n"); error = 1; }

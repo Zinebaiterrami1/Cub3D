@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/23 11:54:53 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:45:25 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,5 @@ int             check_inside_2(char **map, int rows, int cols);
 int             check_player_pos(char **map, int rows, int cols);
 int             check_space_map(char **map, int rows, int cols);
 void            print_valid();
+int white_spaces(char *line, int i);
 #endif
