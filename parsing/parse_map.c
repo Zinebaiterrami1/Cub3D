@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/23 16:31:48 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:24:43 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,9 +225,9 @@ char  **square_map(char **map, int max_len)
             new_line = malloc(max_len + 1);
             if(!new_line)
                 return (NULL);
-            ft_memcpy(new_line, map[i], len_line + 1);
+            ft_memcpy(new_line, map[i], len_line);
             while(len_line < max_len)
-                new_line[len_line++] = ' ';
+                new_line[len_line++] = '\0';
             new_line[max_len] = '\0';
             free(map[i]);
             map[i] = new_line;
@@ -404,14 +404,11 @@ void trim_newline(char **map)
 int check_top_border(char **map, int cols)
 {
     int y = 0;
-            printf("Line dfds: %s\n", map[0]);
-
     while (y < cols)
     {
         if (map[0][y] != '1' && map[0][y] != ' ' && map[0][y] != '\t')
         {
-            printf("Invalid map: Top border must be only '1' or spaces\n");
-            printf("Line : %s\n", map[0]);
+            printf("Invalid map: Top border must be only '1', ' ' or '\\t'\n");
             return (0);
         }
         y++;
@@ -421,21 +418,18 @@ int check_top_border(char **map, int cols)
 
 int check_bottom_border(char **map, int rows, int cols)
 {
-    int y;
-
-    y = 0;
-    while(y < cols)
+    int y = 0;
+    while (y < cols)
     {
-        if(map[rows - 1][y] == '0')
+        if (map[rows - 1][y] != '1' && map[rows - 1][y] != ' ' && map[rows - 1][y] != '\t')
         {
-            printf("Invalid map\nOpen at bottom border\n");
+            printf("%c(%d, %d)\n", map[rows - 1][y], rows - 1, y);
+            printf("Invalid map: Bottom border must be only '1', ' ' or '\\t'\n");
             return (0);
         }
-        else if(map[rows - 1][y] == '1')
-            return (1);
         y++;
     }
-    return (0);
+    return (1);
 }
 
 int check_left_right_border(char **map, int rows, int cols)
@@ -483,18 +477,16 @@ int check_inside(char **map, int rows, int cols)
             if(map[x][y] == '0')
             {
                 if(map[x - 1][y] == ' ' || map[x + 1][y] == ' ' ||
-                    map[x][y - 1] == ' ' || map[x][y + 1] == ' ')
+                    map[x][y - 1] == ' ' || map[x][y + 1] == ' ' ||
+                    map[x][y + 1] == '\0')
                 {
-                    printf("Invalid map\n '0' next to space\n");
-                    printf("line : %s\n", map[x]);
-                    return (0);
+                    return (printf("Invalid map\n '0' next to space or \\0 \n"), 0);
                 }
             }
             y++;
         }
         x++;
     }
-    printf("line ff: %s\n", map[x]);
     return (1);
 }
 
@@ -516,13 +508,13 @@ int check_player_pos(char **map, int rows, int cols)
             if(map[x][y] == 'N' || map[x][y] == 'S' ||
                 map[x][y] == 'E' || map[x][y] == 'W')
                     count_pos++;
+            y++;
         }
         x++;
     }
     if(count_pos != 1)
     {
-        printf("Invalid map\nmust be only one playser position\n");
-        return (0);
+        return (printf("Invalid map\nmust be only one playser position\n"), 0);
     }
     return (1);
 }
@@ -532,15 +524,14 @@ int check_inside_2(char **map, int rows, int cols)
     int x;
     int y;
     char c;
-
     x = 0;
     y = 0;
-    c = map[x][y];
     while(x < rows)
     {
         y = 0;
         while(y < cols)
         {
+            c = map[x][y];
             if(c != 'N' && c != 'S' &&
                 c != 'E' && c != 'W' &&
                 c != '1' && c != '0' &&
@@ -565,15 +556,14 @@ int check_space_map(char **map, int rows, int cols)
     y = 1;
     while(x < rows - 1)
     {
-        y = 0;
+        y = 1;
         while(y < cols - 1)
         {
             if(map[x][y] == ' ')
             {
-                if(map[x - 1][y] == '1' && map[x + 1][y] == '1' &&
-                    map[x][y - 1] == '1' && map[x][y + 1] == '1')
-                        return (1);
-                else
+                printf("fdsdfds\n");
+                if(map[x - 1][y] != '1' && map[x + 1][y] != '1' &&
+                    map[x][y - 1] != '1' && map[x][y + 1] != '1')
                 {
                     printf("Invalid map\nSpace must be surrounded by '1'\n");
                     return (0);
@@ -594,42 +584,13 @@ void valid_map(char **full_map)
     while (full_map[rows])
         rows++;
 
-    if (!check_top_border(full_map, cols))
-    {
-        printf("here1\n");
-        return;
-    }
-    if (!check_bottom_border(full_map, rows, cols))
-        {
-        printf("here2\n");
-        return;
-    }
-    if (!check_left_right_border(full_map, rows, cols))
-        {
-        printf("here3\n");
-        return;
-    }
-    if (!check_inside(full_map, rows, cols))
-        {
-        printf("here4\n");
-        return;
-    }
-    if (!check_inside_2(full_map, rows, cols))
-        {
-        printf("here5\n");
-        return;
-    }
-    if (!check_player_pos(full_map, rows, cols))
-        {
-        printf("here6\n");
-        return;
-    }
-    if (!check_space_map(full_map, rows, cols))
-        {
-        printf("here7\n");
-        return;
-    }
-
+    if (!check_top_border(full_map, cols))  return;
+    if (!check_bottom_border(full_map, rows, cols)) return;
+    if (!check_left_right_border(full_map, rows, cols)) return;
+    if (!check_inside(full_map, rows, cols))    return;
+    if (!check_inside_2(full_map, rows, cols))  return;
+    if (!check_player_pos(full_map, rows, cols))    return;
+    if (!check_space_map(full_map, rows, cols)) return;
     printf("✅ Map is valid!\n");
 }
 
@@ -640,11 +601,11 @@ void valid_map(char **full_map)
 
 //     while (full_map[rows])
 //         rows++;
-//     if (!check_top_border(full_map, cols))
-//     {
-//         printf("here1\n");
+//     if (!check_player_pos(full_map, rows, cols))
+//         {
+//         printf("here6\n");
 //         return;
-//     }
+//     }//nice
 //     print_valid();
 // }
 
