@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/23 15:45:25 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/27 23:02:45 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,32 @@
 // #include "libft/libft.h"
 
 
+typedef struct s_player
+{
+    int x;          // player row (map index)
+    int y;          // player col (map index)
+    char dir;       // 'N', 'S', 'E', 'W'
+}   t_player;
+
 typedef struct s_map
 {
-    int             i;
-    int             flag;
-    char            **map;
-    char            **valid_map;
-}                   t_map;
+    char    **grid;     // the 2D map itself
+    int     rows;       // number of rows
+    int     cols;       // number of columns (after squaring)
+    t_player player;    // player position & direction
+}   t_map;
+
+typedef struct s_config
+{
+    char    *no_tex;    // path to North texture
+    char    *so_tex;    // South
+    char    *we_tex;    // West
+    char    *ea_tex;    // East
+    int     floor[3];   // RGB values
+    int     ceil[3];    // RGB values
+    t_map   map;        // the map info
+}   t_config;
+
 
 int             parse_map(char *file_name);
 int             count_line_map(int fd);

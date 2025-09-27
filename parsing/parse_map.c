@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/24 15:24:43 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/27 22:57:05 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -419,7 +419,8 @@ int check_top_border(char **map, int cols)
 int check_bottom_border(char **map, int rows, int cols)
 {
     int y = 0;
-    while (y < cols)
+
+    while (y < cols && map[rows - 1][y] != '\0')
     {
         if (map[rows - 1][y] != '1' && map[rows - 1][y] != ' ' && map[rows - 1][y] != '\t')
         {
@@ -495,7 +496,7 @@ int check_player_pos(char **map, int rows, int cols)
     int count_pos;
     int x;
     int y;
-    
+    (void)cols;
     count_pos = 0;
     x = 1;
     y = 1;
@@ -503,7 +504,7 @@ int check_player_pos(char **map, int rows, int cols)
     while(x < rows - 1)
     {
         y = 1;
-        while(y < cols - 1)
+        while(y < (int)ft_strlen(map[x]) - 1)
         {
             if(map[x][y] == 'N' || map[x][y] == 'S' ||
                 map[x][y] == 'E' || map[x][y] == 'W')
@@ -514,7 +515,7 @@ int check_player_pos(char **map, int rows, int cols)
     }
     if(count_pos != 1)
     {
-        return (printf("Invalid map\nmust be only one playser position\n"), 0);
+        return (printf("Invalid map\nmust be only one player position\n"), 0);
     }
     return (1);
 }
@@ -526,18 +527,19 @@ int check_inside_2(char **map, int rows, int cols)
     char c;
     x = 0;
     y = 0;
-    while(x < rows)
+    while(x < rows && map[x][y] != '\0')
     {
         y = 0;
-        while(y < cols)
+        while(y < cols && map[x][y] != '\0')
         {
             c = map[x][y];
             if(c != 'N' && c != 'S' &&
                 c != 'E' && c != 'W' &&
                 c != '1' && c != '0' &&
-                c != ' ' && c != '\t')
+                c != ' ' && c != '\t' && c == '\0')
             {
                 printf("Invalid map\nWrong character %c at (%d, %d)\n", c , x, y);
+                printf("line %s\n", map[x]);
                 return (0);
             }
             y++;
@@ -561,7 +563,6 @@ int check_space_map(char **map, int rows, int cols)
         {
             if(map[x][y] == ' ')
             {
-                printf("fdsdfds\n");
                 if(map[x - 1][y] != '1' && map[x + 1][y] != '1' &&
                     map[x][y - 1] != '1' && map[x][y + 1] != '1')
                 {
@@ -594,27 +595,7 @@ void valid_map(char **full_map)
     printf("✅ Map is valid!\n");
 }
 
-// void valid_map(char **full_map)
-// {
-//     int rows = 0;
-//     int cols = find_big_line(full_map);
-
-//     while (full_map[rows])
-//         rows++;
-//     if (!check_player_pos(full_map, rows, cols))
-//         {
-//         printf("here6\n");
-//         return;
-//     }//nice
-//     print_valid();
-// }
-
 void print_valid()
 {
     printf("\nValid map✅✅\n");
 }
-
-//handli 0 ila kan morah \0 wla space
-//then khas nchecki border diyal map ikon only fih 1
-//then ila kan space wst map khaso ikon surrounded by 1
-//
