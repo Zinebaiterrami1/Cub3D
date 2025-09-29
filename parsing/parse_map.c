@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/27 22:57:05 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/29 15:17:28 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -401,12 +401,12 @@ void trim_newline(char **map)
 // }
 
 
-int check_top_border(char **map, int cols)
+int check_top_border(t_map *map)
 {
     int y = 0;
-    while (y < cols)
+    while (y < map->cols && map->grid[0][y] != '\0')
     {
-        if (map[0][y] != '1' && map[0][y] != ' ' && map[0][y] != '\t')
+        if (map->grid[0][y] != '1' && map->grid[0][y] != ' ' && map->grid[0][y] != '\t')
         {
             printf("Invalid map: Top border must be only '1', ' ' or '\\t'\n");
             return (0);
@@ -416,15 +416,15 @@ int check_top_border(char **map, int cols)
     return (1);
 }
 
-int check_bottom_border(char **map, int rows, int cols)
+int check_bottom_border(t_map *map)
 {
     int y = 0;
 
-    while (y < cols && map[rows - 1][y] != '\0')
+    while (y < map->cols && map->grid[map->rows - 1][y] != '\0')
     {
-        if (map[rows - 1][y] != '1' && map[rows - 1][y] != ' ' && map[rows - 1][y] != '\t')
+        if (map->grid[map->rows - 1][y] != '1' && map->grid[map->rows - 1][y] != ' ' && map->grid[map->rows - 1][y] != '\t')
         {
-            printf("%c(%d, %d)\n", map[rows - 1][y], rows - 1, y);
+            printf("%c(%d, %d)\n", map->grid[map->rows - 1][y], map->rows - 1, y);
             printf("Invalid map: Bottom border must be only '1', ' ' or '\\t'\n");
             return (0);
         }
@@ -433,19 +433,19 @@ int check_bottom_border(char **map, int rows, int cols)
     return (1);
 }
 
-int check_left_right_border(char **map, int rows, int cols)
+int check_left_right_border(t_map *map)
 {
     int x;
 
     x = 0;
-    while(x < rows)
+    while(x < map->rows)
     {
-        if(map[x][0] == '0')
+        if(map->grid[x][0] == '0')
         {
             printf("Invalid map\nOpen At left border\n");
             return (0);
         }
-        if(map[x][cols - 1] == '0')
+        if(map->grid[x][map->cols - 1] == '0')
         {
             printf("Invalid map\nOpen at right border\n");
             return (0);
@@ -453,33 +453,34 @@ int check_left_right_border(char **map, int rows, int cols)
         x++;
     }
     x = 0;
-    while(x < rows)
+    while(x < map->rows)
     {
-        if(map[x][0] == '1' && map[x][cols - 1] == '1')
-            return (1);
+        if(map->grid[x][0] == '1' && map->grid[x][map->cols - 1] == '1')
+            printf("dsfsfd");
+        return (1);
         x++;
     }
     return (0);
 }
 
-int check_inside(char **map, int rows, int cols)
+int check_inside(t_map *map)
 {
     int x;
     int y;
 
     x = 1;
     y = 1;
-
-    while(x < rows - 1)
+    printf("sjfkhsdjkfhjdshfjdshfj");
+    while(x < map->rows - 1)
     {
         y = 1;
-        while(y < cols - 1)
+        while(y < map->cols - 1)
         {
-            if(map[x][y] == '0')
+            if(map->grid[x][y] == '0')
             {
-                if(map[x - 1][y] == ' ' || map[x + 1][y] == ' ' ||
-                    map[x][y - 1] == ' ' || map[x][y + 1] == ' ' ||
-                    map[x][y + 1] == '\0')
+                if(map->grid[x - 1][y] == ' ' || map->grid[x + 1][y] == ' ' ||
+                    map->grid[x][y - 1] == ' ' || map->grid[x][y + 1] == ' ' ||
+                    map->grid[x][y + 1] == '\0')
                 {
                     return (printf("Invalid map\n '0' next to space or \\0 \n"), 0);
                 }
@@ -491,23 +492,23 @@ int check_inside(char **map, int rows, int cols)
     return (1);
 }
 
-int check_player_pos(char **map, int rows, int cols)
+int check_player_pos(t_map *map)
 {
     int count_pos;
     int x;
     int y;
-    (void)cols;
+
     count_pos = 0;
     x = 1;
     y = 1;
 
-    while(x < rows - 1)
+    while(x < map->rows - 1)
     {
         y = 1;
-        while(y < (int)ft_strlen(map[x]) - 1)
+        while(y < (int)ft_strlen(map->grid[x]) - 1)
         {
-            if(map[x][y] == 'N' || map[x][y] == 'S' ||
-                map[x][y] == 'E' || map[x][y] == 'W')
+            if(map->grid[x][y] == 'N' || map->grid[x][y] == 'S' ||
+                map->grid[x][y] == 'E' || map->grid[x][y] == 'W')
                     count_pos++;
             y++;
         }
@@ -520,26 +521,26 @@ int check_player_pos(char **map, int rows, int cols)
     return (1);
 }
 
-int check_inside_2(char **map, int rows, int cols)
+int check_inside_2(t_map *map)
 {
     int x;
     int y;
     char c;
     x = 0;
     y = 0;
-    while(x < rows && map[x][y] != '\0')
+    while(x < map->rows && map->grid[x][y] != '\0')
     {
         y = 0;
-        while(y < cols && map[x][y] != '\0')
+        while(y < map->cols && map->grid[x][y] != '\0')
         {
-            c = map[x][y];
+            c = map->grid[x][y];
             if(c != 'N' && c != 'S' &&
                 c != 'E' && c != 'W' &&
                 c != '1' && c != '0' &&
                 c != ' ' && c != '\t' && c == '\0')
             {
                 printf("Invalid map\nWrong character %c at (%d, %d)\n", c , x, y);
-                printf("line %s\n", map[x]);
+                printf("line %s\n", map->grid[x]);
                 return (0);
             }
             y++;
@@ -549,22 +550,22 @@ int check_inside_2(char **map, int rows, int cols)
     return (1);
 }
 
-int check_space_map(char **map, int rows, int cols)
+int check_space_map(t_map *map)
 {
     int x;
     int y;
     
     x = 1;
     y = 1;
-    while(x < rows - 1)
+    while(x < map->rows - 1)
     {
         y = 1;
-        while(y < cols - 1)
+        while(y < map->cols - 1)
         {
-            if(map[x][y] == ' ')
+            if(map->grid[x][y] == ' ')
             {
-                if(map[x - 1][y] != '1' && map[x + 1][y] != '1' &&
-                    map[x][y - 1] != '1' && map[x][y + 1] != '1')
+                if(map->grid[x - 1][y] != '1' && map->grid[x + 1][y] != '1' &&
+                    map->grid[x][y - 1] != '1' && map->grid[x][y + 1] != '1')
                 {
                     printf("Invalid map\nSpace must be surrounded by '1'\n");
                     return (0);
@@ -577,21 +578,15 @@ int check_space_map(char **map, int rows, int cols)
     return (1);
 }
 
-void valid_map(char **full_map)
+void valid_map(t_map *map)
 {
-    int rows = 0;
-    int cols = find_big_line(full_map);
-
-    while (full_map[rows])
-        rows++;
-
-    if (!check_top_border(full_map, cols))  return;
-    if (!check_bottom_border(full_map, rows, cols)) return;
-    if (!check_left_right_border(full_map, rows, cols)) return;
-    if (!check_inside(full_map, rows, cols))    return;
-    if (!check_inside_2(full_map, rows, cols))  return;
-    if (!check_player_pos(full_map, rows, cols))    return;
-    if (!check_space_map(full_map, rows, cols)) return;
+    if (!check_top_border(map))  return;
+    if (!check_bottom_border(map)) return;
+    if (!check_left_right_border(map)) return;
+    if (!check_inside(map))    return;
+    if (!check_inside_2(map))  return;
+    if (!check_player_pos(map))    return;
+    if (!check_space_map(map)) return;
     printf("✅ Map is valid!\n");
 }
 

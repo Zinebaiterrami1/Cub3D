@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/27 23:02:45 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/29 15:20:49 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,13 @@
 
 typedef struct s_player
 {
-    int x;          // player row (map index)
-    int y;          // player col (map index)
+    double x;          // player row (map index)
+    double y;          // player col (map index)
     char dir;       // 'N', 'S', 'E', 'W'
+    double dir_x; // direction vector (unit vector) x
+    double dir_y; // dir vector y
+    double plane_x; // camera plane vector (perpendicular to dir) x
+    double plane_y; //camera plane vector y
 }   t_player;
 
 typedef struct s_map
@@ -37,14 +41,19 @@ typedef struct s_map
     t_player player;    // player position & direction
 }   t_map;
 
+typedef struct s_color
+{
+    int r;
+    int g;
+    int b;
+}t_color;
+
 typedef struct s_config
 {
     char    *no_tex;    // path to North texture
     char    *so_tex;    // South
     char    *we_tex;    // West
     char    *ea_tex;    // East
-    int     floor[3];   // RGB values
-    int     ceil[3];    // RGB values
     t_map   map;        // the map info
 }   t_config;
 
@@ -60,14 +69,15 @@ int             find_big_line(char **map);
 char            **square_map(char **map, int len);
 size_t	        ft_strlcpy(char *dest, const char *src, size_t dstsize);
 void            trim_newline(char **map);
-void            valid_map(char **full_map);
-int             check_top_border(char **map, int cols);
-int             check_bottom_border(char **map, int rows, int cols);
-int             check_left_right_border(char **map, int rows, int cols);
-int             check_inside(char **map, int rows, int cols);
-int             check_inside_2(char **map, int rows, int cols);
-int             check_player_pos(char **map, int rows, int cols);
-int             check_space_map(char **map, int rows, int cols);
+void            valid_map(t_map *map);
+int             check_top_border(t_map *map);
+int             check_bottom_border(t_map *map);
+int             check_left_right_border(t_map *map);
+int             check_inside(t_map *map);
+int             check_inside_2(t_map *map);
+int             check_player_pos(t_map *map);
+int             check_space_map(t_map *map);
 void            print_valid();
-int white_spaces(char *line, int i);
+t_map *init_map(char *line, int fd);
+
 #endif

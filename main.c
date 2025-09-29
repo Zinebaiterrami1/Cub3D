@@ -96,7 +96,7 @@ int parse_color(char *line, int print_color)
 // ------------------- MAIN -------------------
 int main()
 {
-    char **map;
+    t_map *map;
 
     int fd = open("map.cub", O_RDONLY);
     if (fd < 0)
@@ -111,6 +111,7 @@ int main()
     while ((line = get_next_line(fd)))
     {
         int i = 0;
+        map = init_map(line, fd);
         while (line[i] == ' ' || line[i] == '\t')
             i++;
 
@@ -138,7 +139,7 @@ int main()
         }
         if(line[i] != 'N' && line[i] != 'S' && line[i] != 'W' && line[i] != 'E' && line[i] != 'F' && line[i] != 'C' && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
         {
-            map = get_map(line, fd);
+            map->grid = get_map(line, fd);
         }
         free(line);
     }
@@ -147,14 +148,14 @@ int main()
     // map = square_map(map, max_len);
 
     // Debug print
-    trim_newline(map);
-    int max_len = find_big_line(map);
-    map = square_map(map, max_len);
+    trim_newline(map->grid);
+    int max_len = find_big_line(map->grid);
+    map->grid = square_map(map->grid, max_len);
 
-// Debug print
-    for (int i = 0; map[i]; i++)
+    // Debug print
+    for (int i = 0; map->grid[i]; i++)
     {
-        printf("[%s], len: %d\n", map[i], (int)ft_strlen(map[i]));
+        printf("[%s], len: %d\n", map->grid[i], (int)ft_strlen(map->grid[i]));
     }
 
     valid_map(map);
