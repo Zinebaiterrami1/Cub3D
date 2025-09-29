@@ -25,6 +25,28 @@ char *ft_strdup_trim(char *src)
     return strdup(src);
 }
 
+int is_map_line(char *line)
+{
+    int i = 0;
+
+    // Skip leading spaces and tabs
+    while (line[i] == ' ' || line[i] == '\t')
+        i++;
+
+    // Now check characters
+    while (line[i])
+    {
+        if (line[i] != '0'
+            && line[i] != 'N' && line[i] != 'S'
+            && line[i] != 'E' && line[i] != 'W'
+            && line[i] != ' ' && line[i] != '\t'
+            && line[i] != '\n')
+            return (0); // found something not allowed in map
+        i++;
+    }
+    return (1); // valid map line
+}
+
 void check_path(char *path)
 {
     int fd = open(path, O_RDONLY);
@@ -108,10 +130,11 @@ int main()
     t_textures tex = {0};
     char *line;
     int error = 0;
+
+    map = init_map();
     while ((line = get_next_line(fd)))
     {
         int i = 0;
-        map = init_map(line, fd);
         while (line[i] == ' ' || line[i] == '\t')
             i++;
 
@@ -120,26 +143,21 @@ int main()
             if (parse_color(line + i + 1, 1))
                 error = 1;
         }
-        else
+        else if ((line[i] == 'N' && line[i + 1] == 'O') || 
+                 (line[i] == 'S' && line[i + 1] == 'O') ||
+                 (line[i] == 'W' && line[i + 1] == 'E') ||
+                 (line[i] == 'E' && line[i + 1] == 'A'))
         {
-            // if(line[i] == '1' || line[i] == '0' || line[i] == ' ' || line[i] == '\t')
-            // {
-            //     map = get_map(line, fd);
-            //     // int k;
-            //     // k = 0;
-            //     // while(map[k])
-            //     // {
-            //     //     printf("%s", map[k]);
-            //     //     k++;
-            //     // }
-            //     // len_line = find_big_line(map);
-            //     // printf("len line : %d line : %s\n", len_line, map[i]);
-            // }
             check_texture_line(&tex, line);
         }
-        if(line[i] != 'N' && line[i] != 'S' && line[i] != 'W' && line[i] != 'E' && line[i] != 'F' && line[i] != 'C' && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+        else if(is_map_line(line))
         {
             map->grid = get_map(line, fd);
+        }
+        else
+        {
+            printf("❌ Aucune map détectée.\n");
+            return 1;
         }
         free(line);
     }
@@ -149,8 +167,10 @@ int main()
 
     // Debug print
     trim_newline(map->grid);
-    int max_len = find_big_line(map->grid);
-    map->grid = square_map(map->grid, max_len);
+    map->cols = find_big_line(map->grid);
+    map->grid = square_map(map->grid, map->cols);
+    while (map->grid[map->rows])
+        map->rows++;
 
     // Debug print
     for (int i = 0; map->grid[i]; i++)

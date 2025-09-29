@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/29 15:17:28 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/29 22:40:00 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,8 @@ int find_big_line(char **map)
     count = 0;
     i = 0;
     big = 0;
+    if(!map)
+        return (-1);
     while(map[i])
     {
         count = ft_strlen(map[i]);

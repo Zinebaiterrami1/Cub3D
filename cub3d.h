@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/29 15:20:49 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/09/29 21:07:47 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ int             check_inside_2(t_map *map);
 int             check_player_pos(t_map *map);
 int             check_space_map(t_map *map);
 void            print_valid();
-t_map *init_map(char *line, int fd);
+t_map *init_map();
 
 #endif
