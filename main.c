@@ -142,7 +142,6 @@ int main()
     if (line[i] == '\0' || line[i] == '\n')
     {
         free(line);
-        continue;
     }
 
     // parse couleur
