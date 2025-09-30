@@ -132,41 +132,54 @@ int main()
     int error = 0;
 
     map = init_map();
-    while ((line = get_next_line(fd)))
-    {
-        int i = 0;
-        while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
-        {
-            if(line[i] == '\n' && (line[i + 1] == '1' || line[i + 1] == ' ' || line[i + 1 ] == '\t'))
-                line = get_next_line(fd);
-            i++;
-        }
+   while ((line = get_next_line(fd)))
+{
+    int i = 0;
+    while (line[i] == ' ' || line[i] == '\t')
+        i++;
 
-        if (line[i] == 'F' || line[i] == 'C')
-        {
-            if (parse_color(line + i + 1, 1))
-                error = 1;
-        }
-        else if ((line[i] == 'N' && line[i + 1] == 'O') || 
-                 (line[i] == 'S' && line[i + 1] == 'O') ||
-                 (line[i] == 'W' && line[i + 1] == 'E') ||
-                 (line[i] == 'E' && line[i + 1] == 'A'))
-        {
-            check_texture_line(&tex, line);
-        }
-        else if(is_map_line(line))
-        {
-            printf("here map\n");
-            map->grid = get_map(line, fd);
-            break;
-        }
-        else
-        {
-            printf("❌ Aucune map détectée.\n");
-            return 1;
-        }
+    // ligne vide => skip
+    if (line[i] == '\0' || line[i] == '\n')
+    {
         free(line);
+        continue;
     }
+
+    // parse couleur
+    if (line[i] == 'F' || line[i] == 'C')
+    {
+        if (parse_color(line + i + 1, 1))
+            error = 1;
+    }
+    // parse texture
+    else if ((line[i] == 'N' && line[i + 1] == 'O') || 
+             (line[i] == 'S' && line[i + 1] == 'O') ||
+             (line[i] == 'W' && line[i + 1] == 'E') ||
+             (line[i] == 'E' && line[i + 1] == 'A'))
+    {
+        check_texture_line(&tex, line);
+    }
+    //  else if(is_map_line(line))
+    //     {
+    //         printf("here map\n");
+    //         map->grid = get_map(line, fd);
+    //         break;
+    //     }
+    // map détectée : ligne commence par '1'
+    else if (line[i] == '1')
+    {
+        printf("here map\n");
+        map->grid = get_map(line, fd);
+        break; // on sort, map est lue par get_map
+    }
+    else
+    {
+        printf("❌ Ligne invalide détectée : %s\n", line);
+        error = 1;
+    }
+    free(line);
+}
+
     close(fd);
     // int max_len = find_big_line(map);
     // map = square_map(map, max_len);
