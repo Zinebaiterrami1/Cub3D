@@ -135,8 +135,12 @@ int main()
     while ((line = get_next_line(fd)))
     {
         int i = 0;
-        while (line[i] == ' ' || line[i] == '\t')
+        while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
+        {
+            if(line[i] == '\n' && (line[i + 1] == '1' || line[i + 1] == ' ' || line[i + 1 ] == '\t'))
+                line = get_next_line(fd);
             i++;
+        }
 
         if (line[i] == 'F' || line[i] == 'C')
         {
@@ -152,7 +156,9 @@ int main()
         }
         else if(is_map_line(line))
         {
+            printf("here map\n");
             map->grid = get_map(line, fd);
+            break;
         }
         else
         {
@@ -196,12 +202,5 @@ int main()
         printf("\n❌ La map contient des erreurs.\n");
     else
         printf("\n✅ Map valide, toutes les textures et couleurs sont correctes.\n");
-    // int k;
-    // k = 0;
-    // while(map[k])
-    // {
-    //     printf("%s\n", map[k]);
-    //     k++;
-    // }
     return error;
 }
