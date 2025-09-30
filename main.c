@@ -101,36 +101,44 @@ int main()
     t_textures tex = {0};
     char *line;
     int error = 0;
-    while ((line = get_next_line(fd)))
-    {
-        int i = 0;
-        while (line[i] == ' ' || line[i] == '\t')
-            i++;
+  while ((line = get_next_line(fd)))
+{
+    int i = 0;
+    while (line[i] == ' ' || line[i] == '\t')
+        i++;
 
-        if (line[i] == 'F' || line[i] == 'C')
-        {
-            if (parse_color(line + i + 1, 1))
-                error = 1;
-        }
-        else if ((line[i] == 'N' && line[i + 1] == 'O') || 
-                 (line[i] == 'S' && line[i + 1] == 'O') ||
-                 (line[i] == 'W' && line[i + 1] == 'E') ||
-                 (line[i] == 'E' && line[i + 1] == 'A'))
-        {
-            check_texture_line(&tex, line);
-        }
-        
-        else if(line[i] == ' ' || line[i] == '\t' || line[i] == '1')
-        {
-            map = get_map(line, fd);
-        }
-            else
+    // 👉 si la ligne est vide après suppression des espaces/tab, on skip
+    if (line[i] == '\0' || line[i] == '\n')
     {
-        printf("❌ Aucune map détectée.\n");
+        free(line);
+        continue; // passer à la ligne suivante
+    }
+
+    if (line[i] == 'F' || line[i] == 'C')
+    {
+        if (parse_color(line + i + 1, 1))
+            error = 1;
+    }
+    else if ((line[i] == 'N' && line[i + 1] == 'O') || 
+             (line[i] == 'S' && line[i + 1] == 'O') ||
+             (line[i] == 'W' && line[i + 1] == 'E') ||
+             (line[i] == 'E' && line[i + 1] == 'A'))
+    {
+        check_texture_line(&tex, line);
+    }
+    else if (line[i] == '1') // 👉 si la ligne commence par '1', début map
+    {
+        map = get_map(line, fd);
+    }
+    else
+    {
+        printf("❌ Ligne invalide détectée.\n");
+        free(line);
         return 1;
     }
-        free(line);
-    }
+    free(line);
+}
+
     close(fd);
     // int max_len = find_big_line(map);
     // map = square_map(map, max_len);
