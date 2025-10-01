@@ -5,13 +5,15 @@
 
 #define WIDTH 800
 #define HEIGHT 600
+#define TILE_SIZE 70
+#define PLAYER_SIZE 10
+#define SPEED 5
+#define ROT_SPEED 0.1
 
 // Position du joueur
-float px = 200, py = 200; // position
-float pdx, pdy;           // vecteur direction
-float pa;                 // angle
-int player_size = 10;
-float speed = 5;
+float px, py; // position
+float pa;     // angle du joueur
+float pdx, pdy; // vecteur direction
 
 // Map 2D
 int mapx = 8, mapy = 8;
@@ -34,7 +36,7 @@ void *img;
 char *img_addr;
 int bpp, line_len, endian;
 
-// ----------- UTILITAIRES ----------
+// --------- UTILITAIRES ----------
 void my_mlx_pixel_put(int x, int y, int color)
 {
     if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
@@ -52,14 +54,13 @@ void draw_tile(int x, int y, int size, int color)
 
 void draw_map2d()
 {
-    int tile_size = 70;
     int border = 2;
     for (int i = 0; i < mapy; i++)
     {
         for (int j = 0; j < mapx; j++)
         {
             int color = map[i * mapx + j] ? 0x808080 : 0xFFFFFF;
-            draw_tile(j * tile_size, i * tile_size, tile_size - border, color);
+            draw_tile(j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE - border, color);
         }
     }
 }
@@ -82,7 +83,7 @@ void draw_line(int x0, int y0, int x1, int y1, int color)
 
 void draw_player()
 {
-    draw_tile((int)px, (int)py, player_size, 0xFF0000);
+    draw_tile((int)px - PLAYER_SIZE/2, (int)py - PLAYER_SIZE/2, PLAYER_SIZE, 0xFF0000);
     int line_length = 40;
     int x_end = px + pdx * line_length;
     int y_end = py + pdy * line_length;
@@ -96,37 +97,55 @@ void clear_screen()
             my_mlx_pixel_put(x, y, 0x000000);
 }
 
-// ---------- GESTION CLAVIER ----------
+// --------- COLLISION ----------
+int is_wall(float x, float y)
+{
+    int mx = (int)(x / TILE_SIZE);
+    int my = (int)(y / TILE_SIZE);
+    if (mx < 0 || mx >= mapx || my < 0 || my >= mapy)
+        return 1;
+    return map[my * mapx + mx];
+}
+
+// --------- CLAVIER ----------
 int key_hook(int keycode, void *param)
 {
     (void)param;
+    float next_px = px;
+    float next_py = py;
 
     if (keycode == 65307) // ESC
         exit(0);
-
     else if (keycode == 119) // W
     {
-        px += pdx;
-        py += pdy;
+        next_px = px + pdx;
+        next_py = py + pdy;
     }
     else if (keycode == 115) // S
     {
-        px -= pdx;
-        py -= pdy;
+        next_px = px - pdx;
+        next_py = py - pdy;
     }
-    else if (keycode == 97) // A
+    else if (keycode == 97) // A tourner gauche
     {
-        pa -= 0.1;
+        pa -= ROT_SPEED;
         if (pa < 0) pa += 2 * M_PI;
-        pdx = cos(pa) * speed;
-        pdy = sin(pa) * speed;
+        pdx = cos(pa) * SPEED;
+        pdy = sin(pa) * SPEED;
     }
-    else if (keycode == 100) // D
+    else if (keycode == 100) // D tourner droite
     {
-        pa += 0.1;
+        pa += ROT_SPEED;
         if (pa > 2 * M_PI) pa -= 2 * M_PI;
-        pdx = cos(pa) * speed;
-        pdy = sin(pa) * speed;
+        pdx = cos(pa) * SPEED;
+        pdy = sin(pa) * SPEED;
+    }
+
+    // Collision avant déplacement
+    if (!is_wall(next_px, next_py))
+    {
+        px = next_px;
+        py = next_py;
     }
 
     clear_screen();
@@ -145,13 +164,16 @@ int main()
 
     win = mlx_new_window(mlx, WIDTH, HEIGHT, "Cub3D 2D Map");
 
-    // Création de l'image buffer
+    // Création du buffer image
     img = mlx_new_image(mlx, WIDTH, HEIGHT);
     img_addr = mlx_get_data_addr(img, &bpp, &line_len, &endian);
 
-    pa = 0; // angle initial
-    pdx = cos(pa) * speed;
-    pdy = sin(pa) * speed;
+    // Position initiale dans une case libre
+    px = TILE_SIZE + TILE_SIZE/2; 
+    py = TILE_SIZE + TILE_SIZE/2;
+    pa = 0;
+    pdx = cos(pa) * SPEED;
+    pdy = sin(pa) * SPEED;
 
     clear_screen();
     draw_map2d();
