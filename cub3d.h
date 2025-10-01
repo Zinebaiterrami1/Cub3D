@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/01 11:52:33 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/01 11:54:57 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,14 @@ typedef struct s_color
     int g;
     int b;
 }t_color;
+
+typedef struct s_textures {
+    char *NO;
+    char *SO;
+    char *EA;
+    char *WE;
+    char *S;
+} t_textures;
 
 typedef struct s_config
 {

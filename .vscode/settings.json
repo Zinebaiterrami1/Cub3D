@@ -11,6 +11,11 @@
         "player_movment.h": "c",
         "fcntl.h": "c",
         "parsing.h": "c",
-        "defines.h": "c"
+        "defines.h": "c",
+        "array": "c",
+        "string_view": "c",
+        "format": "c",
+        "initializer_list": "c",
+        "span": "c"
     }
 }
