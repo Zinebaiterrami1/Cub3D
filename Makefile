@@ -2,7 +2,7 @@ NAME = cub3D
 
 CC = cc
 
-CFLAGS = -Wextra -Wall -Werror #-fsanitize=address
+CFLAGS = -Wextra -Wall -Werror -fsanitize=address -g
 
 SOURCE = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 		parsing/parse_map.c \

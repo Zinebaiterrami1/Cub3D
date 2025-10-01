@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/29 22:40:00 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/01 12:17:13 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,68 +43,6 @@ int get_first_line_map(const char *line)
     }
     return (1);
 }
-
-
-/*int count_line_map(int fd)
-{
-    int count;
-    char *line;
-    
-    count = 0;
-    if(fd < 0)
-        return (printf("Error, Invalid file!\n"), 0);
-    line = get_next_line(fd);
-    while(line && !get_first_line_map(line))
-    {
-        free(line);
-        line = get_next_line(fd);
-    }
-    while(line)
-    {
-        count++;
-        free(line);
-        line = get_next_line(fd);
-    }
-    return (count);
-}
-
-char    **read_map()
-{
-    char    **map;
-    int     count_lines;
-    char    *line;
-    int     fd;
-    int     i;
-
-    fd = open("map.cub", O_RDONLY);
-    count_lines = count_line_map(fd);
-    close(fd);
-
-    map = malloc(sizeof(char *) * (count_lines + 1));
-    if (!map)
-        return NULL;
-
-    fd = open("map.cub", O_RDONLY);
-    i = 0;
-    // Skip config lines
-    line = get_next_line(fd);
-    while (line && !get_first_line_map(line))
-    {
-        free(line);
-        line = get_next_line(fd);
-    }
-    // Now line is the first map line
-    while (line)
-    {
-        map[i++] = line;
-        printf("line %s", line);
-        line = get_next_line(fd);
-    }
-    map[i] = NULL;
-    close(fd);
-    return (map);
-}*/
-
 
 char *read_map(int fd)
 {
@@ -253,155 +191,6 @@ void trim_newline(char **map)
         i++;
     }
 }
-
-// void valid_map(char **full_map)
-// {
-//     int rows;
-//     int cols;
-//     int x;
-//     int y;
-
-//     x = 0;
-//     y = 0;
-//     rows = 0;
-//     cols = find_big_line(full_map);
-
-//     while(full_map[rows])
-//         rows++;
-//     //check the top row
-//     while(y < cols)
-//     {
-//         if(full_map[0][y] == '0')
-//         {
-//             printf("Invalid map\nOpen At top border\n");
-//             return ;
-//         }
-//         y++;
-//     }
-//     //check bottom row
-//     y = 0;
-//     while(y < cols)
-//     {
-//         if(full_map[rows - 1][y] == '0')
-//         {
-//             printf("Invalid map\nOpen At bottom border\n");
-//             return;
-//         }
-//         y++;
-//     }
-//     //check left and right borders
-//     while(x < rows)
-//     {
-//         if(full_map[x][0] == '0')
-//         {
-//             printf("Invalid map\nOpen At left border\n");
-//             return;
-//         }
-//         if(full_map[x][cols - 1] == '0')
-//         {
-//             printf("Invalid map\nOpen At right border\n");
-//             return ;
-//         }
-//         x++;
-//     }
-//     x = 0;
-//     y = 0;
-//     printf("am here \n");
-//     while(y < cols)
-//     {   
-//         x = 0;
-//        while(x < rows)
-//        {
-//             if(full_map[x][y] == '0' && (full_map[x+1][y+1] == '\0' || full_map[x+1][y+1] == ' '))
-//             {
-//                 printf("Invalid map\nSpace or Null next to '0'\n");
-//                 return ;
-//             }
-//             x++;
-//        }
-//        y++;
-//     }
-//     x = 0;
-//     y = 0;
-//     //check that map surrounded by 1
-//     while(y < cols)
-//     {
-//         if(full_map[0][y] == '1')
-//         {
-//             printf("top only 1\n");
-//             return ;
-//         }
-//         y++;
-//     }
-//     //check left and right borders
-//     while(x < rows)
-//     {
-//         if(full_map[x][0] != '1')
-//         {
-//             printf("Invalid map\nOpen At left border\n");
-//             return;
-//         }
-//         if(full_map[x][cols - 1] != '1')
-//         {
-//             printf("Invalid map\nOpen At right border\n");
-//             return ;
-//         }
-//         if(full_map[x][rows] == 1)
-//         {
-//             printf("only 1\ngood\n");
-//             return;
-//         }
-//         x++;
-//     }
-//     //check pos
-//     y = 0;
-//     x = 0;
-//     while(y < cols)
-//     {
-//         x = 0;
-//         while(x < rows)
-//         {
-//             if(full_map[x][y] == 'N' || full_map[x][y] == 'S' || full_map[x][y] == 'E' || full_map[x][y] == 'W')
-//             {
-//                 printf("player pos\n");
-//                 return ;
-//             }
-//             else
-//                 printf("must be only N S W E, and not duplicated\n");
-//             x++;
-//         }
-//         y++;
-//     }
-//     //check about space also
-//     y = 0;
-//     x = 0;
-//     //space inside the map must be surrounded by 11111
-//     while(y < cols)
-//     {
-//         x = 0;
-//         while(x < rows)
-//         {
-//             if(full_map[x][y] == ' ')
-//             {
-//                 x ++;
-//                 if(full_map[x][y] == '0' || full_map[x][y] == '1')
-//                 {
-//                     if(full_map[x][rows - 1] == '1' && full_map[x][rows + 1] == '1')
-//                     {
-//                         printf("space surrounded by 1\n");
-//                         return ;
-//                     }
-//                 }
-//                 else
-//                     printf("error\n");
-//             }
-//             x++;
-//         }
-//         y++;
-//     }
-//     print_valid();
-// }
-
 
 int check_top_border(t_map *map)
 {

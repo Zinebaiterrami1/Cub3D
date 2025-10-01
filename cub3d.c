@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/29 21:53:25 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:09:05 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@ t_map *init_map()
     map->rows = 0;
     map->player.x = 0;
     map->player.y = 0;
-    map->player.dir = 0;
-    map->player.dir_x = 0;
-    map->player.dir_y = -1;
-    map->player.plane_x = 0;
-    map->player.plane_y = 0.66;
+    map->player.dx = 0;
+    map->player.dy = -1;
+    map->player.angle = 1.5 * 3.14; // facing up
     return (map);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/01 11:54:57 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:50:54 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,47 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include "get_next_line/get_next_line.h"
-// #include "libft/libft.h"
+#include <math.h>
 
+
+
+#define WIDTH 512        // largeur fenêtre
+#define HEIGHT 512       // hauteur fenêtre
+#define TILE_SIZE 64
+#define PLAYER_SIZE 8
+#define SPEED 5
+#define ROT_SPEED 0.1
+
+typedef struct s_mlx
+{
+    void    *mlx;
+    void    *win;
+    void    *img;
+    char    *img_addr;
+    int     bpp;
+    int     line_len;
+    int     endian;
+}   t_mlx;
 
 typedef struct s_player
 {
-    double x;          // player row (map index)
-    double y;          // player col (map index)
-    double dir_x; // direction vector (unit vector) x
-    double dir_y; // dir vector y
-    double plane_x; // camera plane vector (perpendicular to dir) x
-    double plane_y; //camera plane vector y
+    float   x;
+    float   y;
+    float   angle;
+    float   dx;
+    float   dy;
 }   t_player;
+
+typedef struct s_game
+{
+    t_mlx       gfx;
+    t_player    player;
+    int key_w;
+    int key_s;
+    int key_a;
+    int key_d;
+}   t_game;
+
 
 typedef struct s_map
 {

@@ -6,13 +6,7 @@
 #include "get_next_line/get_next_line.h"
 #include "cub3d.h"
 
-typedef struct s_textures {
-    char *NO;
-    char *SO;
-    char *EA;
-    char *WE;
-    char *S;
-} t_textures;
+
 
 // ------------------- UTILITAIRE -------------------
 char *ft_strdup_trim(char *src)
@@ -138,11 +132,11 @@ int main()
     while (line[i] == ' ' || line[i] == '\t')
         i++;
 
-    // ligne vide => skip
-    if (line[i] == '\0' || line[i] == '\n')
-    {
-        free(line);
-    }
+    // // ligne vide => skip
+    // if (line[i] == '\0' || line[i] == '\n')
+    // {
+    //     free(line);
+    // }
 
     // parse couleur
     if (line[i] == 'F' || line[i] == 'C')
@@ -158,13 +152,7 @@ int main()
     {
         check_texture_line(&tex, line);
     }
-    //  else if(is_map_line(line))
-    //     {
-    //         printf("here map\n");
-    //         map->grid = get_map(line, fd);
-    //         break;
-    //     }
-    // map détectée : ligne commence par '1'
+
     else if (line[i] == '1')
     {
         printf("here map\n");
@@ -180,10 +168,7 @@ int main()
 }
 
     close(fd);
-    // int max_len = find_big_line(map);
-    // map = square_map(map, max_len);
 
-    // Debug print
     trim_newline(map->grid);
     map->cols = find_big_line(map->grid);
     map->grid = square_map(map->grid, map->cols);
@@ -208,7 +193,6 @@ int main()
     free(tex.SO);
     free(tex.EA);
     free(tex.WE);
-    free(tex.S);
 
     if (error)
         printf("\n❌ La map contient des erreurs.\n");
