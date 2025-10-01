@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/29 21:07:47 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/01 11:52:33 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ typedef struct s_player
 {
     double x;          // player row (map index)
     double y;          // player col (map index)
-    char dir;       // 'N', 'S', 'E', 'W'
     double dir_x; // direction vector (unit vector) x
     double dir_y; // dir vector y
     double plane_x; // camera plane vector (perpendicular to dir) x
