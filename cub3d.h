@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/01 11:54:57 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:28:20 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,15 @@ int             find_big_line(char **map);
 char            **square_map(char **map, int len);
 size_t	        ft_strlcpy(char *dest, const char *src, size_t dstsize);
 void            trim_newline(char **map);
-void            valid_map(t_map *map);
-int             check_top_border(t_map *map);
-int             check_bottom_border(t_map *map);
-int             check_left_right_border(t_map *map);
-int             check_inside(t_map *map);
-int             check_inside_2(t_map *map);
-int             check_player_pos(t_map *map);
-int             check_space_map(t_map *map);
+void            valid_map(t_map map);
+int             check_top_border(t_map map);
+int             check_bottom_border(t_map map);
+int             check_left_right_border(t_map map);
+int             check_inside(t_map map);
+int             check_inside_2(t_map map);
+int             check_player_pos(t_map map);
+int             check_space_map(t_map map);
 void            print_valid();
-t_map *init_map();
+t_map           init_map();
 
 #endif

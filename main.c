@@ -6,13 +6,6 @@
 #include "get_next_line/get_next_line.h"
 #include "cub3d.h"
 
-typedef struct s_textures {
-    char *NO;
-    char *SO;
-    char *EA;
-    char *WE;
-    char *S;
-} t_textures;
 
 // ------------------- UTILITAIRE -------------------
 char *ft_strdup_trim(char *src)
@@ -115,104 +108,105 @@ int parse_color(char *line, int print_color)
     return 0;
 }
 
-// ------------------- MAIN -------------------
-int main()
-{
-    t_map *map;
+// // ------------------- MAIN -------------------
+// int main()
+// {
+//     t_map *map;
 
-    int fd = open("map.cub", O_RDONLY);
-    if (fd < 0)
-    {
-        perror("Erreur ouverture fichier");
-        return 1;
-    }
+//     int fd = open("map.cub", O_RDONLY);
+//     if (fd < 0)
+//     {
+//         perror("Erreur ouverture fichier");
+//         return 1;
+//     }
 
-    t_textures tex = {0};
-    char *line;
-    int error = 0;
+//     t_textures tex = {0};
+//     char *line;
+//     int error = 0;
 
-    map = init_map();
-   while ((line = get_next_line(fd)))
-{
-    int i = 0;
-    while (line[i] == ' ' || line[i] == '\t')
-        i++;
+//     map = init_map();
+//    while ((line = get_next_line(fd)))
+// {
+//     int i = 0;
+//     while (line[i] == ' ' || line[i] == '\t')
+//         i++;
 
-    // ligne vide => skip
-    if (line[i] == '\0' || line[i] == '\n')
-    {
-        free(line);
-    }
+//     // ligne vide => skip
+//     if (line[i] == '\0' || line[i] == '\n')
+//     {
+//         free(line);
+//         continue;
+//     }
 
-    // parse couleur
-    if (line[i] == 'F' || line[i] == 'C')
-    {
-        if (parse_color(line + i + 1, 1))
-            error = 1;
-    }
-    // parse texture
-    else if ((line[i] == 'N' && line[i + 1] == 'O') || 
-             (line[i] == 'S' && line[i + 1] == 'O') ||
-             (line[i] == 'W' && line[i + 1] == 'E') ||
-             (line[i] == 'E' && line[i + 1] == 'A'))
-    {
-        check_texture_line(&tex, line);
-    }
-    //  else if(is_map_line(line))
-    //     {
-    //         printf("here map\n");
-    //         map->grid = get_map(line, fd);
-    //         break;
-    //     }
-    // map détectée : ligne commence par '1'
-    else if (line[i] == '1')
-    {
-        printf("here map\n");
-        map->grid = get_map(line, fd);
-        break; // on sort, map est lue par get_map
-    }
-    else
-    {
-        printf("❌ Ligne invalide détectée : %s\n", line);
-        error = 1;
-    }
-    free(line);
-}
+//     // parse couleur
+//     if (line[i] == 'F' || line[i] == 'C')
+//     {
+//         if (parse_color(line + i + 1, 1))
+//             error = 1;
+//     }
+//     // parse texture
+//     else if ((line[i] == 'N' && line[i + 1] == 'O') || 
+//              (line[i] == 'S' && line[i + 1] == 'O') ||
+//              (line[i] == 'W' && line[i + 1] == 'E') ||
+//              (line[i] == 'E' && line[i + 1] == 'A'))
+//     {
+//         check_texture_line(&tex, line);
+//     }
+//     //  else if(is_map_line(line))
+//     //     {
+//     //         printf("here map\n");
+//     //         map->grid = get_map(line, fd);
+//     //         break;
+//     //     }
+//     // map détectée : ligne commence par '1'
+//     else if (line[i] == '1')
+//     {
+//         map->grid = get_map(line, fd);
+//         break; // on sort, map est lue par get_map
+//     }
+//     else
+//     {
+//         printf("❌ Ligne invalide détectée : %s\n", line);
+//         error = 1;
+//     }
+//     free(line);
+// }
 
-    close(fd);
-    // int max_len = find_big_line(map);
-    // map = square_map(map, max_len);
+//     close(fd);
+//     // int max_len = find_big_line(map);
+//     // map = square_map(map, max_len);
 
-    // Debug print
-    trim_newline(map->grid);
-    map->cols = find_big_line(map->grid);
-    map->grid = square_map(map->grid, map->cols);
-    while (map->grid[map->rows])
-        map->rows++;
+//     // Debug print
+//     trim_newline(map->grid);
+//     map->cols = find_big_line(map->grid);
+//     map->grid = square_map(map->grid, map->cols);
+//     while (map->grid[map->rows])
+//         map->rows++;
 
-    // Debug print
-    for (int i = 0; map->grid[i]; i++)
-    {
-        printf("[%s], len: %d\n", map->grid[i], (int)ft_strlen(map->grid[i]));
-    }
+//     // Debug print
+//     for (int i = 0; map->grid[i]; i++)
+//     {
+//         printf("[%s], len: %d\n", map->grid[i], (int)ft_strlen(map->grid[i]));
+//     }
 
-    valid_map(map);
-    // Vérification des textures
-    if (tex.NO) check_path(tex.NO); else { printf("❌ Texture NO manquante\n"); error = 1; }
-    if (tex.SO) check_path(tex.SO); else { printf("❌ Texture SO manquante\n"); error = 1; }
-    if (tex.EA) check_path(tex.EA); else { printf("❌ Texture EA manquante\n"); error = 1; }
-    if (tex.WE) check_path(tex.WE); else { printf("❌ Texture WE manquante\n"); error = 1; }
+//     valid_map(map);
+//     // Vérification des textures
+//     if (tex.NO) check_path(tex.NO); else { printf("❌ Texture NO manquante\n"); error = 1; }
+//     if (tex.SO) check_path(tex.SO); else { printf("❌ Texture SO manquante\n"); error = 1; }
+//     if (tex.EA) check_path(tex.EA); else { printf("❌ Texture EA manquante\n"); error = 1; }
+//     if (tex.WE) check_path(tex.WE); else { printf("❌ Texture WE manquante\n"); error = 1; }
 
-    // Libération mémoire
-    free(tex.NO);
-    free(tex.SO);
-    free(tex.EA);
-    free(tex.WE);
-    free(tex.S);
+//     // Libération mémoire
+//     free(tex.NO);
+//     free(tex.SO);
+//     free(tex.EA);
+//     free(tex.WE);
+//     free(tex.S);
 
-    if (error)
-        printf("\n❌ La map contient des erreurs.\n");
-    else
-        printf("\n✅ Map valide, toutes les textures et couleurs sont correctes.\n");
-    return error;
-}
+//     if (error)
+//         printf("\n❌ La map contient des erreurs.\n");
+//     else
+//         printf("\n✅ Map valide, toutes les textures et couleurs sont correctes.\n");
+//     return error;
+//     free(map->grid);
+// }

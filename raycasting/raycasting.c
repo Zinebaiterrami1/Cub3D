@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/01 11:55:23 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:23:13 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,24 @@ int key_hook(int keycode, void *param)
         px -= pdx;
         py -= pdy;
     }
-    else if (keycode == 97) // A = tourner à gauche
+    else if (keycode == 97) // A = strafe left
+    {
+        px -= pdy;
+        py += pdx;
+    }
+    else if (keycode == 100) // D = strafe right
+    {
+        px += pdy;
+        py -= pdx;
+    }
+    else if (keycode == 65361) // A = tourner à gauche
     {
         pa -= 0.1;
         if (pa < 0) pa += 2 * M_PI;
         pdx = cos(pa) * 5;
         pdy = sin(pa) * 5;
     }
-    else if (keycode == 100) // D = tourner à droite
+    else if (keycode == 65363) // D = tourner à droite
     {
         pa += 0.1;
         if (pa > 2 * M_PI) pa -= 2 * M_PI;
@@ -148,7 +158,7 @@ int main()
     if (!mlx) return 1;
 
     win = mlx_new_window(mlx, WIDTH, HEIGHT, "Cub3D 2D Map");
-
+    
     pa = 0; // angle initial
     pdx = cos(pa) * 5;
     pdy = sin(pa) * 5;
@@ -156,7 +166,8 @@ int main()
     draw_map2d();
     draw_player();
 
-    mlx_key_hook(win, key_hook, NULL);
+    // mlx_key_hook(win, key_hook, NULL);
+    mlx_hook(win, 2, 1L<<0, key_hook, NULL);   // KeyPress
     mlx_loop(mlx);
 
     return 0;
