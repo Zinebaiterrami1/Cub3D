@@ -31,7 +31,7 @@ void draw_tile(t_mlx *mlx, int x, int y, int size, int color)
         for (int j = 0; j < size; j++)
             if (x + i >= 0 && x + i < WIDTH && y + j >= 0 && y + j < HEIGHT)
                 my_mlx_pixel_put(mlx, x + i, y + j, color);
-}
+} 
 
 
 void draw_map2d(t_game *game)
@@ -127,7 +127,6 @@ int key_hook(int keycode, void *param)
         next_y += -game->player.dx;
     }
 
-    // Rotation gauche/droite
     else if (keycode == 65361) // Flèche gauche
     {
         game->player.angle -= ROT_SPEED;
