@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/02 14:15:03 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:11:38 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,19 @@ void draw_line_dda(t_mlx *mlx, int x0, int y0, int x1, int y1, int color)
 
     for (int i = 0; i <= steps; i++)
     {
+        int mapX = (int)x / TILE_SIZE;
+        int mapY = (int)y / TILE_SIZE;
+        if((mapX < 0 || mapX > TILE_SIZE) && (mapY < 0 || mapY > TILE_SIZE))
+        {
+            if(map[mapY * mapx + mapX] == 1)
+            {
+                break;
+            }
+        }
         my_mlx_pixel_put(mlx, (int)x, (int)y, color);
         x += x_inc;
         y += y_inc;
-    }
+    }    
 }
 
 // ---------- Joueur ----------
@@ -90,7 +99,7 @@ void draw_player(t_game *game)
               (int)game->player.y - PLAYER_SIZE/2,
               PLAYER_SIZE, 0xFF0000);
 
-    int line_length = 10;
+    int line_length = 200;
     int x_end = game->player.x + game->player.dx * line_length;
     int y_end = game->player.y + game->player.dy * line_length;
 
