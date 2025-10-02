@@ -1,18 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycasting.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/02 14:15:03 by zait-err         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-
-#include "../cub3d.h"
-
+#include "mlx.h"
+#include <stdlib.h>
+#include <math.h>
+#include "cub3d.h"
 
 int mapx = 8, mapy = 8;
 int map[] =
@@ -163,13 +152,6 @@ int key_hook(int keycode, void *param)
     return 0;
 }
 
-int close_window(void *param)
-{
-    (void)param;
-    exit(0);
-    return (0);
-}
-
 // ---------- Main ----------
 int main()
 {
@@ -195,23 +177,7 @@ int main()
     mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 
     mlx_hook(game.gfx.win, 2, 1L<<0, key_hook, &game);
-    mlx_hook(game.gfx.win, 17, 0, close_window, NULL);
     mlx_loop(game.gfx.mlx);
 
     return 0;
 }
-
-
-// int close_window(void *param)
-// {
-//     t_game *game = (t_game *)param;
-
-//     // Free textures, map, etc. if you stored them in game
-//     if (game->gfx.win)
-//         mlx_destroy_window(game->gfx.mlx, game->gfx.win);
-//     if (game->gfx.mlx)
-//         free(game->gfx.mlx); // careful: sometimes mlx handles this internally
-
-//     exit(0);
-//     return (0);
-// }
