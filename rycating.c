@@ -33,7 +33,7 @@ void draw_tile(t_mlx *mlx, int x, int y, int size, int color)
                 my_mlx_pixel_put(mlx, x + i, y + j, color);
 } 
 
-
+// ---------- Map ----------
 void draw_map2d(t_game *game)
 {
     int border = 1;
@@ -47,33 +47,46 @@ void draw_map2d(t_game *game)
     }
 }
 
-void draw_line(t_mlx *mlx, int x0, int y0, int x1, int y1, int color)
+// ---------- Lignes avec DDA ----------
+void draw_line_dda(t_mlx *mlx, int x0, int y0, int x1, int y1, int color)
 {
-    int dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
-    int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
-    int err = dx + dy, e2;
+    float dx = x1 - x0;
+    float dy = y1 - y0;
+    int steps;
+    if (fabs(dx) > fabs(dy))
+        steps = fabs(dx);
+    else
+        steps = fabs(dy);
 
-    while (1)
+    float x_inc = dx / steps;
+    float y_inc = dy / steps;
+
+    float x = x0;
+    float y = y0;
+
+    for (int i = 0; i <= steps; i++)
     {
-        my_mlx_pixel_put(mlx, x0, y0, color);
-        if (x0 == x1 && y0 == y1) break;
-        e2 = 2 * err;
-        if (e2 >= dy) { err += dy; x0 += sx; }
-        if (e2 <= dx) { err += dx; y0 += sy; }
+        my_mlx_pixel_put(mlx, (int)x, (int)y, color);
+        x += x_inc;
+        y += y_inc;
     }
 }
 
+// ---------- Joueur ----------
 void draw_player(t_game *game)
 {
     draw_tile(&game->gfx, (int)game->player.x - PLAYER_SIZE/2,
               (int)game->player.y - PLAYER_SIZE/2,
               PLAYER_SIZE, 0xFF0000);
-    int line_length = 40;
+
+    int line_length = 10;
     int x_end = game->player.x + game->player.dx * line_length;
     int y_end = game->player.y + game->player.dy * line_length;
-    draw_line(&game->gfx, game->player.x, game->player.y, x_end, y_end, 0x0000FF);
+
+    draw_line_dda(&game->gfx, game->player.x, game->player.y, x_end, y_end, 0x0000FF);
 }
 
+// ---------- Clear ----------
 void clear_screen(t_mlx *mlx)
 {
     for (int y = 0; y < HEIGHT; y++)
@@ -81,7 +94,7 @@ void clear_screen(t_mlx *mlx)
             my_mlx_pixel_put(mlx, x, y, 0x000000);
 }
 
-// ---------- COLLISION ----------
+// ---------- Collision ----------
 int is_wall(float x, float y)
 {
     int mx = (int)(x / TILE_SIZE);
@@ -91,50 +104,33 @@ int is_wall(float x, float y)
     return map[my * mapx + mx];
 }
 
-// ---------- CLAVIER ----------
-// ---------- CLAVIER ----------
+// ---------- Clavier ----------
 int key_hook(int keycode, void *param)
 {
     t_game *game = (t_game *)param;
     float next_x = game->player.x;
     float next_y = game->player.y;
 
-    // Quitter
     if (keycode == 65307) // ESC
         exit(0);
 
-    // Déplacement avant/arrière
-    else if (keycode == 119) // W
-    {
-        next_x += game->player.dx;
-        next_y += game->player.dy;
-    }
-    else if (keycode == 115) // S
-    {
-        next_x -= game->player.dx;
-        next_y -= game->player.dy;
-    }
+    // Avancer / Reculer
+    if (keycode == 119) { next_x += game->player.dx; next_y += game->player.dy; }
+    if (keycode == 115) { next_x -= game->player.dx; next_y -= game->player.dy; }
 
-    // Strafe gauche/droite
-    else if (keycode == 97) // A (strafe gauche)
-    {
-        next_x += -game->player.dy; // perpendiculaire à dx/dy
-        next_y += game->player.dx;
-    }
-    else if (keycode == 100) // D (strafe droite)
-    {
-        next_x += game->player.dy; // perpendiculaire à dx/dy
-        next_y += -game->player.dx;
-    }
+    // Strafe gauche / droite
+    if (keycode == 97)  { next_x += -game->player.dy; next_y += game->player.dx; }
+    if (keycode == 100) { next_x += game->player.dy; next_y += -game->player.dx; }
 
-    else if (keycode == 65361) // Flèche gauche
+    // Rotation gauche/droite
+    if (keycode == 65361)
     {
         game->player.angle -= ROT_SPEED;
         if (game->player.angle < 0) game->player.angle += 2 * M_PI;
         game->player.dx = cos(game->player.angle) * SPEED;
         game->player.dy = sin(game->player.angle) * SPEED;
     }
-    else if (keycode == 65363) // Flèche droite
+    if (keycode == 65363)
     {
         game->player.angle += ROT_SPEED;
         if (game->player.angle > 2 * M_PI) game->player.angle -= 2 * M_PI;
@@ -142,14 +138,12 @@ int key_hook(int keycode, void *param)
         game->player.dy = sin(game->player.angle) * SPEED;
     }
 
-    // Collision
     if (!is_wall(next_x, next_y))
     {
         game->player.x = next_x;
         game->player.y = next_y;
     }
 
-    // Rafraîchissement de l'écran
     clear_screen(&game->gfx);
     draw_map2d(game);
     draw_player(game);
@@ -158,8 +152,7 @@ int key_hook(int keycode, void *param)
     return 0;
 }
 
-
-// ---------- MAIN ----------
+// ---------- Main ----------
 int main()
 {
     t_game game;
@@ -183,11 +176,8 @@ int main()
     draw_player(&game);
     mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 
-    mlx_hook(game.gfx.win, 2, 1L<<0, key_hook,  &game);
-
+    mlx_hook(game.gfx.win, 2, 1L<<0, key_hook, &game);
     mlx_loop(game.gfx.mlx);
 
     return 0;
 }
-
-
