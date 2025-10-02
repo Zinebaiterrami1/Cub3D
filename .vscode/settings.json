@@ -16,6 +16,7 @@
         "string_view": "c",
         "format": "c",
         "initializer_list": "c",
-        "span": "c"
+        "span": "c",
+        "cub3d.h": "c"
     }
 }

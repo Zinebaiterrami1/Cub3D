@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/01 15:27:54 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/02 12:54:50 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,68 +43,6 @@ int get_first_line_map(const char *line)
     }
     return (1);
 }
-
-
-/*int count_line_map(int fd)
-{
-    int count;
-    char *line;
-    
-    count = 0;
-    if(fd < 0)
-        return (printf("Error, Invalid file!\n"), 0);
-    line = get_next_line(fd);
-    while(line && !get_first_line_map(line))
-    {
-        free(line);
-        line = get_next_line(fd);
-    }
-    while(line)
-    {
-        count++;
-        free(line);
-        line = get_next_line(fd);
-    }
-    return (count);
-}
-
-char    **read_map()
-{
-    char    **map;
-    int     count_lines;
-    char    *line;
-    int     fd;
-    int     i;
-
-    fd = open("map.cub", O_RDONLY);
-    count_lines = count_line_map(fd);
-    close(fd);
-
-    map = malloc(sizeof(char *) * (count_lines + 1));
-    if (!map)
-        return NULL;
-
-    fd = open("map.cub", O_RDONLY);
-    i = 0;
-    // Skip config lines
-    line = get_next_line(fd);
-    while (line && !get_first_line_map(line))
-    {
-        free(line);
-        line = get_next_line(fd);
-    }
-    // Now line is the first map line
-    while (line)
-    {
-        map[i++] = line;
-        printf("line %s", line);
-        line = get_next_line(fd);
-    }
-    map[i] = NULL;
-    close(fd);
-    return (map);
-}*/
-
 
 char *read_map(int fd)
 {
@@ -348,23 +286,23 @@ static void set_player_dir(t_player *p, char c)
 {
     if (c == 'N')
     {
-        p->dir_x = -1; p->dir_y = 0;   // facing up (negative X axis)
-        p->plane_x = 0; p->plane_y = 0.66; // camera plane (perpendicular)
+        p->dx = -1; p->dy = 0;   // facing up (negative X axis)
+        p->angle = 0; p->angle = 0.66; // camera plane (perpendicular)
     }
     else if (c == 'S')
     {
-        p->dir_x = 1; p->dir_y = 0;    // facing down
-        p->plane_x = 0; p->plane_y = -0.66;
+        p->dx = 1; p->dy = 0;    // facing down
+        p->angle = 0; p->angle = -0.66;
     }
     else if (c == 'E')
     {
-        p->dir_x = 0; p->dir_y = 1;    // facing right
-        p->plane_x = 0.66; p->plane_y = 0;
+        p->dx = 0; p->dy = 1;    // facing right
+        p->angle = 0.66; p->angle = 0;
     }
     else if (c == 'W')
     {
-        p->dir_x = 0; p->dir_y = -1;   // facing left
-        p->plane_x = -0.66; p->plane_y = 0;
+        p->dx = 0; p->dy = -1;   // facing left
+        p->angle = -0.66; p->angle = 0;
     }
 }
 
