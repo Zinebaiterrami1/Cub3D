@@ -69,6 +69,9 @@ void draw_line_dda(t_mlx *mlx, int x0, int y0, int x1, int y1, int color)
     else
         steps = fabs(dy);
 
+    if (steps == 0)
+        return;
+
     float x_inc = dx / steps;
     float y_inc = dy / steps;
 
@@ -79,13 +82,21 @@ void draw_line_dda(t_mlx *mlx, int x0, int y0, int x1, int y1, int color)
     {
         int mapX = (int)x / TILE_SIZE;
         int mapY = (int)y / TILE_SIZE;
-        if((mapX < 0 || mapX > TILE_SIZE) && (mapY < 0 || mapY > TILE_SIZE))
+        
+        // Check bounds properly - mapX and mapY should be within [0, mapx-1] and [0, mapy-1]
+        if (mapX >= 0 && mapX < mapx && mapY >= 0 && mapY < mapy)
         {
-            if(map[mapY * mapx + mapX] == 1)
+            if (map[mapY * mapx + mapX] == 1)
             {
                 break;
             }
         }
+        // else
+        // {
+        //     // Out of bounds, treat as wall
+        //     break;
+        // }
+        
         my_mlx_pixel_put(mlx, (int)x, (int)y, color);
         x += x_inc;
         y += y_inc;
