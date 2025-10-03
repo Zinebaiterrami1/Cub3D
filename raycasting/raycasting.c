@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/02 15:11:38 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:45:47 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void draw_line_dda(t_mlx *mlx, int x0, int y0, int x1, int y1, int color)
         steps = fabs(dx);
     else
         steps = fabs(dy);
-
+    if(steps == 0)
+        return;
     float x_inc = dx / steps;
     float y_inc = dy / steps;
 
@@ -79,7 +80,7 @@ void draw_line_dda(t_mlx *mlx, int x0, int y0, int x1, int y1, int color)
     {
         int mapX = (int)x / TILE_SIZE;
         int mapY = (int)y / TILE_SIZE;
-        if((mapX < 0 || mapX > TILE_SIZE) && (mapY < 0 || mapY > TILE_SIZE))
+        if((mapX >= 0 && mapX < TILE_SIZE) && (mapY >= 0 && mapY < TILE_SIZE))
         {
             if(map[mapY * mapx + mapX] == 1)
             {
@@ -179,6 +180,47 @@ int close_window(void *param)
     return (0);
 }
 
+void cast_ray(t_game *game, float ray_angle)
+{
+    int rayX;
+    int rayY;
+    int x;
+    int y;
+
+    rayX = cos(ray_angle);
+    rayY = sin(ray_angle);
+    x = game->player.x;
+    y = game->player.y;
+    
+    while(1)
+    {
+        mapx = (int)(x / TILE_SIZE);
+        mapy = (int)(y / TILE_SIZE);
+        if (map[mapy * mapx + mapx] == 1)
+        {
+            draw_line_dda(game->gfx.mlx, game->player.x, game->player.y, x, y, 0xFF0000);
+            break;
+        }
+        x += rayX;
+        y += rayY;
+    }
+}
+
+//FOV//
+void set_player_fov(t_game *player)
+{
+    float ray_angle;
+    int cols = 0;
+    //So if the player is facing east (90°), the rays will cover from 60° to 120°.
+    float start_angle = player->player.angle - (FOV / 2.0f);
+    // float end_angle   = player.player.angle + (FOV / 2.0f);
+    while(cols < WIDTH)
+    {
+        ray_angle = start_angle + (cols * (FOV / WIDTH));
+        cast_ray(player,ray_angle);
+        cols++;
+    }
+}
 // ---------- Main ----------
 int main()
 {
@@ -201,6 +243,8 @@ int main()
     clear_screen(&game.gfx);
     draw_map2d(&game);
     draw_player(&game);
+    set_player_fov(&game); // 🔥 shoot all rays here
+
     mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 
     mlx_hook(game.gfx.win, 2, 1L<<0, key_hook, &game);
