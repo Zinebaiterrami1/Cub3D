@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/02 15:11:38 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:45:47 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,8 @@ void draw_line_dda(t_mlx *mlx, int x0, int y0, int x1, int y1, int color)
         steps = fabs(dx);
     else
         steps = fabs(dy);
-
-    if (steps == 0)
+    if(steps == 0)
         return;
-
     float x_inc = dx / steps;
     float y_inc = dy / steps;
 
@@ -82,25 +80,59 @@ void draw_line_dda(t_mlx *mlx, int x0, int y0, int x1, int y1, int color)
     {
         int mapX = (int)x / TILE_SIZE;
         int mapY = (int)y / TILE_SIZE;
-        
-        // Check bounds properly - mapX and mapY should be within [0, mapx-1] and [0, mapy-1]
-        if (mapX >= 0 && mapX < mapx && mapY >= 0 && mapY < mapy)
+        if((mapX >= 0 && mapX < mapx) && (mapY >= 0 && mapY < mapy))
         {
-            if (map[mapY * mapx + mapX] == 1)
+            if(map[mapY * mapx + mapX] == 1)
             {
                 break;
             }
         }
-        // else
-        // {
-        //     // Out of bounds, treat as wall
-        //     break;
-        // }
-        
         my_mlx_pixel_put(mlx, (int)x, (int)y, color);
         x += x_inc;
         y += y_inc;
     }    
+}
+
+// ---------- FOV Raycasting ----------
+void draw_fov_rays(t_game *game)
+{
+    float ray_angle;
+    float angle_step = FOV / NUM_RAYS;
+    float start_angle = game->player.angle - FOV / 2;
+    
+    for (int i = 0; i < NUM_RAYS; i++)
+    {
+        ray_angle = start_angle + i * angle_step;
+        
+        // Cast ray until it hits a wall
+        float ray_x = game->player.x;
+        float ray_y = game->player.y;
+        float ray_dx = cos(ray_angle) * 2;
+        float ray_dy = sin(ray_angle) * 2;
+        
+        int hit_wall = 0;
+        int max_distance = 300; // Maximum ray distance
+        int steps = 0;
+        
+        while (!hit_wall && steps < max_distance)
+        {
+            ray_x += ray_dx;
+            ray_y += ray_dy;
+            steps++;
+            
+            // Check if ray hit a wall
+            int mapX = (int)(ray_x / TILE_SIZE);
+            int mapY = (int)(ray_y / TILE_SIZE);
+            
+            if (mapX < 0 || mapX >= mapx || mapY < 0 || mapY >= mapy || map[mapY * mapx + mapX] == 1)
+            {
+                hit_wall = 1;
+            }
+        }
+        
+        // Draw the ray
+        draw_line_dda(&game->gfx, game->player.x, game->player.y, ray_x, ray_y, 0x00FF00);
+    }
 }
 
 // ---------- Joueur ----------
@@ -110,11 +142,8 @@ void draw_player(t_game *game)
               (int)game->player.y - PLAYER_SIZE/2,
               PLAYER_SIZE, 0xFF0000);
 
-    int line_length = 200;
-    int x_end = game->player.x + game->player.dx * line_length;
-    int y_end = game->player.y + game->player.dy * line_length;
-
-    draw_line_dda(&game->gfx, game->player.x, game->player.y, x_end, y_end, 0x0000FF);
+    // Draw FOV rays instead of single ray
+    draw_fov_rays(game);
 }
 
 // ---------- Clear ----------
@@ -212,6 +241,7 @@ int main()
     clear_screen(&game.gfx);
     draw_map2d(&game);
     draw_player(&game);
+
     mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 
     mlx_hook(game.gfx.win, 2, 1L<<0, key_hook, &game);
