@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/03 14:21:26 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/07 09:20:53 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #define SPEED 5
 #define ROT_SPEED 0.1
 #define FOV (M_PI / 3) //60degree
+#define NUM_RAYS 50
 typedef struct s_mlx
 {
     void    *mlx;

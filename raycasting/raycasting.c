@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/03 16:45:47 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/07 09:26:48 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ void draw_fov_rays(t_game *game)
             ray_x += ray_dx;
             ray_y += ray_dy;
             steps++;
-            
             // Check if ray hit a wall
             int mapX = (int)(ray_x / TILE_SIZE);
             int mapY = (int)(ray_y / TILE_SIZE);
@@ -129,7 +128,6 @@ void draw_fov_rays(t_game *game)
                 hit_wall = 1;
             }
         }
-        
         // Draw the ray
         draw_line_dda(&game->gfx, game->player.x, game->player.y, ray_x, ray_y, 0x00FF00);
     }
