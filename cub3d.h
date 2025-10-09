@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/07 12:01:05 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/09 13:27:47 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,36 @@
 #include <math.h>
 
 
-#define WIDTH 512        // largeur fenêtre
-#define HEIGHT 512       // hauteur fenêtre
+// #define WIDTH 512        // largeur fenêtre
+// #define HEIGHT 512       // hauteur fenêtre
+// #define TILE_SIZE 64
+// #define PLAYER_SIZE 8
+// #define SPEED 5
+// #define ROT_SPEED 0.1
+// #define FOV (M_PI / 3) //60degree
+// #define NUM_RAYS 50
+
+#define WIDTH 800
+#define HEIGHT 600
 #define TILE_SIZE 64
+#define MAP_WIDTH 8
+#define MAP_HEIGHT 8
+#define FOV (60 * (M_PI / 180))
+#define NUM_RAYS WIDTH
+#define SPEED 5.0
+#define ROT_SPEED 0.05
 #define PLAYER_SIZE 8
-#define SPEED 5
-#define ROT_SPEED 0.1
-#define FOV (M_PI / 3) //60degree
-#define NUM_RAYS 50
-typedef struct s_mlx
-{
-    void    *mlx;
-    void    *win;
-    void    *img;
-    char    *img_addr;
-    int     bpp;
-    int     line_len;
-    int     endian;
-}   t_mlx;
+
+// typedef struct s_mlx
+// {
+//     void    *mlx;
+//     void    *win;
+//     void    *img;
+//     char    *img_addr;
+//     int     bpp;
+//     int     line_len;
+//     int     endian;
+// }   t_mlx;
 
 typedef struct s_player
 {
@@ -50,19 +62,35 @@ typedef struct s_player
     float   dy;
 }   t_player;
 
-typedef struct s_game
-{
-    t_mlx       gfx;
-    t_player    player;
-    int key_w;
-    int key_s;
-    int key_a;
-    int key_d;
-    int mapX, mapY;  // current map square of the ray
-    int stepX, stepY; // direction to step (+1 or -1)
-    int side;         // 0 = vertical wall hit, 1 = horizontal wall hit
-    float perpWallDist;
-}   t_game;
+// typedef struct s_game
+// {
+//     t_mlx       gfx;
+//     t_player    player;
+//     int key_w;
+//     int key_s;
+//     int key_a;
+//     int key_d;
+//     int mapX, mapY;  // current map square of the ray
+//     int stepX, stepY; // direction to step (+1 or -1)
+//     int side;         // 0 = vertical wall hit, 1 = horizontal wall hit
+//     float perpWallDist;
+// }   t_game;
+
+typedef struct s_mlx {
+    void *mlx;
+    void *win;
+    void *img;
+    char *addr;
+    int bpp;
+    int line_len;
+    int endian;
+} t_mlx;
+
+typedef struct s_game {
+    t_mlx gfx;
+    t_player player;
+    float ray_distances[NUM_RAYS];
+} t_game;
 
 typedef struct s_ray
 {
