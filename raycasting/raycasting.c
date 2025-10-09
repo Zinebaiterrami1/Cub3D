@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/07 09:26:48 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:00:26 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,32 +96,34 @@ void draw_line_dda(t_mlx *mlx, int x0, int y0, int x1, int y1, int color)
 // ---------- FOV Raycasting ----------
 void draw_fov_rays(t_game *game)
 {
-    float ray_angle;
+    t_ray ray;
+
     float angle_step = FOV / NUM_RAYS;
     float start_angle = game->player.angle - FOV / 2;
     
     for (int i = 0; i < NUM_RAYS; i++)
     {
-        ray_angle = start_angle + i * angle_step;
+        ray.ray_angle = start_angle + i * angle_step;
         
         // Cast ray until it hits a wall
-        float ray_x = game->player.x;
-        float ray_y = game->player.y;
-        float ray_dx = cos(ray_angle) * 2;
-        float ray_dy = sin(ray_angle) * 2;
+        ray.rayX = game->player.x;
+        ray.rayY = game->player.y;
+        ray.rayDX = cos(ray.ray_angle) * 2;
+        ray.rayDY = sin(ray.ray_angle) * 2;
         
+        render_3d_map(game, &ray, i);
         int hit_wall = 0;
         int max_distance = 300; // Maximum ray distance
         int steps = 0;
         
         while (!hit_wall && steps < max_distance)
         {
-            ray_x += ray_dx;
-            ray_y += ray_dy;
+            ray.rayX += ray.rayDX;
+            ray.rayY += ray.rayDY;
             steps++;
             // Check if ray hit a wall
-            int mapX = (int)(ray_x / TILE_SIZE);
-            int mapY = (int)(ray_y / TILE_SIZE);
+            int mapX = (int)(ray.rayX / TILE_SIZE);
+            int mapY = (int)(ray.rayY / TILE_SIZE);
             
             if (mapX < 0 || mapX >= mapx || mapY < 0 || mapY >= mapy || map[mapY * mapx + mapX] == 1)
             {
@@ -129,7 +131,7 @@ void draw_fov_rays(t_game *game)
             }
         }
         // Draw the ray
-        draw_line_dda(&game->gfx, game->player.x, game->player.y, ray_x, ray_y, 0x00FF00);
+        draw_line_dda(&game->gfx, game->player.x, game->player.y, ray.rayX,  ray.rayY, 0x00FF00);
     }
 }
 
@@ -142,6 +144,117 @@ void draw_player(t_game *game)
 
     // Draw FOV rays instead of single ray
     draw_fov_rays(game);
+}
+//lets render to 3D map
+
+// void verLine(int i, int drawStart, int drawEnd, t_game game)
+// {
+//     if (drawStart < 0)
+//     {
+//         drawStart = 0;
+//         my_mlx_pixel_put(&game.gfx, drawStart, drawEnd, #33FFDA);
+//     }
+
+//     if (drawEnd >= HEIGHT)
+//     {
+//         drawEnd = HEIGHT - 1;
+//         my_mlx_pixel_put(&game.gfx, drawStart, drawEnd, #FF5733);
+//     }
+// }
+
+void verLine(t_mlx *mlx, int x, int drawStart, int drawEnd, int color)
+{
+    if (drawStart < 0)
+        drawStart = 0;
+    if (drawEnd >= HEIGHT)
+        drawEnd = HEIGHT - 1;
+
+    for (int y = drawStart; y < drawEnd; y++)
+        my_mlx_pixel_put(mlx, x, y, color);
+}
+
+void render_3d_map(t_game *game, t_ray *ray, int i)
+{
+    // Current map square
+    int mapX = (int)(game->player.x / TILE_SIZE);
+    int mapY = (int)(game->player.y / TILE_SIZE);
+
+    // Direction step (+1 or -1)
+    int stepX;
+    int stepY;
+
+    // Distance to next x or y side
+    float sideDistX;
+    float sideDistY;
+
+    // How far we must travel to cross one tile horizontally/vertically
+    float deltaDistX = fabs(1 / ray->rayDX);
+    float deltaDistY = fabs(1 / ray->rayDY);
+    float perpWallDist;
+    int hit = 0;
+    int side;
+
+    // Choose direction of stepX / stepY
+    if (ray->rayDX < 0)
+    {
+        stepX = -1;
+        sideDistX = (game->player.x / TILE_SIZE - mapX) * deltaDistX;
+    }
+    else
+    {
+        stepX = 1;
+        sideDistX = (mapX + 1.0 - game->player.x / TILE_SIZE) * deltaDistX;
+    }
+    if (ray->rayDY < 0)
+    {
+        stepY = -1;
+        sideDistY = (game->player.y / TILE_SIZE - mapY) * deltaDistY;
+    }
+    else
+    {
+        stepY = 1;
+        sideDistY = (mapY + 1.0 - game->player.y / TILE_SIZE) * deltaDistY;
+    }
+
+    // --- Perform DDA ---
+    while (hit == 0)
+    {
+        if (sideDistX < sideDistY)
+        {
+            sideDistX += deltaDistX;
+            mapX += stepX;
+            side = 0; // hit vertical wall
+        }
+        else
+        {
+            sideDistY += deltaDistY;
+            mapY += stepY;
+            side = 1; // hit horizontal wall
+        }
+
+        if (map[mapY * mapx + mapX] == 1)
+            hit = 1;
+    }
+
+    // --- Calculate distance to wall ---
+    if (side == 0)
+        perpWallDist = (sideDistX - deltaDistX);
+    else
+        perpWallDist = (sideDistY - deltaDistY);
+
+    // Save the distance (for wall height)
+    ray->sideDirX = sideDistX;
+    ray->sideDirY = sideDistY;
+    ray->rayX = perpWallDist;
+
+    int lineHeight = (int)(HEIGHT / perpWallDist);
+    int drawStart = -lineHeight / 2 + HEIGHT / 2;
+    int drawEnd = lineHeight / 2 + HEIGHT / 2;
+
+    // Then draw a vertical stripe (a column of pixels)
+    // verLine(i, drawStart, drawEnd, game->gfx);
+    int color = (side == 1) ? 0x00AAFF : 0x0099DD; // darker if horizontal
+    verLine(&game->gfx, i, drawStart, drawEnd, color);
 }
 
 // ---------- Clear ----------

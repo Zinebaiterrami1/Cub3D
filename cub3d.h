@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/07 09:20:53 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:01:05 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,22 @@ typedef struct s_game
     int key_s;
     int key_a;
     int key_d;
+    int mapX, mapY;  // current map square of the ray
+    int stepX, stepY; // direction to step (+1 or -1)
+    int side;         // 0 = vertical wall hit, 1 = horizontal wall hit
+    float perpWallDist;
 }   t_game;
 
+typedef struct s_ray
+{
+    float rayX;
+    float rayY;
+    float ray_angle;
+    float rayDX;
+    float rayDY;
+    float sideDirX;
+    float sideDirY;
+}t_ray;
 
 typedef struct s_map
 {
@@ -115,5 +129,5 @@ int             check_player_pos(t_map map);
 int             check_space_map(t_map map);
 void            print_valid();
 t_map           init_map();
-
+void render_3d_map(t_game *game, t_ray *ray, int i);
 #endif
