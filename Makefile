@@ -2,7 +2,7 @@ NAME = cub3D
 
 CC = cc
 MLXFLAGS = -Lmlx -lmlx -lXext -lX11 -lm
-CFLAGS = -Wextra -Wall -Werror -fsanitize=address -g
+CFLAGS = -Wextra -Wall -Werror #-fsanitize=address -g
 
 
 SOURCE = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \

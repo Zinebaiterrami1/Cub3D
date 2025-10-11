@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/09 14:45:43 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:48:04 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 // #define NUM_RAYS 50
 
 #define WIDTH 800
-#define HEIGHT 600
+#define HEIGHT 800
 #define TILE_SIZE 64
 #define MAP_WIDTH 8
 #define MAP_HEIGHT 8
@@ -42,6 +42,8 @@
 #define ROT_SPEED 0.05
 #define PLAYER_SIZE 8
 #define NUM_TEXTURES 4
+#define TEX_WIDTH 64
+#define TEX_HEIGHT 64
 
 // typedef struct s_mlx
 // {
@@ -54,15 +56,15 @@
 //     int     endian;
 // }   t_mlx;
 
-typedef struct s_texture {
-    void    *img;
-    char    *addr;
-    int     bpp;
-    int     line_len;
-    int     endian;
-    int     width;
-    int     height;
-} t_texture;
+// typedef struct s_texture {
+//     void    *img;
+//     char    *addr;
+//     int     bpp;
+//     int     line_len;
+//     int     endian;
+//     int     width;
+//     int     height;
+// } t_texture;
 
 typedef struct s_player
 {
@@ -86,6 +88,23 @@ typedef struct s_player
 //     int side;         // 0 = vertical wall hit, 1 = horizontal wall hit
 //     float perpWallDist;
 // }   t_game;
+typedef struct s_textures {
+    char *NO;
+    char *SO;
+    char *EA;
+    char *WE;
+    char *S;
+} t_textures;
+
+typedef struct s_texture {
+    void    *img;
+    char    *addr;
+    int     bpp;
+    int     line_len;
+    int     endian;
+    int     width;
+    int     height;
+} t_texture;
 
 typedef struct s_mlx {
     void *mlx;
@@ -97,13 +116,7 @@ typedef struct s_mlx {
     int endian;
 } t_mlx;
 
-typedef struct s_game {
-    t_mlx gfx;
-    t_player player;
-    float ray_distances[NUM_RAYS];
-    t_texture textures[NUM_TEXTURES];  // Add this line
-} t_game;
-
+// Update your ray struct to include the missing fields
 typedef struct s_ray
 {
     float rayX;
@@ -113,7 +126,42 @@ typedef struct s_ray
     float rayDY;
     float sideDirX;
     float sideDirY;
-}t_ray;
+    int wall_type;
+    float dist;
+    float hit_x;
+    float hit_y;
+    float wall_x;       // X position where ray hit the wall (0-1)
+    int side;           // 0: NS wall, 1: EW wall
+    float angle;        // Ray angle
+    float ray_dir_x;    // Add this missing field
+    float ray_dir_y;    // Add this missing field
+} t_ray;
+
+typedef struct s_game {
+    t_mlx gfx;
+    t_player player;
+    float ray_distances[NUM_RAYS];
+     t_ray rays[NUM_RAYS];  // Add this for storing ray info
+    t_texture textures[NUM_TEXTURES];  // Use t_texture, not t_textures
+} t_game;
+
+// typedef struct s_ray
+// {
+//     float rayX;
+//     float rayY;
+//     float ray_angle;
+//     float rayDX;
+//     float rayDY;
+//     float sideDirX;
+//     float sideDirY;
+//     int wall_type;
+//     float dist;
+//     float hit_x;
+//     float hit_y;
+//     float wall_x;       // X position where ray hit the wall (0-1)
+//     int side;           // 0: NS wall, 1: EW wall
+//     float angle;        // Ray angle
+// }t_ray;
 
 typedef struct s_map
 {
@@ -130,13 +178,6 @@ typedef struct s_color
     int b;
 }t_color;
 
-typedef struct s_textures {
-    char *NO;
-    char *SO;
-    char *EA;
-    char *WE;
-    char *S;
-} t_textures;
 
 typedef struct s_config
 {
@@ -170,4 +211,6 @@ int             check_space_map(t_map map);
 void            print_valid();
 t_map           init_map();
 void render_3d_map(t_game *game, t_ray *ray, int i);
+void render_3d_textured(t_game *game);
+void draw_fov_rays(t_game *game);
 #endif
