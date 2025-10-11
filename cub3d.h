@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/11 11:48:04 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/11 12:53:12 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,3 +214,19 @@ void render_3d_map(t_game *game, t_ray *ray, int i);
 void render_3d_textured(t_game *game);
 void draw_fov_rays(t_game *game);
 #endif
+
+
+/*
+
+
+| Theme       | Sky Color  | Floor Color |
+| :---------- | :--------- | :---------- |
+| ☀️ Daylight | `0x87CEEB` | `0x228B22`  |
+| 🌇 Sunset   | `0xFF9966` | `0x553311`  |
+| 🌙 Night    | `0x001133` | `0x111111`  |
+| 🧊 Ice cave | `0xCCEFFF` | `0x99CCFF`  |
+| 🔥 Hellish  | `0x660000` | `0x330000`  |
+
+
+
+*/

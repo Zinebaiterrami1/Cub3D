@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/11 12:39:09 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/11 14:50:45 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int map[MAP_HEIGHT][MAP_WIDTH] = {
     {1,0,1,0,1,1,0,1},
     {1,0,1,0,0,1,0,1},
     {1,0,0,0,0,1,0,1},
-    {1,0,1,1,0,0,0,1},
+    {1,0,1,1,1,1,0,1},
     {1,0,0,0,0,0,0,1},
     {1,1,1,1,1,1,1,1},
 };
@@ -189,8 +189,8 @@ int key_hook(int keycode, void *param)
         exit(0);
     if (keycode == 119) { next_x += game->player.dx; next_y += game->player.dy; }
     if (keycode == 115) { next_x -= game->player.dx; next_y -= game->player.dy; }
-    if (keycode == 97)  { next_x += -game->player.dy; next_y += game->player.dx; }
-    if (keycode == 100) { next_x += game->player.dy; next_y += -game->player.dx; }
+    if (keycode == 100)  { next_x += -game->player.dy; next_y += game->player.dx; }
+    if (keycode == 97) { next_x += game->player.dy; next_y += -game->player.dx; }
 
     if (keycode == 65361)
         game->player.angle -= ROT_SPEED;
@@ -232,7 +232,7 @@ void load_textures(t_game *game)
     char *texture_files[NUM_TEXTURES] = {
         "textures/bluestone.xpm",
         "textures/eagle.xpm", 
-        "textures/mossy.xpm",
+        "textures/greystone.xpm",
         "textures/wood.xpm"
     };
     
@@ -273,7 +273,7 @@ void draw_sky_and_floor(t_game *game)
     {
         for (int x = 0; x < WIDTH; x++)
         {
-            my_mlx_pixel_put(&game->gfx, x, y, 0xA8D8FF); // Sky blue
+            my_mlx_pixel_put(&game->gfx, x, y, 0xCCEFFF); // Sky blue
         }
     }
     
@@ -282,7 +282,7 @@ void draw_sky_and_floor(t_game *game)
     {
         for (int x = 0; x < WIDTH; x++)
         {
-            my_mlx_pixel_put(&game->gfx, x, y, 0x444C38); // Forest green
+            my_mlx_pixel_put(&game->gfx, x, y, 0x99CCFF); // Forest green
         }
     }
 }
@@ -514,25 +514,6 @@ t_ray cast_ray_textured(t_game *game, float ray_angle)
 }
 
 
-// void draw_fov_rays(t_game *game)
-// {
-//     float start_angle = game->player.angle - FOV / 2;
-//     float angle_step = FOV / NUM_RAYS;
-
-//     for (int i = 0; i < NUM_RAYS; i++)
-//     {
-//         float ray_angle = start_angle + i * angle_step;
-//         t_ray ray = cast_ray_textured(game, ray_angle);
-//         game->rays[i] = ray; // Store the complete ray data
-//         game->ray_distances[i] = ray.dist;
-
-//         // Dessin 2D des rayons verts sur la carte
-//         float end_x = game->player.x + cos(ray_angle) * ray.dist;
-//         float end_y = game->player.y + sin(ray_angle) * ray.dist;
-//         draw_line_dda(&game->gfx, game->player.x, game->player.y, end_x, end_y, 0x00FF00);
-//     }
-// }
-
 void draw_fov_rays(t_game *game)
 {
     float start_angle = game->player.angle - FOV / 2;
@@ -541,20 +522,39 @@ void draw_fov_rays(t_game *game)
     for (int i = 0; i < NUM_RAYS; i++)
     {
         float ray_angle = start_angle + i * angle_step;
-
-        // Cast the ray with DDA
         t_ray ray = cast_ray_textured(game, ray_angle);
-
-        // Store the result for 3D rendering
-        game->rays[i] = ray;
+        game->rays[i] = ray; // Store the complete ray data
         game->ray_distances[i] = ray.dist;
 
-        // Optional: draw FOV rays on 2D map for debugging
-        // float end_x = game->player.x + cos(ray_angle) * ray.dist;
-        // float end_y = game->player.y + sin(ray_angle) * ray.dist;
-        // draw_line_dda(&game->gfx, game->player.x, game->player.y, end_x, end_y, 0x00FF00);
+        // Dessin 2D des rayons verts sur la carte
+        float end_x = game->player.x + cos(ray_angle) * ray.dist;
+        float end_y = game->player.y + sin(ray_angle) * ray.dist;
+        draw_line_dda(&game->gfx, game->player.x, game->player.y, end_x, end_y, 0x00FF00);
     }
 }
+
+// void draw_fov_rays(t_game *game)
+// {
+//     float start_angle = game->player.angle - FOV / 2;
+//     float angle_step = FOV / NUM_RAYS;
+
+//     for (int i = 0; i < NUM_RAYS; i++)
+//     {
+//         float ray_angle = start_angle + i * angle_step;
+
+//         // Cast the ray with DDA
+//         t_ray ray = cast_ray_textured(game, ray_angle);
+
+//         // Store the result for 3D rendering
+//         game->rays[i] = ray;
+//         game->ray_distances[i] = ray.dist;
+
+//         // Optional: draw FOV rays on 2D map for debugging
+//         // float end_x = game->player.x + cos(ray_angle) * ray.dist;
+//         // float end_y = game->player.y + sin(ray_angle) * ray.dist;
+//         // draw_line_dda(&game->gfx, game->player.x, game->player.y, end_x, end_y, 0x00FF00);
+//     }
+// }
 
 // ---------- MAIN ----------
 // int main(void)
@@ -578,7 +578,7 @@ void draw_fov_rays(t_game *game)
 //     draw_map2d(&game);
 //     draw_player(&game);
 //     draw_fov_rays(&game);
-//     render_3d(&game);
+//     // render_3d(&game);
 //     mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 
 //     mlx_hook(game.gfx.win, 2, 1L << 0, key_hook, &game);
@@ -618,6 +618,18 @@ void draw_fov_rays(t_game *game)
 //     return 0;
 // }
 
+
+
+
+
+
+
+
+
+
+
+
+/// main texteures
 int main(void)
 {
     t_game game;
