@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/11 14:50:45 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/11 15:49:10 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,8 +231,8 @@ void load_textures(t_game *game)
 {
     char *texture_files[NUM_TEXTURES] = {
         "textures/bluestone.xpm",
-        "textures/eagle.xpm", 
-        "textures/greystone.xpm",
+        "textures/wall2.xpm", 
+        "textures/wall1.xpm",
         "textures/wood.xpm"
     };
     
@@ -273,7 +273,7 @@ void draw_sky_and_floor(t_game *game)
     {
         for (int x = 0; x < WIDTH; x++)
         {
-            my_mlx_pixel_put(&game->gfx, x, y, 0xCCEFFF); // Sky blue
+            my_mlx_pixel_put(&game->gfx, x, y, 0x87CEEB); // Sky blue
         }
     }
     
@@ -282,7 +282,7 @@ void draw_sky_and_floor(t_game *game)
     {
         for (int x = 0; x < WIDTH; x++)
         {
-            my_mlx_pixel_put(&game->gfx, x, y, 0x99CCFF); // Forest green
+            my_mlx_pixel_put(&game->gfx, x, y, 0x228B22); // Forest green
         }
     }
 }
@@ -392,46 +392,6 @@ void render_3d_textured(t_game *game)
         draw_textured_wall_slice(game, i, &temp_ray, wall_height);
     }
 }
-
-// t_ray cast_ray_textured(t_game *game, float ray_angle)
-// {
-//     t_ray ray;
-    
-//     // Initialize ray
-//     ray.angle = ray_angle;
-//     ray.rayDX = cos(ray_angle);
-//     ray.rayDY = sin(ray_angle);
-    
-//     // Use your existing ray casting logic
-//     float ray_x = game->player.x;
-//     float ray_y = game->player.y;
-    
-//     while (!is_wall(ray_x, ray_y))
-//     {
-//         ray_x += ray.rayDX * 0.1f;
-//         ray_y += ray.rayDY * 0.1f;
-//     }
-    
-//     ray.dist = sqrt(pow(ray_x - game->player.x, 2) + pow(ray_y - game->player.y, 2));
-    
-//     // Calculate which side of the wall was hit
-//     int map_x = (int)(ray_x / TILE_SIZE);
-//     int map_y = (int)(ray_y / TILE_SIZE);
-    
-//     // Determine wall side and texture coordinate
-//     float hit_x = ray_x - (map_x * TILE_SIZE);
-//     float hit_y = ray_y - (map_y * TILE_SIZE);
-    
-//     if (fabs(hit_x) < fabs(hit_y)) {
-//         ray.side = 0; // Vertical wall
-//         ray.wall_x = hit_y / TILE_SIZE;
-//     } else {
-//         ray.side = 1; // Horizontal wall
-//         ray.wall_x = hit_x / TILE_SIZE;
-//     }
-    
-//     return ray;
-// }
 
 t_ray cast_ray_textured(t_game *game, float ray_angle)
 {
