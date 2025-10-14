@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/11 12:53:12 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/14 08:03:48 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ t_map           init_map();
 void render_3d_map(t_game *game, t_ray *ray, int i);
 void render_3d_textured(t_game *game);
 void draw_fov_rays(t_game *game);
+t_ray cast_ray_textured(t_game *game, float ray_angle);
 #endif
 
 

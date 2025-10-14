@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/11 15:49:10 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/14 13:24:28 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,6 @@ float cast_ray(t_game *game, float ray_angle)
         ray_x += ray_dx * 0.1f; //modified here , graphic issues fixed
         ray_y += ray_dy * 0.1f;
     }
-    /*
-        while (!is_wall(ray_x + ray_dx * 0.1f, ray_y + ray_dy * 0.1f))
-        {
-            ray_x += ray_dx * 0.1f;
-            ray_y += ray_dy * 0.1f;
-        }
-    */
     return sqrt(pow(ray_x - game->player.x, 2) + pow(ray_y - game->player.y, 2));
 }
 
@@ -178,6 +171,7 @@ void render_3d(t_game *game)
         draw_vertical_line(game, i, wall_top, wall_bottom, color);
     }
 }
+
 // ---------- CLAVIER ----------
 int key_hook(int keycode, void *param)
 {
@@ -493,103 +487,8 @@ void draw_fov_rays(t_game *game)
     }
 }
 
-// void draw_fov_rays(t_game *game)
-// {
-//     float start_angle = game->player.angle - FOV / 2;
-//     float angle_step = FOV / NUM_RAYS;
-
-//     for (int i = 0; i < NUM_RAYS; i++)
-//     {
-//         float ray_angle = start_angle + i * angle_step;
-
-//         // Cast the ray with DDA
-//         t_ray ray = cast_ray_textured(game, ray_angle);
-
-//         // Store the result for 3D rendering
-//         game->rays[i] = ray;
-//         game->ray_distances[i] = ray.dist;
-
-//         // Optional: draw FOV rays on 2D map for debugging
-//         // float end_x = game->player.x + cos(ray_angle) * ray.dist;
-//         // float end_y = game->player.y + sin(ray_angle) * ray.dist;
-//         // draw_line_dda(&game->gfx, game->player.x, game->player.y, end_x, end_y, 0x00FF00);
-//     }
-// }
-
 // ---------- MAIN ----------
-// int main(void)
-// {
-//     t_game game;
 
-//     game.gfx.mlx = mlx_init();
-//     game.gfx.win = mlx_new_window(game.gfx.mlx, WIDTH, HEIGHT, "Cub3D - Raycasting");
-//     game.gfx.img = mlx_new_image(game.gfx.mlx, WIDTH, HEIGHT);
-//     game.gfx.addr = mlx_get_data_addr(game.gfx.img, &game.gfx.bpp, &game.gfx.line_len, &game.gfx.endian);
-
-//         // Load textures
-//     load_textures(&game);
-//     game.player.x = TILE_SIZE * 1.5;
-//     game.player.y = TILE_SIZE * 1.5;
-//     game.player.angle = 0;
-//     game.player.dx = cos(game.player.angle) * SPEED;
-//     game.player.dy = sin(game.player.angle) * SPEED;
-
-//     clear_screen(&game.gfx);
-//     draw_map2d(&game);
-//     draw_player(&game);
-//     draw_fov_rays(&game);
-//     // render_3d(&game);
-//     mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
-
-//     mlx_hook(game.gfx.win, 2, 1L << 0, key_hook, &game);
-//     mlx_hook(game.gfx.win, 17, 0, close_window, NULL);
-//     mlx_loop(game.gfx.mlx);
-//     return 0;
-// }
-
-
-// int main(void)
-// {
-//     t_game game;
-
-//     game.gfx.mlx = mlx_init();
-//     game.gfx.win = mlx_new_window(game.gfx.mlx, WIDTH, HEIGHT, "Cub3D - Textured Raycasting");
-//     game.gfx.img = mlx_new_image(game.gfx.mlx, WIDTH, HEIGHT);
-//     game.gfx.addr = mlx_get_data_addr(game.gfx.img, &game.gfx.bpp, &game.gfx.line_len, &game.gfx.endian);
-
-//     // Load textures
-//     load_textures(&game);
-//     game.player.x = TILE_SIZE * 1.5;
-//     game.player.y = TILE_SIZE * 1.5;
-//     game.player.angle = 0;
-//     game.player.dx = cos(game.player.angle) * SPEED;
-//     game.player.dy = sin(game.player.angle) * SPEED;
-
-//     clear_screen(&game.gfx);
-//     // draw_map2d(&game);
-//     draw_player(&game);
-//     draw_fov_rays(&game);
-//     render_3d_textured(&game);  // CHANGE THIS LINE
-//     mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
-
-//     mlx_hook(game.gfx.win, 2, 1L << 0, key_hook, &game);
-//     mlx_hook(game.gfx.win, 17, 0, close_window, NULL);
-//     mlx_loop(game.gfx.mlx);
-//     return 0;
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-/// main texteures
 int main(void)
 {
     t_game game;
