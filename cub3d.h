@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/14 08:03:48 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:41:07 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,18 @@ typedef struct s_textures {
     char *S;
 } t_textures;
 
-typedef struct s_texture {
-    void    *img;
-    char    *addr;
-    int     bpp;
-    int     line_len;
-    int     endian;
-    int     width;
-    int     height;
-} t_texture;
+typedef struct s_texture
+{
+    void            *img;
+    char            *addr;
+    int             bpp;
+    int             line_len;
+    int             endian;
+    int             width;
+    int             height;
+    int             wall_top;
+    int             wall_bottom;
+}                   t_texture;
 
 typedef struct s_mlx {
     void *mlx;
@@ -141,8 +144,10 @@ typedef struct s_game {
     t_mlx gfx;
     t_player player;
     float ray_distances[NUM_RAYS];
-     t_ray rays[NUM_RAYS];  // Add this for storing ray info
+    t_ray rays[NUM_RAYS];  // Add this for storing ray info
     t_texture textures[NUM_TEXTURES];  // Use t_texture, not t_textures
+    t_ray ray;
+    t_texture tex_wall;
 } t_game;
 
 // typedef struct s_ray
@@ -210,10 +215,12 @@ int             check_player_pos(t_map map);
 int             check_space_map(t_map map);
 void            print_valid();
 t_map           init_map();
-void render_3d_map(t_game *game, t_ray *ray, int i);
-void render_3d_textured(t_game *game);
-void draw_fov_rays(t_game *game);
-t_ray cast_ray_textured(t_game *game, float ray_angle);
+void            render_3d_map(t_game *game, t_ray *ray, int i);
+void            render_3d_textured(t_game *game);
+void            draw_fov_rays(t_game *game);
+t_ray           cast_ray_textured(t_game *game, float ray_angle);
+int             determine_texture(t_ray *ray);
+
 #endif
 
 
@@ -228,6 +235,5 @@ t_ray cast_ray_textured(t_game *game, float ray_angle);
 | 🧊 Ice cave | `0xCCEFFF` | `0x99CCFF`  |
 | 🔥 Hellish  | `0x660000` | `0x330000`  |
 
-
-
 */
+

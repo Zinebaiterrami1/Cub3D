@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting.c                                       :+:      :+:    :+:   */
+/*   trash.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/07 12:00:26 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:33:25 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,3 +376,58 @@ int main()
 //     exit(0);
 //     return (0);
 // }
+
+
+// // Draw a vertical slice of textured wall 
+/*first implementation of draw_text_fct that cause the stretch of the text when the wall height increase*/
+void draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray, int wall_height)
+{
+    int wall_top = (HEIGHT / 2) - (wall_height / 2);
+    int wall_bottom = (HEIGHT / 2) + (wall_height / 2);
+    
+    if (wall_top < 0) wall_top = 0;
+    if (wall_bottom > HEIGHT) wall_bottom = HEIGHT;
+    
+    // Calculate texture X coordinate (where we hit the wall)
+    int tex_x = (int)(ray->wall_x * TEX_WIDTH);
+    
+    // Choose texture based on wall type and side
+    int tex_num = determine_texture(ray);
+    t_texture *texture = &game->textures[tex_num];
+        // Calculate corrected distance for this specific ray
+    // float corrected_dist = ray->dist * cos(ray->angle - game->player.angle);
+    // Draw each pixel of the wall slice
+    for (int screen_y = wall_top; screen_y < wall_bottom; screen_y++)
+    {
+        // Calculate texture Y coordinate
+        int tex_y = (screen_y - wall_top) * TEX_HEIGHT / wall_height;
+        
+        // Get color from texture
+        unsigned int color = get_texture_pixel(texture, tex_x, tex_y);
+        
+        // Apply shading based on distance and wall side
+        color = apply_shading(color, ray->dist, ray->side);
+        
+        // Put the pixel on screen
+        my_mlx_pixel_put(&game->gfx, screen_x, screen_y, color);
+    }
+}
+
+
+// Apply distance-based shading
+unsigned int apply_shading(unsigned int color, float dist, int side)
+{
+    float shade = 1.0f - (dist / 15.0f); // Darken with distance
+    if (shade < 0.3f) shade = 0.3f;
+    
+    // Darken one side for better 3D effect
+    if (side == 1) 
+        shade *= 0.8f;
+    
+    // Extract RGB components
+    int r = ((color >> 16) & 0xFF) * shade;
+    int g = ((color >> 8) & 0xFF) * shade;
+    int b = (color & 0xFF) * shade;
+    
+    return (r << 16) | (g << 8) | b;
+}
