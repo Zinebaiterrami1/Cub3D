@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/16 14:41:07 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:25:43 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,11 @@ typedef struct s_texture
     int             height;
     int             wall_top;
     int             wall_bottom;
+    int             tex_x;
+    int             tex_y; 
+    int             tex_num;
+    float           step;
+    float           tex_pos;
 }                   t_texture;
 
 typedef struct s_mlx {
@@ -138,6 +143,9 @@ typedef struct s_ray
     float angle;        // Ray angle
     float ray_dir_x;    // Add this missing field
     float ray_dir_y;    // Add this missing field
+    float start_angle;
+    float angle_step;
+    float ray_angle;
 } t_ray;
 
 typedef struct s_game {
@@ -237,3 +245,25 @@ int             determine_texture(t_ray *ray);
 
 */
 
+
+
+    for (int i = 0; i < NUM_RAYS; i++)
+    {
+        float ray_angle = start_angle + i * angle_step;
+        float dist = game->ray_distances[i];
+        float corrected_dist = dist * cos(ray_angle - game->player.angle);
+        
+        // Calculate wall height
+        float proj_plane = (WIDTH / 2) / tan(FOV / 2);
+        int wall_height = (TILE_SIZE / corrected_dist) * proj_plane;
+        
+        // Create a temporary ray with the data we have
+        t_ray temp_ray = game->rays[i];
+        temp_ray.dist = dist;
+        temp_ray.angle = ray_angle;
+        temp_ray.rayDX = cos(ray_angle);
+        temp_ray.rayDY = sin(ray_angle);
+        
+        // Draw this slice of textured wall WITH CORRECTED DISTANCE
+        draw_textured_wall_slice(game, i, &temp_ray, wall_height);
+    }

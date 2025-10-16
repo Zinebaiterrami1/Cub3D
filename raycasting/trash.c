@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/16 14:33:25 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:19:34 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -431,3 +431,44 @@ unsigned int apply_shading(unsigned int color, float dist, int side)
     
     return (r << 16) | (g << 8) | b;
 }
+
+
+
+// void render_3d_textured(t_game *game)
+// {
+//     // Clear screen
+//     clear_screen(&game->gfx);
+    
+//     // Draw sky and floor
+//     draw_sky_and_floor(game);
+    
+//     float start_angle = game->player.angle - FOV / 2;
+//     float angle_step = FOV / NUM_RAYS;
+
+//     // Draw textured walls
+//     for (int i = 0; i < NUM_RAYS; i++)
+//     {
+//         // float ray_angle = start_angle + i * angle_step;
+//         game->ray.ray_angle = start_angle + i * angle_step;
+//         float dist = game->ray_distances[i];
+//         float corrected_dist = dist * cos( game->ray.ray_angle - game->player.angle);
+        
+//         // Calculate wall height
+//         float proj_plane = (WIDTH / 2) / tan(FOV / 2);
+//         int wall_height = (TILE_SIZE / corrected_dist) * proj_plane;
+        
+//         // Create a temporary ray with the data we have
+//         t_ray temp_ray = game->rays[i];
+//         temp_ray.dist = dist;
+//         temp_ray.angle = game->ray.ray_angle;
+//         temp_ray.rayDX = cos(game->ray.ray_angle);
+//         temp_ray.rayDY = sin(game->ray.ray_angle);
+        
+//         // For now, use simple values - you'll need proper wall detection later
+//         // temp_ray.side = i % 2; // Simple alternating pattern
+//         // temp_ray.wall_x = (float)i / NUM_RAYS; // Simple pattern based on ray index
+        
+//         // Draw this slice of textured wall
+//         draw_textured_wall_slice(game, i, &temp_ray, wall_height);
+//     }
+// }
