@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 14:47:11 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/17 11:27:57 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/17 11:35:05 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,9 @@ void draw_sky_and_floor(t_game *game)
 // Draw a vertical slice of textured wall
 void draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray, int wall_height)
 {
-    t_texture *texture;
     int screen_y;
     unsigned int color;
 
-    screen_y = 0;
     float wall_top = (HEIGHT / 2) - (wall_height / 2);
     float wall_bottom = (HEIGHT / 2) + (wall_height / 2);
     if (wall_top < 0) wall_top = 0;
@@ -99,16 +97,17 @@ void draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray, int wall_h
     
     // Choose texture based on wall type and side
     int tex_num = determine_texture(ray);
-    texture = &game->textures[tex_num];
+    t_texture *texture = &game->textures[tex_num];
     float step = 1.0 * TEX_HEIGHT / wall_height;
     float tex_pos = (wall_top - HEIGHT / 2 + wall_height / 2) * step;
-
+    
+    screen_y = wall_top;
     // Draw each pixel of the wall slice
     while(screen_y < wall_bottom)
     {
         int tex_y = (int)tex_pos;
         tex_pos += step;
-        color = get_texture_pixel(texture, tex_y, tex_pos);
+        color = get_texture_pixel(texture, tex_x, tex_y);
         my_mlx_pixel_put(&game->gfx, screen_x, screen_y, color);
         screen_y++;
     }
