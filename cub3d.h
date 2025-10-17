@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/16 16:25:43 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/17 11:15:43 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 #define NUM_TEXTURES 4
 #define TEX_WIDTH 64
 #define TEX_HEIGHT 64
-
+extern int map[MAP_HEIGHT][MAP_WIDTH];
 // typedef struct s_mlx
 // {
 //     void    *mlx;
@@ -145,7 +145,7 @@ typedef struct s_ray
     float ray_dir_y;    // Add this missing field
     float start_angle;
     float angle_step;
-    float ray_angle;
+    // float ray_angle;
 } t_ray;
 
 typedef struct s_game {
@@ -228,7 +228,10 @@ void            render_3d_textured(t_game *game);
 void            draw_fov_rays(t_game *game);
 t_ray           cast_ray_textured(t_game *game, float ray_angle);
 int             determine_texture(t_ray *ray);
-
+void load_textures(t_game *game);
+void draw_sky_and_floor(t_game *game);
+void my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
+void clear_screen(t_mlx *mlx);
 #endif
 
 
@@ -247,23 +250,23 @@ int             determine_texture(t_ray *ray);
 
 
 
-    for (int i = 0; i < NUM_RAYS; i++)
-    {
-        float ray_angle = start_angle + i * angle_step;
-        float dist = game->ray_distances[i];
-        float corrected_dist = dist * cos(ray_angle - game->player.angle);
+    // for (int i = 0; i < NUM_RAYS; i++)
+    // {
+    //     float ray_angle = start_angle + i * angle_step;
+    //     float dist = game->ray_distances[i];
+    //     float corrected_dist = dist * cos(ray_angle - game->player.angle);
         
-        // Calculate wall height
-        float proj_plane = (WIDTH / 2) / tan(FOV / 2);
-        int wall_height = (TILE_SIZE / corrected_dist) * proj_plane;
+    //     // Calculate wall height
+    //     float proj_plane = (WIDTH / 2) / tan(FOV / 2);
+    //     int wall_height = (TILE_SIZE / corrected_dist) * proj_plane;
         
-        // Create a temporary ray with the data we have
-        t_ray temp_ray = game->rays[i];
-        temp_ray.dist = dist;
-        temp_ray.angle = ray_angle;
-        temp_ray.rayDX = cos(ray_angle);
-        temp_ray.rayDY = sin(ray_angle);
+    //     // Create a temporary ray with the data we have
+    //     t_ray temp_ray = game->rays[i];
+    //     temp_ray.dist = dist;
+    //     temp_ray.angle = ray_angle;
+    //     temp_ray.rayDX = cos(ray_angle);
+    //     temp_ray.rayDY = sin(ray_angle);
         
-        // Draw this slice of textured wall WITH CORRECTED DISTANCE
-        draw_textured_wall_slice(game, i, &temp_ray, wall_height);
-    }
+    //     // Draw this slice of textured wall WITH CORRECTED DISTANCE
+    //     draw_textured_wall_slice(game, i, &temp_ray, wall_height);
+    // }

@@ -2,13 +2,13 @@ NAME = cub3D
 
 CC = cc
 MLXFLAGS = -Lmlx -lmlx -lXext -lX11 -lm
-CFLAGS = -Wextra -Wall -Werror #-fsanitize=address -g
+CFLAGS = -Wextra -Wall -Werror -fsanitize=address -g
 
 
 SOURCE = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 		parsing/parse_map.c \
 		utils/ft_split.c utils/ft_memcpy.c utils/ft_strjoin.c utils/ft_strlen.c utils/ft_strlcpy.c\
-		  main.c cub3d.c raycasting/raycasting.c \
+		  main.c cub3d.c raycasting/raycasting.c raycasting/texture.c \
 
 OBJECT = $(SOURCE:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 14:47:11 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/16 16:33:50 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/17 11:27:57 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,28 +89,28 @@ void draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray, int wall_h
     unsigned int color;
 
     screen_y = 0;
-    texture->wall_top = (HEIGHT / 2) - (wall_height / 2);
-    texture->wall_bottom = (HEIGHT / 2) + (wall_height / 2);
-    if (texture->wall_top < 0) texture->wall_top = 0;
-    if (texture->wall_bottom > HEIGHT) texture->wall_bottom = HEIGHT;
+    float wall_top = (HEIGHT / 2) - (wall_height / 2);
+    float wall_bottom = (HEIGHT / 2) + (wall_height / 2);
+    if (wall_top < 0) wall_top = 0;
+    if (wall_bottom > HEIGHT) wall_bottom = HEIGHT;
     
     // Calculate texture X coordinate (where we hit the wall)
-    texture->tex_x = (int)(ray->wall_x * TEX_WIDTH);
+    int tex_x = (int)(ray->wall_x * TEX_WIDTH);
     
     // Choose texture based on wall type and side
-    texture->tex_num = determine_texture(ray);
+    int tex_num = determine_texture(ray);
     texture = &game->textures[tex_num];
-    texture->step = 1.0 * TEX_HEIGHT / wall_height;
-    texture->tex_pos = (wall_top - HEIGHT / 2 + wall_height / 2) * step;
+    float step = 1.0 * TEX_HEIGHT / wall_height;
+    float tex_pos = (wall_top - HEIGHT / 2 + wall_height / 2) * step;
 
     // Draw each pixel of the wall slice
-    while(screen_y < texture->wall_bottom)
+    while(screen_y < wall_bottom)
     {
-        texture->tex_y = (int)texture->tex_pos;
-        texture->tex_pos += texture->step;
-        color = get_texture_pixel(texture, texture->tex_y, texture->tex_pos);
+        int tex_y = (int)tex_pos;
+        tex_pos += step;
+        color = get_texture_pixel(texture, tex_y, tex_pos);
         my_mlx_pixel_put(&game->gfx, screen_x, screen_y, color);
-        y++;
+        screen_y++;
     }
 }
 
