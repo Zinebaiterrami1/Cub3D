@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/17 11:35:31 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/17 15:54:56 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,15 @@ typedef struct s_ray
     float ray_dir_y;    // Add this missing field
     float start_angle;
     float angle_step;
-    // float ray_angle;
+    float	corrected_dist;
+    float	proj_plane;
+    float deltaDistX;
+    float deltaDistY;
+    float sideDistX;
+    float sideDistY;
+    int stepX;
+    int stepY;
+    int hit;
 } t_ray;
 
 typedef struct s_game {
@@ -191,6 +199,20 @@ typedef struct s_color
     int b;
 }t_color;
 
+typedef struct s_draw_texture
+{
+	int				screen_y;//
+    int             screen_x;//
+	unsigned int	color;//
+	float			wall_top;//
+	float			wall_bottom;//
+	int				tex_x;//
+	int				tex_num;//
+	float			step;//
+	float			tex_pos;//
+	int				tex_y;//
+    int		        wall_height;
+}t_draw_texture;
 
 typedef struct s_config
 {
@@ -270,3 +292,26 @@ void clear_screen(t_mlx *mlx);
     //     // Draw this slice of textured wall WITH CORRECTED DISTANCE
     //     draw_textured_wall_slice(game, i, &temp_ray, wall_height);
     // }
+
+
+//     void draw_fov_rays(t_game *game)
+// {
+//     t_ray ray_params;  // For loop parameters
+//     t_ray ray_result;  // For cast result
+
+//     ray_params.start_angle = game->player.angle - FOV / 2;
+//     ray_params.angle_step = FOV / NUM_RAYS;
+
+//     for (int i = 0; i < NUM_RAYS; i++)
+//     {
+//         ray_params.ray_angle = ray_params.start_angle + i * ray_params.angle_step;
+//         ray_result = cast_ray_textured(game, ray_params.ray_angle);
+//         game->rays[i] = ray_result; // Store the complete ray data
+//         game->ray_distances[i] = ray_result.dist;
+
+//         // Dessin 2D des rayons verts sur la carte
+//         float end_x = game->player.x + cos(ray_params.ray_angle) * ray_result.dist;
+//         float end_y = game->player.y + sin(ray_params.ray_angle) * ray_result.dist;
+//         draw_line_dda(&game->gfx, game->player.x, game->player.y, end_x, end_y, 0x00FF00);
+//     }
+// }
