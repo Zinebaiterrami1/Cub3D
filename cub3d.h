@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/17 15:54:56 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/18 15:19:47 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ typedef struct s_ray
     int stepX;
     int stepY;
     int hit;
+    float end_x;
+    float end_y;
 } t_ray;
 
 typedef struct s_game {
@@ -166,6 +168,16 @@ typedef struct s_game {
     t_texture tex_wall;
 } t_game;
 
+typedef struct s_cast_ray
+{
+    int mapX;
+    int mapY;
+    int side;
+    float perpWallDist;
+    float wallX;
+    float start_angle;
+    float angle_step;
+}t_cast_ray;
 // typedef struct s_ray
 // {
 //     float rayX;

@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/17 15:42:52 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/18 15:21:35 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,21 +223,22 @@ int close_window(void *param)
 void draw_fov_rays(t_game *game)
 {
     t_ray ray;
+    t_cast_ray data;
+    int i;
 
-    float start_angle = game->player.angle - FOV / 2;
-    float angle_step = FOV / NUM_RAYS;
-
-    for (int i = 0; i < NUM_RAYS; i++)
+    data.start_angle = game->player.angle - FOV / 2;
+    data.angle_step = FOV / NUM_RAYS;
+    i = 0;
+    while(i < NUM_RAYS)
     {
-        float ray_angle = start_angle + i * angle_step;
-        ray = cast_ray_textured(game, ray_angle);
-        game->rays[i] = ray; // Store the complete ray data
+        ray.ray_angle = data.start_angle + i * data.angle_step;
+        ray = cast_ray_textured(game, ray.ray_angle);
+        game->rays[i] = ray;
         game->ray_distances[i] = ray.dist;
-
-        // Dessin 2D des rayons verts sur la carte
-        float end_x = game->player.x + cos(ray_angle) * ray.dist;
-        float end_y = game->player.y + sin(ray_angle) * ray.dist;
-        draw_line_dda(&game->gfx, game->player.x, game->player.y, end_x, end_y, 0x00FF00);
+        ray.end_x = game->player.x + cos(ray.ray_angle) * ray.dist;
+        ray.end_y = game->player.y + sin(ray.ray_angle) * ray.dist;
+        draw_line_dda(&game->gfx, game->player.x, game->player.y, ray.end_x, ray.end_y, 0x00FF00);
+        i++;
     }
 }
 

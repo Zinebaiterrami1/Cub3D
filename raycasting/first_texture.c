@@ -1,17 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   texture.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/16 14:47:11 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/18 15:23:09 by zait-err         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../cub3d.h"
-
 void	load_textures(t_game *game)
 {
 	char	*texture_files[NUM_TEXTURES] = {"textures/bluestone.xpm",
@@ -40,6 +26,7 @@ unsigned int	get_texture_pixel(t_texture *tex, int x, int y)
 {
 	int	pixel;
 
+	// Wrap texture coordinates if they're out of bounds
 	if (x < 0)
 		x = 0;
 	if (x >= tex->width)
@@ -48,6 +35,7 @@ unsigned int	get_texture_pixel(t_texture *tex, int x, int y)
 		y = 0;
 	if (y >= tex->height)
 		y = tex->height - 1;
+	// Calculate pixel position in texture data
 	pixel = y * tex->line_len + x * (tex->bpp / 8);
 	return (*(unsigned int *)(tex->addr + pixel));
 }
@@ -62,7 +50,7 @@ void	draw_sky_and_floor(t_game *game)
 		x = 0;
 		while (x < WIDTH)
 		{
-			my_mlx_pixel_put(&game->gfx, x, y, 0x87CEEB);
+			my_mlx_pixel_put(&game->gfx, x, y, 0x87CEEB); // Sky blue
 			x++;
 		}
 		y++;
@@ -73,7 +61,7 @@ void	draw_sky_and_floor(t_game *game)
 		x = 0;
 		while (x < WIDTH)
 		{
-			my_mlx_pixel_put(&game->gfx, x, y, 0x228B22);
+			my_mlx_pixel_put(&game->gfx, x, y, 0x228B22); // Forest green
 			x++;
 		}
 		y++;
@@ -96,18 +84,21 @@ t_draw_texture init_draw_texture(t_draw_texture draw_tex)
     return (draw_tex);
 }
 
+// Draw a vertical slice of textured wall
 void	draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray,
 		int wall_height)
 {
     t_draw_texture draw_tex;
     t_texture      *texture;
 
+    // draw_tex = init_draw_texture(draw_tex);
 	draw_tex.wall_top = (HEIGHT / 2) - (wall_height / 2);
 	draw_tex.wall_bottom = (HEIGHT / 2) + (wall_height / 2);
 	if (draw_tex.wall_top < 0)
 		draw_tex.wall_top = 0;
 	if (draw_tex.wall_bottom > HEIGHT)
 		draw_tex.wall_bottom = HEIGHT;
+	// Calculate texture X coordinate (where we hit the wall)
 	draw_tex.tex_x = (int)(ray->wall_x * TEX_WIDTH);
 	// Choose texture based on wall type and side
 	draw_tex.tex_num = determine_texture(ray);
