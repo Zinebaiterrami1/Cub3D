@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/18 15:19:47 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/20 10:59:10 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,7 @@ int             count_line_map(int fd);
 char            *read_map(int fd);
 int             get_first_line_map(const char *line);
 char	        *ft_strjoinn(char *s1, char *s2);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
 void	        *ft_memcpy(void *dest, const void *src, size_t n);
 char            **get_map(char *line, int fd);
 int             find_big_line(char **map);
@@ -266,6 +267,8 @@ void load_textures(t_game *game);
 void draw_sky_and_floor(t_game *game);
 void my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 void clear_screen(t_mlx *mlx);
+void	draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray,
+		int wall_height);
 #endif
 
 
@@ -281,49 +284,3 @@ void clear_screen(t_mlx *mlx);
 | 🔥 Hellish  | `0x660000` | `0x330000`  |
 
 */
-
-
-
-    // for (int i = 0; i < NUM_RAYS; i++)
-    // {
-    //     float ray_angle = start_angle + i * angle_step;
-    //     float dist = game->ray_distances[i];
-    //     float corrected_dist = dist * cos(ray_angle - game->player.angle);
-        
-    //     // Calculate wall height
-    //     float proj_plane = (WIDTH / 2) / tan(FOV / 2);
-    //     int wall_height = (TILE_SIZE / corrected_dist) * proj_plane;
-        
-    //     // Create a temporary ray with the data we have
-    //     t_ray temp_ray = game->rays[i];
-    //     temp_ray.dist = dist;
-    //     temp_ray.angle = ray_angle;
-    //     temp_ray.rayDX = cos(ray_angle);
-    //     temp_ray.rayDY = sin(ray_angle);
-        
-    //     // Draw this slice of textured wall WITH CORRECTED DISTANCE
-    //     draw_textured_wall_slice(game, i, &temp_ray, wall_height);
-    // }
-
-
-//     void draw_fov_rays(t_game *game)
-// {
-//     t_ray ray_params;  // For loop parameters
-//     t_ray ray_result;  // For cast result
-
-//     ray_params.start_angle = game->player.angle - FOV / 2;
-//     ray_params.angle_step = FOV / NUM_RAYS;
-
-//     for (int i = 0; i < NUM_RAYS; i++)
-//     {
-//         ray_params.ray_angle = ray_params.start_angle + i * ray_params.angle_step;
-//         ray_result = cast_ray_textured(game, ray_params.ray_angle);
-//         game->rays[i] = ray_result; // Store the complete ray data
-//         game->ray_distances[i] = ray_result.dist;
-
-//         // Dessin 2D des rayons verts sur la carte
-//         float end_x = game->player.x + cos(ray_params.ray_angle) * ray_result.dist;
-//         float end_y = game->player.y + sin(ray_params.ray_angle) * ray_result.dist;
-//         draw_line_dda(&game->gfx, game->player.x, game->player.y, end_x, end_y, 0x00FF00);
-//     }
-// }

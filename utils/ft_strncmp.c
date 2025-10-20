@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/20 10:51:51 by zait-err         ###   ########.fr       */
+/*   Created: 2024/10/23 10:38:14 by zait-err          #+#    #+#             */
+/*   Updated: 2025/10/20 10:58:19 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
-t_map init_map()
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-    t_map map;
+	size_t	i;
 
-    map.grid = NULL;
-    map.cols = 0;
-    map.rows = 0;
-    map.player.x = 0;
-    map.player.y = 0;
-    map.player.dx = 0;
-    map.player.dy = -1;
-    map.player.angle = 1.5 * 3.14; // facing up
-    return (map);
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (i < n && s1[i] && s2[i] && (s1[i] == s2[i]))
+	{
+		i++;
+	}
+	if (i == n)
+		return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
-
