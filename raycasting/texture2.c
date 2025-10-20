@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:46:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/20 10:34:37 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/20 12:45:07 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	init_ray_data(t_cast_ray *data, t_game *game, t_ray *ray)
 	}
 }
 
-void	performe_dda(t_ray *ray, t_cast_ray *data)
+void	performe_dda(t_ray *ray, t_cast_ray *data, t_game *game)
 {
 	while (ray->hit == 0)
 	{
@@ -104,7 +104,7 @@ void	performe_dda(t_ray *ray, t_cast_ray *data)
 			data->mapY += ray->stepY;
 			data->side = 1;
 		}
-		if (map[data->mapY][data->mapX] > 0)
+		if (game->map.grid[data->mapY][data->mapX] > 0)
 			ray->hit = 1;
 	}
 	if (data->side == 0)
@@ -126,7 +126,7 @@ t_ray	cast_ray_textured(t_game *game, float ray_angle)
 	ray.deltaDistX = fabs(1 / ray.rayDX);
 	ray.deltaDistY = fabs(1 / ray.rayDY);
 	init_ray_data(&data, game, &ray);
-	performe_dda(&ray, &data);
+	performe_dda(&ray, &data, game);
 	if (data.side == 0)
 		data.wallX = (game->player.y / TILE_SIZE + data.perpWallDist
 				* ray.rayDY) - floor(game->player.y / TILE_SIZE
@@ -138,6 +138,6 @@ t_ray	cast_ray_textured(t_game *game, float ray_angle)
 	ray.wall_x = data.wallX;
 	ray.dist = data.perpWallDist * TILE_SIZE;
 	ray.side = data.side;
-	ray.wall_type = map[data.mapY][data.mapX];
+	ray.wall_type = game->map.grid[data.mapY][data.mapX];
 	return (ray);
 }

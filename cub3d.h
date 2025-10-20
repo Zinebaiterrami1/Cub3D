@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/20 10:59:10 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/20 12:48:07 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,15 @@ typedef struct s_ray
     float end_y;
 } t_ray;
 
+typedef struct s_map
+{
+    char    **grid;     // the 2D map itself
+    int     rows;       // number of rows
+    int     cols;       // number of columns (after squaring)
+    t_player player;    // player position & direction
+}   t_map;
+
+
 typedef struct s_game {
     t_mlx gfx;
     t_player player;
@@ -166,6 +175,7 @@ typedef struct s_game {
     t_texture textures[NUM_TEXTURES];  // Use t_texture, not t_textures
     t_ray ray;
     t_texture tex_wall;
+    t_map map;
 } t_game;
 
 typedef struct s_cast_ray
@@ -196,13 +206,6 @@ typedef struct s_cast_ray
 //     float angle;        // Ray angle
 // }t_ray;
 
-typedef struct s_map
-{
-    char    **grid;     // the 2D map itself
-    int     rows;       // number of rows
-    int     cols;       // number of columns (after squaring)
-    t_player player;    // player position & direction
-}   t_map;
 
 typedef struct s_color
 {

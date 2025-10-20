@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/20 10:59:33 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/20 12:51:01 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	draw_map2d(t_game *game)
 	{
 		for (int j = 0; j < MAP_WIDTH; j++)
 		{
-			color = map[i][j] ? 0x808080 : 0xFFFFFF;
+			color = game->map.grid[i][j] ? 0x808080 : 0xFFFFFF;
 			draw_tile(&game->gfx, j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE - 1,
 				color);
 		}
@@ -65,7 +65,7 @@ void	draw_map2d(t_game *game)
 }
 
 // ---------- COLLISIONS ----------
-int	is_wall(float x, float y)
+int	is_wall(t_game *game,float x, float y)
 {
 	int	mx;
 	int	my;
@@ -74,7 +74,7 @@ int	is_wall(float x, float y)
 	my = (int)(y / TILE_SIZE);
 	if (mx < 0 || mx >= MAP_WIDTH || my < 0 || my >= MAP_HEIGHT)
 		return (1);
-	return (map[my][mx]);
+	return (game->map.grid[my][mx]);
 }
 
 // ---------- LIGNES ----------
@@ -118,7 +118,7 @@ float	cast_ray(t_game *game, float ray_angle)
 	ray_y = game->player.y;
 	ray_dx = cos(ray_angle);
 	ray_dy = sin(ray_angle);
-	while (!is_wall(ray_x, ray_y))
+	while (!is_wall(game,ray_x, ray_y))
 	{
 		ray_x += ray_dx * 0.1f; // modified here , graphic issues fixed
 		ray_y += ray_dy * 0.1f;
@@ -240,7 +240,7 @@ int	key_hook(int keycode, void *param)
 		game->player.angle += ROT_SPEED;
 	game->player.dx = cos(game->player.angle) * SPEED;
 	game->player.dy = sin(game->player.angle) * SPEED;
-	if (!is_wall(next_x, next_y))
+	if (!is_wall(game ,next_x, next_y))
 	{
 		game->player.x = next_x;
 		game->player.y = next_y;
@@ -387,6 +387,11 @@ void check_texture_line(t_textures *tex, char *line)
     
 }
 
+void print_error()
+{
+	printf("errooooor\n");
+	exit(EXIT_FAILURE);
+}
 // ---------- MAIN ----------
 
 int	main(int ac, char **av)
@@ -394,7 +399,10 @@ int	main(int ac, char **av)
 	t_game	game;
     t_map map;
 
-    if(!ft_strncmp(".cub"))
+    if (ac != 2)
+		print_error();
+	if (ft_strncmp(av[1] + (ft_strlen(av[1] - 4)), ".cub", 4))
+		print_error();
     int fd = open("map.cub", O_RDONLY);
     if (fd < 0)
     {
@@ -486,16 +494,22 @@ int	main(int ac, char **av)
     free(tex.S);
 
     if (error)
+	{
         printf("\n❌ La map contient des erreurs.\n");
+		return error;
+	}
     else
+	{
         printf("\n✅ Map valide, toutes les textures et couleurs sont correctes.\n");
-    return error;
+	}
 	// Init window and image
+	
 	game.gfx.mlx = mlx_init();
 	game.gfx.win = mlx_new_window(game.gfx.mlx, WIDTH, HEIGHT, "Cub3D");
 	game.gfx.img = mlx_new_image(game.gfx.mlx, WIDTH, HEIGHT);
 	game.gfx.addr = mlx_get_data_addr(game.gfx.img, &game.gfx.bpp,
 			&game.gfx.line_len, &game.gfx.endian);
+	game.map = map;
 	// Load textures
 	load_textures(&game);
 	// Initialize player
