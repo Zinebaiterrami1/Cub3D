@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/20 12:51:01 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/24 11:08:49 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,14 @@ int	is_wall(t_game *game,float x, float y)
 {
 	int	mx;
 	int	my;
+	char c;
 
 	mx = (int)(x / TILE_SIZE);
 	my = (int)(y / TILE_SIZE);
-	if (mx < 0 || mx >= MAP_WIDTH || my < 0 || my >= MAP_HEIGHT)
+	if (mx < 0 || mx >= game->map.cols || my < 0 || my >= game->map.rows)
 		return (1);
-	return (game->map.grid[my][mx]);
+	c = game->map.grid[my][mx];
+	return (c != '0');
 }
 
 // ---------- LIGNES ----------
@@ -253,6 +255,62 @@ int	key_hook(int keycode, void *param)
 	render_3d_textured(game); // CHANGE THIS LINE
 	// clear_screen(&game->gfx);
 	mlx_put_image_to_window(game->gfx.mlx, game->gfx.win, game->gfx.img, 0, 0);
+	return (0);
+}
+
+int rotate_left_right(t_game *game, double rotspeed)
+{
+	t_player	*p;
+	double		tmp_x;
+
+	p = &game->player;
+	tmp_x = p->dx;
+	p->dx = p->dx * cos(rotspeed) - p->dy * sin(rotspeed);
+	p->dy = tmp_x * sin(rotspeed) + p->dy * cos(rotspeed);
+	tmp_x = p->plane_x;
+	p->plane_x = p->plane_x * cos(rotspeed) - p->plane_y * sin(rotspeed);
+	p->plane_y = tmp_x * sin(rotspeed) + p->plane_y * cos(rotspeed);
+	return (1);
+}
+
+int rotate_player(t_game *game, int rotdir)
+{
+	int moved;
+	double rotspeed;
+	
+	moved = 0;
+	rotspeed = ROT_SPEED * rotdir;
+	moved += rotate_left_right(game, rotspeed);
+	return (moved);
+}
+
+void wrap_mouse_position(int x, int y, t_game *game)
+{
+	if(x > WIDTH - DIST_EDGE_MOUSE_WRAP)
+	{
+		x = DIST_EDGE_MOUSE_WRAP;
+		mlx_mouse_move(game->gfx.mlx, game->gfx.win, x, y);
+	}
+	if(x < DIST_EDGE_MOUSE_WRAP)
+	{
+		x = WIDTH - DIST_EDGE_MOUSE_WRAP;
+		mlx_mouse_move(game->gfx.mlx, game->gfx.win, x, y);
+	}
+}
+
+int	mouse_motion_handler(int x, int y, t_game *game)
+{
+	static int old_x;
+
+	old_x = WIDTH / 2;
+	wrap_mouse_position(x, y, game);
+	if(x == old_x)
+		return (0);
+	else if(x < old_x)
+		game->player.has_moved += rotate_player(game, -1);
+	else if(x > old_x)
+		game->player.has_moved += rotate_player(game, 1);
+	old_x = x;
 	return (0);
 }
 
@@ -525,6 +583,7 @@ int	main(int ac, char **av)
 	mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 	// Hooks
 	mlx_hook(game.gfx.win, 2, 1L << 0, key_hook, &game);
+	mlx_hook(game.gfx.win, 6, 1L << 6, mouse_motion_handler, &game);
 	mlx_hook(game.gfx.win, 17, 0, close_window, NULL);
 	mlx_loop(game.gfx.mlx);
     free(map.grid);

@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/20 12:48:07 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/24 10:51:17 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,23 @@
 // #define FOV (M_PI / 3) //60degree
 // #define NUM_RAYS 50
 
-#define WIDTH 800
-#define HEIGHT 800
-#define TILE_SIZE 64
-#define MAP_WIDTH 8
-#define MAP_HEIGHT 8
-#define FOV (60 * (M_PI / 180))
-#define NUM_RAYS WIDTH
-#define SPEED 5.0
-#define ROT_SPEED 0.05
-#define PLAYER_SIZE 8
-#define NUM_TEXTURES 4
-#define TEX_WIDTH 64
-#define TEX_HEIGHT 64
+# define WIDTH 800
+# define HEIGHT 800
+# define TILE_SIZE 64
+# define MAP_WIDTH 8
+# define MAP_HEIGHT 8
+# define FOV (60 * (M_PI / 180))
+# define NUM_RAYS WIDTH
+# define SPEED 5.0
+# define ROT_SPEED 0.05
+# define PLAYER_SIZE 8
+# define NUM_TEXTURES 4
+# define TEX_WIDTH 64
+# define TEX_HEIGHT 64
+# define DIST_EDGE_MOUSE_WRAP 20
+
 extern int map[MAP_HEIGHT][MAP_WIDTH];
+
 // typedef struct s_mlx
 // {
 //     void    *mlx;
@@ -73,6 +76,9 @@ typedef struct s_player
     float   angle;
     float   dx;
     float   dy;
+    int     has_moved;
+    int plane_x;
+    int plane_y;
 }   t_player;
 
 // typedef struct s_game

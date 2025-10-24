@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:46:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/20 12:45:07 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/24 09:34:17 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	performe_dda(t_ray *ray, t_cast_ray *data, t_game *game)
 			data->mapY += ray->stepY;
 			data->side = 1;
 		}
-		if (game->map.grid[data->mapY][data->mapX] > 0)
+		if (game->map.grid[data->mapY][data->mapX] > '0')
 			ray->hit = 1;
 	}
 	if (data->side == 0)
