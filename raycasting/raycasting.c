@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/24 11:08:49 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/24 14:31:10 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,44 +273,50 @@ int rotate_left_right(t_game *game, double rotspeed)
 	return (1);
 }
 
-int rotate_player(t_game *game, int rotdir)
+// int mouse_move(int x, int y, t_game *game)
+// {
+//     static int last_x = -1;
+//     (void)y; // we ignore vertical movement for rotation
+
+//     if (last_x == -1)
+//         last_x = x;
+
+//     int delta_x = x - last_x;
+
+//     if (delta_x != 0)
+//     {
+//         // Adjust rotation speed
+//         float sensitivity = 0.002f; // tweak to your liking
+//         game->player.angle += delta_x * sensitivity;
+//         game->player.dx = cos(game->player.angle) * SPEED;
+//         game->player.dy = sin(game->player.angle) * SPEED;
+
+//     }
+
+//     last_x = x;
+//     return (0);
+// }
+
+double	ray_correct(double ray_angle)
 {
-	int moved;
-	double rotspeed;
-	
-	moved = 0;
-	rotspeed = ROT_SPEED * rotdir;
-	moved += rotate_left_right(game, rotspeed);
-	return (moved);
+	if (ray_angle < 0)
+		ray_angle = ray_angle + (2 * M_PI);
+	if (ray_angle >= (2 * M_PI))
+		ray_angle = ray_angle - (2 * M_PI);
+	return (ray_angle);
 }
 
-void wrap_mouse_position(int x, int y, t_game *game)
+int	mouse_move(int x, int y, t_game *win)
 {
-	if(x > WIDTH - DIST_EDGE_MOUSE_WRAP)
-	{
-		x = DIST_EDGE_MOUSE_WRAP;
-		mlx_mouse_move(game->gfx.mlx, game->gfx.win, x, y);
-	}
-	if(x < DIST_EDGE_MOUSE_WRAP)
-	{
-		x = WIDTH - DIST_EDGE_MOUSE_WRAP;
-		mlx_mouse_move(game->gfx.mlx, game->gfx.win, x, y);
-	}
-}
+	double	dx;
+	double	dy;
+	double	angle;
 
-int	mouse_motion_handler(int x, int y, t_game *game)
-{
-	static int old_x;
-
-	old_x = WIDTH / 2;
-	wrap_mouse_position(x, y, game);
-	if(x == old_x)
-		return (0);
-	else if(x < old_x)
-		game->player.has_moved += rotate_player(game, -1);
-	else if(x > old_x)
-		game->player.has_moved += rotate_player(game, 1);
-	old_x = x;
+	dx = x - WIDTH / 2;
+	dy = y - HEIGHT / 2;
+	angle = atan2(dx, dy);
+	win->player.angle = angle;
+	win->player.angle = ray_correct(win->player.angle);
 	return (0);
 }
 
@@ -443,6 +449,39 @@ void check_texture_line(t_textures *tex, char *line)
     else if (strncmp(line + i, "WE ", 3) == 0)
         tex->WE = ft_strdup_trim(line + i + 3);
     
+}
+// ---------------------------MINIMAP-------------------------
+void draw_miniplayer(t_game *game)
+{
+	int px;
+	int py;
+
+	px = game->player.x * MINIMAP_SCALE;
+	py = game->player.y * MINIMAP_SCALE;
+
+	draw_tile(game->gfx.mlx, px - 2, py - 2, 4, 0xFF0000);
+}
+
+void draw_minimap(t_game *game)
+{
+	int color;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while(i < game->map.cols)
+	{
+		j = 0;
+		while(j < game->map.rows)
+		{
+			color = game->map.grid[i][j] ? 0x808080 : 0xFFFFFF;
+			draw_tile(&game->gfx, j * TILE_SIZE * MINIMAP_SCALE, i * TILE_SIZE * MINIMAP_SCALE, TILE_SIZE * MINIMAP_SCALE - 1,
+				color);
+			j++;
+		}
+		i++;
+	}
 }
 
 void print_error()
@@ -580,10 +619,13 @@ int	main(int ac, char **av)
 	draw_sky_and_floor(&game);
 	draw_fov_rays(&game);
 	render_3d_textured(&game);
+	draw_minimap(&game);
+	draw_miniplayer(&game);
+// mlx_put_image_to_window(game->gfx.mlx, game->gfx.win, game->gfx.img, 0, 0);
 	mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 	// Hooks
 	mlx_hook(game.gfx.win, 2, 1L << 0, key_hook, &game);
-	mlx_hook(game.gfx.win, 6, 1L << 6, mouse_motion_handler, &game);
+	mlx_hook(game.gfx.win, 6, 1L << 6, mouse_move, &game);
 	mlx_hook(game.gfx.win, 17, 0, close_window, NULL);
 	mlx_loop(game.gfx.mlx);
     free(map.grid);

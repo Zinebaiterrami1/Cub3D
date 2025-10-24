@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/24 10:51:17 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/24 14:30:29 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 # define TEX_WIDTH 64
 # define TEX_HEIGHT 64
 # define DIST_EDGE_MOUSE_WRAP 20
-
+# define MINIMAP_SCALE 0.2
 extern int map[MAP_HEIGHT][MAP_WIDTH];
 
 // typedef struct s_mlx
@@ -278,6 +278,8 @@ void my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 void clear_screen(t_mlx *mlx);
 void	draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray,
 		int wall_height);
+void draw_miniplayer(t_game *game);
+void draw_minimap(t_game *game);
 #endif
 
 
