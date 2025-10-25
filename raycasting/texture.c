@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 14:47:11 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/20 10:34:06 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/25 12:04:02 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	load_textures(t_game *game)
 	int		i;
 
 	i = 0;
-	texture_files[0] = "textures/bluestone.xpm";
-	texture_files[1] = "textures/wall2.xpm";
-	texture_files[2] = "textures/wall1.xpm";
-	texture_files[3] = "textures/wood.xpm";
+	texture_files[0] = "textures/redbrick.xpm";
+	texture_files[1] = "textures/colorstone.xpm";
+	texture_files[2] = "textures/eagle.xpm";
+	texture_files[3] = "textures/purplestone.xpm";
 	while (i < NUM_TEXTURES)
 	{
 		game->textures[i].img = mlx_xpm_file_to_image(game->gfx.mlx,
@@ -65,7 +65,7 @@ void	draw_sky_and_floor(t_game *game)
 		x = 0;
 		while (x < WIDTH)
 		{
-			my_mlx_pixel_put(&game->gfx, x, y, 0x87CEEB);
+			my_mlx_pixel_put(&game->gfx, x, y, 0x000000);
 			x++;
 		}
 		y++;
@@ -76,7 +76,7 @@ void	draw_sky_and_floor(t_game *game)
 		x = 0;
 		while (x < WIDTH)
 		{
-			my_mlx_pixel_put(&game->gfx, x, y, 0x228B22);
+			my_mlx_pixel_put(&game->gfx, x, y, 0x303030);
 			x++;
 		}
 		y++;

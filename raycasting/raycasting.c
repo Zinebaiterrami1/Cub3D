@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/24 14:31:10 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/25 14:32:07 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -489,8 +489,8 @@ void print_error()
 	printf("errooooor\n");
 	exit(EXIT_FAILURE);
 }
-// ---------- MAIN ----------
 
+// ---------- MAIN ----------
 int	main(int ac, char **av)
 {
 	t_game	game;
@@ -619,8 +619,6 @@ int	main(int ac, char **av)
 	draw_sky_and_floor(&game);
 	draw_fov_rays(&game);
 	render_3d_textured(&game);
-	draw_minimap(&game);
-	draw_miniplayer(&game);
 // mlx_put_image_to_window(game->gfx.mlx, game->gfx.win, game->gfx.img, 0, 0);
 	mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 	// Hooks

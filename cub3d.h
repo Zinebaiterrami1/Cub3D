@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/24 14:30:29 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/25 13:44:04 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_player
 //     int side;         // 0 = vertical wall hit, 1 = horizontal wall hit
 //     float perpWallDist;
 // }   t_game;
+
 typedef struct s_textures {
     char *NO;
     char *SO;
