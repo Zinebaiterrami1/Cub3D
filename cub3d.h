@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/25 13:44:04 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/27 21:19:09 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_textures {
     char *S;
 } t_textures;
 
+
 typedef struct s_texture
 {
     void            *img;
@@ -120,6 +121,19 @@ typedef struct s_texture
     float           step;
     float           tex_pos;
 }                   t_texture;
+
+
+typedef struct s_gun
+{
+    t_texture gun_texture[2];
+    int current_frame;  // 0 = idle, 1 = shooting
+    int shooting;       // flag: 1 when shooting animation active
+    int frame_timer;    // optional, for timing the shot animation
+    int pos_x;
+    int pos_y;
+    int gun_width;
+    int gun_height;
+}t_gun;
 
 typedef struct s_mlx {
     void *mlx;
@@ -180,6 +194,7 @@ typedef struct s_game {
     float ray_distances[NUM_RAYS];
     t_ray rays[NUM_RAYS];  // Add this for storing ray info
     t_texture textures[NUM_TEXTURES];  // Use t_texture, not t_textures
+    t_gun gun;
     t_ray ray;
     t_texture tex_wall;
     t_map map;
@@ -281,6 +296,13 @@ void	draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray,
 		int wall_height);
 void draw_miniplayer(t_game *game);
 void draw_minimap(t_game *game);
+void	draw_tile(t_mlx *mlx, int x, int y, int size, int color);
+void shoot(t_game *game);
+void draw_gun(t_game *game);
+t_gun init_gun();
+void load_texture_gun(t_game *game);
+unsigned int	get_texture_pixel(t_texture *tex, int x, int y);
+void update_gun(t_game *game);
 #endif
 
 

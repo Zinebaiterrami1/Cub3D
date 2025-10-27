@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/25 14:32:07 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/27 21:25:50 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,17 +242,24 @@ int	key_hook(int keycode, void *param)
 		game->player.angle += ROT_SPEED;
 	game->player.dx = cos(game->player.angle) * SPEED;
 	game->player.dy = sin(game->player.angle) * SPEED;
+    // SHOOTING - Space key (32) or your preferred key
+    if (keycode == 32)  // Space bar for shooting
+    {
+        shoot(game);
+    }
 	if (!is_wall(game ,next_x, next_y))
 	{
 		game->player.x = next_x;
 		game->player.y = next_y;
 	}
+	update_gun(game);
 	clear_screen(&game->gfx);
 	// draw_map2d(game);
 	draw_player(game);
 	draw_fov_rays(game);
 	// render_3d(game);
 	render_3d_textured(game); // CHANGE THIS LINE
+	draw_gun(game);
 	// clear_screen(&game->gfx);
 	mlx_put_image_to_window(game->gfx.mlx, game->gfx.win, game->gfx.img, 0, 0);
 	return (0);
@@ -609,6 +616,8 @@ int	main(int ac, char **av)
 	game.map = map;
 	// Load textures
 	load_textures(&game);
+	game.gun = init_gun();
+    load_texture_gun(&game);
 	// Initialize player
 	game.player.x = TILE_SIZE * 1.5;
 	game.player.y = TILE_SIZE * 1.5;
@@ -619,7 +628,8 @@ int	main(int ac, char **av)
 	draw_sky_and_floor(&game);
 	draw_fov_rays(&game);
 	render_3d_textured(&game);
-// mlx_put_image_to_window(game->gfx.mlx, game->gfx.win, game->gfx.img, 0, 0);
+	// update_gun(&game);
+	draw_gun(&game);
 	mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 	// Hooks
 	mlx_hook(game.gfx.win, 2, 1L << 0, key_hook, &game);

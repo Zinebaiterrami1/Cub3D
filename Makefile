@@ -8,7 +8,7 @@ CFLAGS = -Wextra -Wall -Werror -fsanitize=address -g
 SOURCE = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 		parsing/parse_map.c \
 		utils/ft_split.c utils/ft_strncmp.c utils/ft_memcpy.c utils/ft_strjoin.c utils/ft_strlen.c utils/ft_strlcpy.c\
-		 cub3d.c raycasting/raycasting.c raycasting/texture.c raycasting/texture2.c\
+		 cub3d.c raycasting/raycasting.c raycasting/texture.c raycasting/texture2.c raycasting/animated_player.c\
 
 OBJECT = $(SOURCE:.c=.o)
 
