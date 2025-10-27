@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/17 11:35:31 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/27 21:59:58 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,51 +20,48 @@
 #include <fcntl.h>
 #include "get_next_line/get_next_line.h"
 #include <math.h>
+#include <stdlib.h>
+#include<limits.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>  // ✅ Ajout nécessaire
 
 
-// #define WIDTH 512        // largeur fenêtre
-// #define HEIGHT 512       // hauteur fenêtre
-// #define TILE_SIZE 64
-// #define PLAYER_SIZE 8
-// #define SPEED 5
-// #define ROT_SPEED 0.1
-// #define FOV (M_PI / 3) //60degree
-// #define NUM_RAYS 50
+#define COLLISION_RADIUS 2
+# define WIDTH 800
+# define HEIGHT 800
+# define TILE_SIZE 64
+# define MAP_WIDTH 8
+# define MAP_HEIGHT 8
+# define FOV (60 * (M_PI / 180))
+# define NUM_RAYS WIDTH
+# define SPEED 10
+# define ROT_SPEED 0.2
+# define PLAYER_SIZE 8
+# define NUM_TEXTURES 4
+# define TEX_WIDTH 64
+# define TEX_HEIGHT 64
+# define DIST_EDGE_MOUSE_WRAP 20
 
-#define WIDTH 800
-#define HEIGHT 800
-#define TILE_SIZE 64
-#define MAP_WIDTH 8
-#define MAP_HEIGHT 8
-#define FOV (60 * (M_PI / 180))
-#define NUM_RAYS WIDTH
-#define SPEED 5.0
-#define ROT_SPEED 0.05
-#define PLAYER_SIZE 8
-#define NUM_TEXTURES 4
-#define TEX_WIDTH 64
-#define TEX_HEIGHT 64
+
+#define KEY_W 119
+#define KEY_A 97
+#define KEY_S 115
+#define KEY_D 100
+#define KEY_ESC 65307
+#define KEY_LEFT 65361
+#define KEY_RIGHT 65363
 extern int map[MAP_HEIGHT][MAP_WIDTH];
-// typedef struct s_mlx
-// {
-//     void    *mlx;
-//     void    *win;
-//     void    *img;
-//     char    *img_addr;
-//     int     bpp;
-//     int     line_len;
-//     int     endian;
-// }   t_mlx;
+typedef struct s_keys
+{
+	int w;
+	int a;
+	int s;
+	int d;
+	int left;
+	int right;
+} t_keys;
 
-// typedef struct s_texture {
-//     void    *img;
-//     char    *addr;
-//     int     bpp;
-//     int     line_len;
-//     int     endian;
-//     int     width;
-//     int     height;
-// } t_texture;
 
 typedef struct s_player
 {
@@ -73,21 +70,11 @@ typedef struct s_player
     float   angle;
     float   dx;
     float   dy;
+    int     has_moved;
+    int plane_x;
+    int plane_y;
 }   t_player;
 
-// typedef struct s_game
-// {
-//     t_mlx       gfx;
-//     t_player    player;
-//     int key_w;
-//     int key_s;
-//     int key_a;
-//     int key_d;
-//     int mapX, mapY;  // current map square of the ray
-//     int stepX, stepY; // direction to step (+1 or -1)
-//     int side;         // 0 = vertical wall hit, 1 = horizontal wall hit
-//     float perpWallDist;
-// }   t_game;
 typedef struct s_textures {
     char *NO;
     char *SO;
@@ -95,6 +82,16 @@ typedef struct s_textures {
     char *WE;
     char *S;
 } t_textures;
+typedef struct s_rend_t
+{
+	float ray_angle ;
+	float dist ;
+	float corrected_dist ;
+	float proj_plane ;
+	int wall_height;
+	int wall_top ;
+	int wall_bottom ;
+} t_rend_t;
 
 typedef struct s_texture
 {
@@ -113,6 +110,19 @@ typedef struct s_texture
     float           step;
     float           tex_pos;
 }                   t_texture;
+
+typedef struct s_gun
+{
+    t_texture gun_texture[2];
+    int current_frame;  // 0 = idle, 1 = shooting
+    int shooting;       // flag: 1 when shooting animation active
+    int frame_timer;    // optional, for timing the shot animation
+    int pos_x;
+    int pos_y;
+    int gun_width;
+    int gun_height;
+}t_gun;
+
 
 typedef struct s_mlx {
     void *mlx;
@@ -145,8 +155,27 @@ typedef struct s_ray
     float ray_dir_y;    // Add this missing field
     float start_angle;
     float angle_step;
-    // float ray_angle;
+    float	corrected_dist;
+    float	proj_plane;
+    float deltaDistX;
+    float deltaDistY;
+    float sideDistX;
+    float sideDistY;
+    int stepX;
+    int stepY;
+    int hit;
+    float end_x;
+    float end_y;
 } t_ray;
+
+typedef struct s_map
+{
+    char    **grid;     // the 2D map itself
+    int     rows;       // number of rows
+    int     cols;       // number of columns (after squaring)
+    t_player player;    // player position & direction
+}   t_map;
+
 
 typedef struct s_game {
     t_mlx gfx;
@@ -156,8 +185,25 @@ typedef struct s_game {
     t_texture textures[NUM_TEXTURES];  // Use t_texture, not t_textures
     t_ray ray;
     t_texture tex_wall;
+    t_map map;
+        t_gun gun;
+
+    int floor_color;   // couleur F
+    int ceiling_color; // couleur C
+    t_keys keys;
+    
 } t_game;
 
+typedef struct s_cast_ray
+{
+    int mapX;
+    int mapY;
+    int side;
+    float perpWallDist;
+    float wallX;
+    float start_angle;
+    float angle_step;
+}t_cast_ray;
 // typedef struct s_ray
 // {
 //     float rayX;
@@ -176,13 +222,6 @@ typedef struct s_game {
 //     float angle;        // Ray angle
 // }t_ray;
 
-typedef struct s_map
-{
-    char    **grid;     // the 2D map itself
-    int     rows;       // number of rows
-    int     cols;       // number of columns (after squaring)
-    t_player player;    // player position & direction
-}   t_map;
 
 typedef struct s_color
 {
@@ -191,22 +230,32 @@ typedef struct s_color
     int b;
 }t_color;
 
-
-typedef struct s_config
+typedef struct s_draw_texture
 {
-    char    *no_tex;    // path to North texture
-    char    *so_tex;    // South
-    char    *we_tex;    // West
-    char    *ea_tex;    // East
-    t_map   map;        // the map info
-}   t_config;
+	int				screen_y;//
+    int             screen_x;//
+	unsigned int	color;//
+	float			wall_top;//
+	float			wall_bottom;//
+	int				tex_x;//
+	int				tex_num;//
+	float			step;//
+	float			tex_pos;//
+	int				tex_y;//
+    int		        wall_height;
+}t_draw_texture;
 
-
+unsigned int	get_texture_pixel(t_texture *tex, int x, int y);
+void shoot(t_game *game);
+t_gun init_gun();
+void load_texture_gun(t_game *game);
+void draw_gun(t_game *game);
 int             parse_map(char *file_name);
 int             count_line_map(int fd);
 char            *read_map(int fd);
 int             get_first_line_map(const char *line);
 char	        *ft_strjoinn(char *s1, char *s2);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
 void	        *ft_memcpy(void *dest, const void *src, size_t n);
 char            **get_map(char *line, int fd);
 int             find_big_line(char **map);
@@ -232,41 +281,24 @@ void load_textures(t_game *game);
 void draw_sky_and_floor(t_game *game);
 void my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 void clear_screen(t_mlx *mlx);
+void	draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray,
+		int wall_height);
+void print_error();
+int	ft_ft_strncmp(const char *s1, const char *s2, size_t n);
+char	**ft_split(char *s, char c);
+int parse_color(char *line, int *out_color);
+void check_texture_line(t_textures *tex, char *line);
+void check_path(char *path);
+int	key_hook(int keycode, void *param);
+int	mouse_move(int x, int y, t_game *win);
+int	close_window(void *param);
+void	draw_line_dda(t_mlx *mlx, float x0, float y0, float x1, float y1,
+		int color);
+        void	draw_minimap(t_game *game);
+int	extra_number(const char *a, int i, int num);
+void	free_split(char **tokens);
+char	*ft_strdup_trim(char *src);
+int	rotate_left_right(t_game *game, double rotspeed);
+int	is_wall(t_game *game, float x, float y);
+void update_gun(t_game *game);
 #endif
-
-
-/*
-
-
-| Theme       | Sky Color  | Floor Color |
-| :---------- | :--------- | :---------- |
-| ☀️ Daylight | `0x87CEEB` | `0x228B22`  |
-| 🌇 Sunset   | `0xFF9966` | `0x553311`  |
-| 🌙 Night    | `0x001133` | `0x111111`  |
-| 🧊 Ice cave | `0xCCEFFF` | `0x99CCFF`  |
-| 🔥 Hellish  | `0x660000` | `0x330000`  |
-
-*/
-
-
-
-    // for (int i = 0; i < NUM_RAYS; i++)
-    // {
-    //     float ray_angle = start_angle + i * angle_step;
-    //     float dist = game->ray_distances[i];
-    //     float corrected_dist = dist * cos(ray_angle - game->player.angle);
-        
-    //     // Calculate wall height
-    //     float proj_plane = (WIDTH / 2) / tan(FOV / 2);
-    //     int wall_height = (TILE_SIZE / corrected_dist) * proj_plane;
-        
-    //     // Create a temporary ray with the data we have
-    //     t_ray temp_ray = game->rays[i];
-    //     temp_ray.dist = dist;
-    //     temp_ray.angle = ray_angle;
-    //     temp_ray.rayDX = cos(ray_angle);
-    //     temp_ray.rayDY = sin(ray_angle);
-        
-    //     // Draw this slice of textured wall WITH CORRECTED DISTANCE
-    //     draw_textured_wall_slice(game, i, &temp_ray, wall_height);
-    // }

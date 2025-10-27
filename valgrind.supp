@@ -1,0 +1,8 @@
+# Ignore MLX leaks
+{
+   mlx
+   Memcheck:Leak
+   fun:mlx_init
+   fun:XOpenDisplay
+   ...
+}

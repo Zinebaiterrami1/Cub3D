@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:01:38 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/12 16:41:26 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/27 20:51:46 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,22 @@ static char	**ft_free(char **s)
 	return (NULL);
 }
 
-char	**ft_split(char const *s, char c)
+void	free_split(char **tokens)
+{
+	int	i;
+
+	i = 0;
+	if (!tokens)
+		return ;
+	while (tokens[i])
+	{
+		free(tokens[i]);
+		i++;
+	}
+	free(tokens);
+}
+
+char	**ft_split(char  *s, char c)
 {
 	char	**str;
 	int		i;
