@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/27 21:59:58 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/28 11:27:41 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 #define KEY_ESC 65307
 #define KEY_LEFT 65361
 #define KEY_RIGHT 65363
+#define KEY_SPC 32
 extern int map[MAP_HEIGHT][MAP_WIDTH];
 typedef struct s_keys
 {
@@ -121,6 +122,9 @@ typedef struct s_gun
     int pos_y;
     int gun_width;
     int gun_height;
+    int screen_x;
+    int screen_y;
+    unsigned color;
 }t_gun;
 
 
@@ -294,11 +298,14 @@ int	mouse_move(int x, int y, t_game *win);
 int	close_window(void *param);
 void	draw_line_dda(t_mlx *mlx, float x0, float y0, float x1, float y1,
 		int color);
-        void	draw_minimap(t_game *game);
+void	draw_minimap(t_game *game);
 int	extra_number(const char *a, int i, int num);
 void	free_split(char **tokens);
 char	*ft_strdup_trim(char *src);
 int	rotate_left_right(t_game *game, double rotspeed);
 int	is_wall(t_game *game, float x, float y);
 void update_gun(t_game *game);
+void calculate_wall_x(t_game *game, t_ray *ray, t_cast_ray *data);
+t_ray	init_ray(void);
+t_cast_ray	init_cast_ray(void);
 #endif
