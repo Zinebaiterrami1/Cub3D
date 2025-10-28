@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   texture2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:46:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/27 12:38:08 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/28 11:27:14 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-int	determine_texture(t_ray *ray)
-{
-	if (ray->side == 0)
-	{
-		if (ray->rayDX > 0)
-			return (0);
-		else
-			return (1);
-	}
-	else
-	{
-		if (ray->rayDY > 0)
-			return (3);
-		else
-			return (2);
-	}
-}
 
 void	render_3d_textured(t_game *game)
 {
@@ -88,7 +70,7 @@ void	init_ray_data(t_cast_ray *data, t_game *game, t_ray *ray)
 	}
 }
 
-void	performe_dda(t_ray *ray, t_cast_ray *data, t_game *game)
+void	calculation_dda(t_ray *ray, t_cast_ray *data, t_game *game)
 {
 	while (ray->hit == 0)
 	{
@@ -104,9 +86,20 @@ void	performe_dda(t_ray *ray, t_cast_ray *data, t_game *game)
 			data->mapY += ray->stepY;
 			data->side = 1;
 		}
+		if (data->mapX < 0 || data->mapX >= game->map.cols || data->mapY < 0
+			|| data->mapY >= game->map.rows)
+		{
+			ray->hit = 1;
+			break ;
+		}
 		if (game->map.grid[data->mapY][data->mapX] > '0')
 			ray->hit = 1;
 	}
+}
+
+void	performe_dda(t_ray *ray, t_cast_ray *data, t_game *game)
+{
+	calculation_dda(ray, data, game);
 	if (data->side == 0)
 		data->perpWallDist = (ray->sideDistX - ray->deltaDistX);
 	else
@@ -115,10 +108,11 @@ void	performe_dda(t_ray *ray, t_cast_ray *data, t_game *game)
 
 t_ray	cast_ray_textured(t_game *game, float ray_angle)
 {
-	t_ray ray = {0};
-	t_cast_ray data = {0};
+	t_ray		ray;
+	t_cast_ray	data;
 
-
+	ray = init_ray();
+	data = init_cast_ray();
 	ray.angle = ray_angle;
 	ray.rayDX = cos(ray.angle);
 	ray.rayDY = sin(ray.angle);
@@ -128,17 +122,11 @@ t_ray	cast_ray_textured(t_game *game, float ray_angle)
 	ray.deltaDistY = fabs(1 / ray.rayDY);
 	init_ray_data(&data, game, &ray);
 	performe_dda(&ray, &data, game);
-	if (data.side == 0)
-		data.wallX = (game->player.y / TILE_SIZE + data.perpWallDist
-				* ray.rayDY) - floor(game->player.y / TILE_SIZE
-				+ data.perpWallDist * ray.rayDY);
+	calculate_wall_x(game, &ray, &data);
+	if (data.mapX >= 0 && data.mapX < game->map.cols && data.mapY >= 0
+		&& data.mapY < game->map.rows)
+		ray.wall_type = game->map.grid[data.mapY][data.mapX];
 	else
-		data.wallX = (game->player.x / TILE_SIZE + data.perpWallDist
-				* ray.rayDX) - floor(game->player.x / TILE_SIZE
-				+ data.perpWallDist * ray.rayDX);
-	ray.wall_x = data.wallX;
-	ray.dist = data.perpWallDist * TILE_SIZE;
-	ray.side = data.side;
-	ray.wall_type = game->map.grid[data.mapY][data.mapX];
+		ray.wall_type = '1';
 	return (ray);
 }

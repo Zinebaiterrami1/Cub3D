@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:24:24 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/27 22:00:47 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/28 10:43:21 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	key_hook(int keycode, void *param)
 	if (keycode == 65363)
 		game->player.angle += ROT_SPEED;
 
-	 if (keycode == 32)  // Space bar for shooting
+	 if (keycode == KEY_SPC)  // Space bar for shooting
     {
         shoot(game);
     }
