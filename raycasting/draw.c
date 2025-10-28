@@ -6,7 +6,11 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:15:09 by fakoukou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/10/27 20:46:59 by fakoukou         ###   ########.fr       */
+=======
+/*   Updated: 2025/10/28 11:35:57 by fakoukou         ###   ########.fr       */
+>>>>>>> acf8336 (Sauvegarde avant pull)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +115,9 @@ void	draw_minimap(t_game *game)
 		}
 		y++;
 	}
-	px = 1 + (int)((game->player.x / TILE_SIZE) * tile);
-	py = 1 + (int)((game->player.y / TILE_SIZE) * tile);
-	size = 3;
+	px =  (int)((game->player.x / TILE_SIZE) * tile);
+	py =  (int)((game->player.y / TILE_SIZE) * tile);
+	size = 4;
 	dy = 0;
 	while (dy < size)
 	{
