@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   animated_player.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:56:56 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/28 10:44:04 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:39:47 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	load_texture_gun(t_game *game)
 	while (i < 2)
 	{
 		game->gun.gun_texture[i].img = mlx_xpm_file_to_image(game->gfx.mlx,
-				gun_path[i], &game->gun.gun_texture[i].width,
+				gun_path[i],
+				&game->gun.gun_texture[i].width,
 				&game->gun.gun_texture[i].height);
 		if (!game->gun.gun_texture[i].img)
 		{
@@ -62,7 +63,8 @@ void	draw_gun(t_game *game)
 {
 	t_texture	*current_texture;
 
-	int (x), (y);
+	int (x);
+	int (y);
 	x = 0;
 	y = 0;
 	current_texture = &game->gun.gun_texture[game->gun.current_frame];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/28 08:51:42 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/30 20:45:32 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ void	draw_fov_rays(t_game *game)
 		game->ray_distances[i] = ray.dist;
 		ray.end_x = game->player.x + cos(ray.ray_angle) * ray.dist;
 		ray.end_y = game->player.y + sin(ray.ray_angle) * ray.dist;
-		draw_line_dda(&game->gfx, game->player.x, game->player.y, ray.end_x,
-			ray.end_y, 0x00FF00);
+		draw_line_dda(game, 0x00FF00);
 		i++;
 	}
 }

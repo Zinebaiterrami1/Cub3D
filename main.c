@@ -6,11 +6,20 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/27 21:46:09 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:29:10 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+void	init_keys(t_game *game)
+{
+	game->keys.w = 0;
+	game->keys.s = 0;
+	game->keys.a = 0;
+	game->keys.d = 0;
+	game->keys.left = 0;
+	game->keys.right = 0;
+}
 
 int	main(int ac, char **av)
 {
@@ -24,7 +33,7 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		print_error();
-	if (ft_ft_strncmp(av[1] + (ft_strlen(av[1] - 4)), ".cub", 4))
+	if (ft_strncmp(av[1] + (ft_strlen(av[1] - 4)), ".cub", 4))
 		print_error();
 	fd = open("map.cub", O_RDONLY);
 	if (fd < 0)
@@ -109,11 +118,7 @@ int	main(int ac, char **av)
 		printf("❌ Texture WE manquante\n");
 		error = 1;
 	}
-	free(tex.NO);
-	free(tex.SO);
-	free(tex.EA);
-	free(tex.WE);
-	free(tex.S);
+
 	if (error)
 	{
 		printf("\n❌ La map contient des erreurs.\n");
@@ -123,6 +128,7 @@ int	main(int ac, char **av)
 	{
 		printf("\n✅ Map valide,toutes les textures et couleurs sont correctes.\n");
 	}
+	init_keys(&game);
 
 	game.gfx.mlx = mlx_init();
 	game.gfx.win = mlx_new_window(game.gfx.mlx, WIDTH, HEIGHT, "Cub3D");
@@ -130,7 +136,12 @@ int	main(int ac, char **av)
 	game.gfx.addr = mlx_get_data_addr(game.gfx.img, &game.gfx.bpp,
 			&game.gfx.line_len, &game.gfx.endian);
 	game.map = map;
-	load_textures(&game);
+	load_textures(&game , &tex);
+	free(tex.NO);
+	free(tex.SO);
+	free(tex.EA);
+	free(tex.WE);
+	free(tex.S);
 	game.gun = init_gun();
     load_texture_gun(&game);
 	game.player.x = TILE_SIZE * 1.5;
@@ -144,9 +155,10 @@ int	main(int ac, char **av)
 		draw_gun(&game);
 
 	mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
-	mlx_hook(game.gfx.win, 2, 1L << 0, key_hook, &game);
-	mlx_hook(game.gfx.win, 6, 1L << 6, mouse_move, &game);
+	mlx_hook(game.gfx.win, 2, 1L << 0, key_press, &game);     // KeyPress
+	mlx_hook(game.gfx.win, 3, 1L << 1, key_release, &game);   // KeyRelease
 	mlx_hook(game.gfx.win, 17, 0, close_window, NULL);
+		mlx_loop_hook(game.gfx.mlx, game_loop, &game);            // main loop	mlx_hook(game.gfx.win, 6, 1L << 6, mouse_move, &game);
 	mlx_loop(game.gfx.mlx);
 	free(map.grid);
 	return (0);

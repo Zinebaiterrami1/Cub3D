@@ -6,11 +6,12 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:19:12 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/27 20:31:18 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/30 12:55:46 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
 void	check_texture_line(t_textures *tex, char *line)
 {
 	int	i;
@@ -18,7 +19,7 @@ void	check_texture_line(t_textures *tex, char *line)
 	i = 0;
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
-	if (ft_ft_strncmp(line + i, "NO ", 3) == 0)
+	if (ft_strncmp(line + i, "NO ", 3) == 0)
 		tex->NO = ft_strdup_trim(line + i + 3);
 	else if (ft_strncmp(line + i, "SO ", 3) == 0)
 		tex->SO = ft_strdup_trim(line + i + 3);
@@ -77,21 +78,6 @@ void	check_path(char *path)
 	printf("✅ Texture trouvée : %s\n", path);
 }
 
-int	ft_ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		if (s1[i] == '\0' || s2[i] == '\0')
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return (0);
-}
 
 
 

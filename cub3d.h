@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/28 11:27:41 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:31:49 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include "mlx.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <X11/keysym.h>
+#include <X11/X.h>
+
 #include <stdlib.h>
 #include <fcntl.h>
 #include "get_next_line/get_next_line.h"
@@ -24,19 +27,20 @@
 #include<limits.h>
 #include <stdio.h>
 #include <unistd.h>
+// #include<mlx.h>
 #include <string.h>  // ✅ Ajout nécessaire
 
 
 #define COLLISION_RADIUS 2
-# define WIDTH 800
-# define HEIGHT 800
+# define WIDTH 1000
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define MAP_WIDTH 8
 # define MAP_HEIGHT 8
 # define FOV (60 * (M_PI / 180))
 # define NUM_RAYS WIDTH
-# define SPEED 10
-# define ROT_SPEED 0.2
+# define SPEED 5
+# define ROT_SPEED 0.05
 # define PLAYER_SIZE 8
 # define NUM_TEXTURES 4
 # define TEX_WIDTH 64
@@ -55,13 +59,14 @@
 extern int map[MAP_HEIGHT][MAP_WIDTH];
 typedef struct s_keys
 {
-	int w;
-	int a;
-	int s;
-	int d;
-	int left;
-	int right;
-} t_keys;
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	left;
+	int	right;
+	int	space;
+}	t_keys;
 
 
 typedef struct s_player
@@ -74,6 +79,15 @@ typedef struct s_player
     int     has_moved;
     int plane_x;
     int plane_y;
+       double view_angle;
+    int move_dir;
+    int rot_dir;
+    double move_speed;
+    double rot_speed;
+    double right_x;
+    int strafe_dir;
+    double left_y;
+    // int		strafe_dir; 
 }   t_player;
 
 typedef struct s_textures {
@@ -179,7 +193,20 @@ typedef struct s_map
     int     cols;       // number of columns (after squaring)
     t_player player;    // player position & direction
 }   t_map;
-
+typedef struct s_draw
+{
+	int	tile;
+	int	color;
+	int	yy;
+	int	xx;
+	int	px;
+	int	py;
+	int	size;
+	int	x;
+	int	y;
+	int	dy;
+	int	dx;
+}t_draw;
 
 typedef struct s_game {
     t_mlx gfx;
@@ -190,11 +217,17 @@ typedef struct s_game {
     t_ray ray;
     t_texture tex_wall;
     t_map map;
-        t_gun gun;
-
+    t_keys		keys;   // <--- Ajoute ça ici
+    t_gun gun;
+    t_draw draw;
     int floor_color;   // couleur F
     int ceiling_color; // couleur C
-    t_keys keys;
+    // t_keys keys;
+	float	x_inc;
+	float	y_inc;
+	float	dx;
+	float	dy;
+    t_textures	tex;
     
 } t_game;
 
@@ -281,14 +314,14 @@ void            render_3d_textured(t_game *game);
 void            draw_fov_rays(t_game *game);
 t_ray           cast_ray_textured(t_game *game, float ray_angle);
 int             determine_texture(t_ray *ray);
-void load_textures(t_game *game);
+// void load_textures(t_game *game);
 void draw_sky_and_floor(t_game *game);
 void my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 void clear_screen(t_mlx *mlx);
 void	draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray,
 		int wall_height);
 void print_error();
-int	ft_ft_strncmp(const char *s1, const char *s2, size_t n);
+// int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char *s, char c);
 int parse_color(char *line, int *out_color);
 void check_texture_line(t_textures *tex, char *line);
@@ -296,8 +329,8 @@ void check_path(char *path);
 int	key_hook(int keycode, void *param);
 int	mouse_move(int x, int y, t_game *win);
 int	close_window(void *param);
-void	draw_line_dda(t_mlx *mlx, float x0, float y0, float x1, float y1,
-		int color);
+// void	draw_line_dda(t_mlx *mlx, float x0, float y0, float x1, float y1,
+// 		int color);
 void	draw_minimap(t_game *game);
 int	extra_number(const char *a, int i, int num);
 void	free_split(char **tokens);
@@ -308,4 +341,19 @@ void update_gun(t_game *game);
 void calculate_wall_x(t_game *game, t_ray *ray, t_cast_ray *data);
 t_ray	init_ray(void);
 t_cast_ray	init_cast_ray(void);
+void	draw_line_dda(t_game *game, int color);
+void	wrap_mouse_position(int x, int y, t_game *game);
+int	extra_number(const char *a, int i, int num);
+int	rotate_left_right(t_game *game, double rotspeed);
+int	rotate_player(t_game *game, int rotdir);
+int	key_press(int keycode, t_game *game);
+int	key_release(int keycode, t_game *game);
+int	loop_hook(t_game *game);
+void handle_movement(t_game *game);
+int    press_key(int keysem, t_game *game);
+int press_x(t_game *game);
+int moves_loop(t_game *data);
+int release_key(int keysem, t_game *data);
+int	game_loop(t_game *game);
+void load_textures(t_game *game , t_textures *tex);
 #endif

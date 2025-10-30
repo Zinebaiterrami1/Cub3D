@@ -3,105 +3,109 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:24:24 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/28 10:43:21 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:45:57 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+#define KEY_W 119
+#define KEY_S 115
+#define KEY_A 97
+#define KEY_D 100
+#define KEY_LEFT 65361
+#define KEY_RIGHT 65363
+#define KEY_ESC 65307
+#define KEY_SPC 32
 
-void	wrap_mouse_position(int x, int y, t_game *game)
+int	key_press(int keycode, t_game *game)
 {
-	if (x > WIDTH - DIST_EDGE_MOUSE_WRAP)
+	if (keycode == KEY_ESC)
+		exit(0);
+	if (keycode == KEY_W)
+		game->keys.w = 1;
+	if (keycode == KEY_S)
+		game->keys.s = 1;
+	if (keycode == KEY_A)
+		game->keys.a = 1;
+	if (keycode == KEY_D)
+		game->keys.d = 1;
+	if (keycode == KEY_LEFT)
+		game->keys.left = 1;
+	if (keycode == KEY_RIGHT)
+		game->keys.right = 1;
+	if (keycode == KEY_SPC)
+		shoot(game);
+	return (0);
+}
+
+int	key_release(int keycode, t_game *game)
+{
+	if (keycode == KEY_W)
+		game->keys.w = 0;
+	if (keycode == KEY_S)
+		game->keys.s = 0;
+	if (keycode == KEY_A)
+		game->keys.a = 0;
+	if (keycode == KEY_D)
+		game->keys.d = 0;
+	if (keycode == KEY_LEFT)
+		game->keys.left = 0;
+	if (keycode == KEY_RIGHT)
+		game->keys.right = 0;
+	return (0);
+}
+
+static void	move_player(t_game *game, float *next_x, float *next_y)
+{
+	if (game->keys.w)
 	{
-		x = DIST_EDGE_MOUSE_WRAP;
-		mlx_mouse_move(game->gfx.mlx, game->gfx.win, x, y);
+		*next_x += game->player.dx;
+		*next_y += game->player.dy;
 	}
-	if (x < DIST_EDGE_MOUSE_WRAP)
+	if (game->keys.s)
 	{
-		x = WIDTH - DIST_EDGE_MOUSE_WRAP;
-		mlx_mouse_move(game->gfx.mlx, game->gfx.win, x, y);
+		*next_x -= game->player.dx;
+		*next_y -= game->player.dy;
+	}
+	if (game->keys.a)
+	{
+		*next_x += game->player.dy;
+		*next_y -= game->player.dx;
+	}
+	if (game->keys.d)
+	{
+		*next_x -= game->player.dy;
+		*next_y += game->player.dx;
 	}
 }
 
-int	rotate_left_right(t_game *game, double rotspeed)
+void	handle_keys(t_game *game)
 {
-	t_player	*p;
-	double		tmp_x;
-
-	p = &game->player;
-	tmp_x = p->dx;
-	p->dx = p->dx * cos(rotspeed) - p->dy * sin(rotspeed);
-	p->dy = tmp_x * sin(rotspeed) + p->dy * cos(rotspeed);
-	tmp_x = p->plane_x;
-	p->plane_x = p->plane_x * cos(rotspeed) - p->plane_y * sin(rotspeed);
-	p->plane_y = tmp_x * sin(rotspeed) + p->plane_y * cos(rotspeed);
-	return (1);
-} 
-int	is_wall(t_game *game, float x, float y)
-{
-	int		mx;
-	int		my;
-	char	c;
-
-	mx = (int)(x / TILE_SIZE);
-	my = (int)(y / TILE_SIZE);
-	if (mx < 0 || mx >= game->map.cols || my < 0 || my >= game->map.rows)
-		return (1);
-	c = game->map.grid[my][mx];
-	return (c != '0');
-}
-int	key_hook(int keycode, void *param)
-{
-	t_game	*game;
 	float	next_x;
 	float	next_y;
 
-	game = (t_game *)param;
 	next_x = game->player.x;
 	next_y = game->player.y;
-	if (keycode == 65307)
-		exit(0);
-	if (keycode == 119)
-	{
-		next_x += game->player.dx;
-		next_y += game->player.dy;
-	}
-	if (keycode == 115)
-	{
-		next_x -= game->player.dx;
-		next_y -= game->player.dy;
-	}
-	if (keycode == 100)
-	{
-		next_x += -game->player.dy;
-		next_y += game->player.dx;
-	}
-	if (keycode == 97)
-	{
-		next_x += game->player.dy;
-		next_y += -game->player.dx;
-	}
-	if (keycode == 65361)
+	if (game->keys.left)
 		game->player.angle -= ROT_SPEED;
-	if (keycode == 65363)
+	if (game->keys.right)
 		game->player.angle += ROT_SPEED;
-
-	 if (keycode == KEY_SPC)  // Space bar for shooting
-    {
-        shoot(game);
-    }
 	game->player.dx = cos(game->player.angle) * SPEED;
 	game->player.dy = sin(game->player.angle) * SPEED;
-	if (!is_wall(game, next_x + (game->player.dx * COLLISION_RADIUS),
-			game->player.y))
+	move_player(game, &next_x, &next_y);
+	if (!is_wall(game, next_x, game->player.y))
 		game->player.x = next_x;
-	if (!is_wall(game, game->player.x, next_y + (game->player.dy
-				* COLLISION_RADIUS)))
+	if (!is_wall(game, game->player.x, next_y))
 		game->player.y = next_y;
+}
+
+int	game_loop(t_game *game)
+{
+	handle_keys(game);
 	update_gun(game);
 	clear_screen(&game->gfx);
 	draw_fov_rays(game);
@@ -111,60 +115,3 @@ int	key_hook(int keycode, void *param)
 	mlx_put_image_to_window(game->gfx.mlx, game->gfx.win, game->gfx.img, 0, 0);
 	return (0);
 }
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while (s1[i] && s2[i])
-	{
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		i++;
-	}
-	return (s1[i] - s2[i]);
-}
-int	extra_number(const char *a, int i, int num)
-{
-	while (a[i])
-	{
-		if (a[i] == 32 || (a[i] >= 9 && a[i] <= 13))
-			i++;
-		else
-			return (1);
-	}
-	return (num);
-}
-
-
-int	rotate_player(t_game *game, int rotdir)
-{
-	int		moved;
-	double	rotspeed;
-
-	moved = 0;
-	rotspeed = ROT_SPEED * rotdir;
-	moved += rotate_left_right(game, rotspeed);
-	return (moved);
-}
-
-void	clear_screen(t_mlx *mlx)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			my_mlx_pixel_put(mlx, x, y, 0x000000);
-			x++;
-		}
-		y++;
-	}
-}
-
-

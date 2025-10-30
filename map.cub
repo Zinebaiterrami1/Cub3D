@@ -1,11 +1,11 @@
-NO  ./textures/redbrick.xpm
-SO  ./textures/colorstone.xpm
-WE  ./textures/eagle.xpm
-EA  ./textures/purplestone.xpm
+NO  ./textures/1.xpm
+SO  ./textures/1.xpm
+WE  ./textures/1.xpm
+EA  ./textures/1.xpm
 
 
-F 41,41,41
 C 1, 4, 6
+F 1, 4, 6
 
 
 

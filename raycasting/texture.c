@@ -3,29 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 14:47:11 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/28 10:46:11 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:43:13 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	load_textures(t_game *game)
+void	load_textures(t_game *game, t_textures *tex)
 {
 	char	*texture_files[NUM_TEXTURES];
 	int		i;
 
 	i = 0;
-	texture_files[0] = "textures/redbrick.xpm";
-	texture_files[1] = "textures/colorstone.xpm";
-	texture_files[2] = "textures/eagle.xpm";
-	texture_files[3] = "textures/purplestone.xpm";
+	texture_files[0] = tex->NO;
+	texture_files[1] = tex->SO;
+	texture_files[2] = tex->EA;
+	texture_files[3] = tex->WE;
 	while (i < NUM_TEXTURES)
 	{
 		game->textures[i].img = mlx_xpm_file_to_image(game->gfx.mlx,
-				texture_files[i], &game->textures[i].width,
+				texture_files[i],
+				&game->textures[i].width,
 				&game->textures[i].height);
 		if (!game->textures[i].img)
 		{
@@ -33,7 +34,8 @@ void	load_textures(t_game *game)
 			exit(EXIT_FAILURE);
 		}
 		game->textures[i].addr = mlx_get_data_addr(game->textures[i].img,
-				&game->textures[i].bpp, &game->textures[i].line_len,
+				&game->textures[i].bpp,
+				&game->textures[i].line_len,
 				&game->textures[i].endian);
 		i++;
 	}
@@ -57,7 +59,8 @@ unsigned int	get_texture_pixel(t_texture *tex, int x, int y)
 
 void	draw_sky_and_floor(t_game *game)
 {
-	int (y), (x);
+	int (y);
+	int (x);
 	x = 0;
 	y = 0;
 	while (y < HEIGHT / 2)
@@ -65,7 +68,7 @@ void	draw_sky_and_floor(t_game *game)
 		x = 0;
 		while (x < WIDTH)
 		{
-			my_mlx_pixel_put(&game->gfx, x, y, 0x000000);
+			my_mlx_pixel_put(&game->gfx, x, y, game->floor_color);
 			x++;
 		}
 		y++;
@@ -76,7 +79,7 @@ void	draw_sky_and_floor(t_game *game)
 		x = 0;
 		while (x < WIDTH)
 		{
-			my_mlx_pixel_put(&game->gfx, x, y, 0x303030);
+			my_mlx_pixel_put(&game->gfx, x, y, game->ceiling_color);
 			x++;
 		}
 		y++;
