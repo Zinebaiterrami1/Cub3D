@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/31 10:30:06 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 11:49:40 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,14 @@ double	ray_correct(double ray_angle)
 }
 
 
-// int mouse_move(int x, int y, t_game *game)
-// {
-//     double dx; 
-//     (void)y;
+int mouse_move(int x, int y, t_game *game)
+{
+    double dx; 
+    (void)y;
 
-//     dx = x - WIDTH / 2; 
-//     game->player.angle += dx * 0.009;
+    dx = x - WIDTH / 2; 
+    game->player.angle += dx * 0.002;
 
-//     mlx_mouse_move(game->gfx.mlx, game->gfx.win, WIDTH / 2, HEIGHT / 2);
-//     return (0); 
-// }
+    mlx_mouse_move(game->gfx.mlx, game->gfx.win, WIDTH / 2, HEIGHT / 2);
+    return (0); 
+}

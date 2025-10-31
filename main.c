@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/31 11:29:45 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 11:49:12 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int	main(int ac, char **av)
 	mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 	mlx_hook(game.gfx.win, 2, 1L << 0, key_press, &game);     // KeyPress
 	mlx_hook(game.gfx.win, 3, 1L << 1, key_release, &game);   // KeyRelease
-		// mlx_hook(game.gfx.win, 6, 1L << 6, mouse_move, &game);
+	mlx_hook(game.gfx.win, 6, 1L << 6, mouse_move, &game);
 
 	mlx_hook(game.gfx.win, 17, 0, close_window, NULL);
 
