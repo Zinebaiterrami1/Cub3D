@@ -1,13 +1,12 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 18:57:00 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/12 15:38:13 by zait-err         ###   ########.fr       */
+/*   Created: 2025/10/31 15:54:30 by fakoukou          #+#    #+#             */
+/*   Updated: 2025/10/31 15:55:11 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +26,8 @@ char	*ft_strjoinn(char *s1, char *s2)
 	{
 		return (ft_strdup(s2));
 	}
-    printf("s1: %s\n", s1);
-    printf("s2: %s\n", s2);
+	printf("s1: %s\n", s1);
+	printf("s2: %s\n", s2);
 	new_str = (char *)malloc((sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)
 					+ 1)));
 	if (!new_str)
@@ -39,6 +38,5 @@ char	*ft_strjoinn(char *s1, char *s2)
 	while (s2[i])
 		new_str[j++] = s2[i++];
 	new_str[j] = '\0';
-	// free(s1);
 	return (new_str);
 }

@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 14:47:11 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/30 21:43:13 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:11:12 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	load_textures(t_game *game, t_textures *tex)
 	int		i;
 
 	i = 0;
-	texture_files[0] = tex->NO;
-	texture_files[1] = tex->SO;
-	texture_files[2] = tex->EA;
-	texture_files[3] = tex->WE;
+	texture_files[0] = tex->no;
+	texture_files[1] = tex->so;
+	texture_files[2] = tex->ea;
+	texture_files[3] = tex->we;
 	while (i < NUM_TEXTURES)
 	{
 		game->textures[i].img = mlx_xpm_file_to_image(game->gfx.mlx,

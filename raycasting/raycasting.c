@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/31 11:49:40 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:58:14 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 void	draw_fov_rays(t_game *game)
 {
+	float	fov_radians;
 	t_ray		ray;
 	t_cast_ray	data;
 	int			i;
 
-	data.start_angle = game->player.angle - FOV / 2;
-	data.angle_step = FOV / NUM_RAYS;
+	fov_radians = FOV_DEGREES * (M_PI / 180.0f);
+	data.start_angle = game->player.angle - fov_radians / 2;
+	data.angle_step = fov_radians / NUM_RAYS;
 	i = 0;
 	while (i < NUM_RAYS)
 	{
@@ -56,18 +58,20 @@ float	cast_ray(t_game *game, float ray_angle)
 
 void	render_3d(t_game *game)
 {
-	int			i;
+	float	fov_radians;
 	t_rend_t	rend;
+	int			i;
 
+	fov_radians = FOV_DEGREES * (M_PI / 180.0f);
 	i = 0;
 	while (i < NUM_RAYS)
 	{
-		rend.ray_angle = (game->player.angle - (FOV / 2.0f)) + ((float)i
-				/ NUM_RAYS) * FOV;
+		rend.ray_angle = (game->player.angle - (fov_radians / 2.0f)) + ((float)i
+				/ NUM_RAYS) * fov_radians;
 		rend.dist = game->ray_distances[i];
 		rend.corrected_dist = rend.dist * cos(rend.ray_angle
 				- game->player.angle);
-		rend.proj_plane = (WIDTH / 2) / tan(FOV / 2);
+		rend.proj_plane = (WIDTH / 2) / tan(fov_radians / 2);
 		rend.wall_height = (TILE_SIZE / rend.corrected_dist) * rend.proj_plane;
 		rend.wall_top = (HEIGHT / 2) - (rend.wall_height / 2);
 		rend.wall_bottom = (HEIGHT / 2) + (rend.wall_height / 2);
@@ -79,24 +83,13 @@ void	render_3d(t_game *game)
 	}
 }
 
-double	ray_correct(double ray_angle)
+int	mouse_move(int x, int y, t_game *game)
 {
-	if (ray_angle < 0)
-		ray_angle = ray_angle + (2 * M_PI);
-	if (ray_angle >= (2 * M_PI))
-		ray_angle = ray_angle - (2 * M_PI);
-	return (ray_angle);
-}
+	double	dx;
 
-
-int mouse_move(int x, int y, t_game *game)
-{
-    double dx; 
-    (void)y;
-
-    dx = x - WIDTH / 2; 
-    game->player.angle += dx * 0.002;
-
-    mlx_mouse_move(game->gfx.mlx, game->gfx.win, WIDTH / 2, HEIGHT / 2);
-    return (0); 
+	(void)y;
+	dx = x - WIDTH / 2;
+	game->player.angle += dx * 0.002;
+	mlx_mouse_move(game->gfx.mlx, game->gfx.win, WIDTH / 2, HEIGHT / 2);
+	return (0);
 }

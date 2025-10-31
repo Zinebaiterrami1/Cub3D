@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:38:10 by zait-err          #+#    #+#             */
-/*   Updated: 2025/09/12 18:54:13 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:55:28 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ size_t	ft_strlenn(const char *str)
 {
 	size_t	i;
 
-    if(!str)
+	if (!str)
 	{
-        return (-1);
-
+		return (-1);
 	}
 	i = 0;
 	while (str[i] != '\0')

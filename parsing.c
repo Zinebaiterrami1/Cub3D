@@ -6,27 +6,26 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:19:12 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/30 12:55:46 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:14:04 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_texture_line(t_textures *tex, char *line)
+void check_texture_line(t_textures *tex, char *line)
 {
-	int	i;
+    int i = 0;
+    while (line[i] == ' ' || line[i] == '\t')
+        i++;
 
-	i = 0;
-	while (line[i] == ' ' || line[i] == '\t')
-		i++;
-	if (ft_strncmp(line + i, "NO ", 3) == 0)
-		tex->NO = ft_strdup_trim(line + i + 3);
-	else if (ft_strncmp(line + i, "SO ", 3) == 0)
-		tex->SO = ft_strdup_trim(line + i + 3);
-	else if (ft_strncmp(line + i, "EA ", 3) == 0)
-		tex->EA = ft_strdup_trim(line + i + 3);
-	else if (ft_strncmp(line + i, "WE ", 3) == 0)
-		tex->WE = ft_strdup_trim(line + i + 3);
+    if (ft_strncmp(line + i, "NO ", 3) == 0)
+        tex->no = ft_strdup_trim(line + i + 3);
+    else if (ft_strncmp(line + i, "SO ", 3) == 0)
+        tex->so = ft_strdup_trim(line + i + 3);
+    else if (ft_strncmp(line + i, "EA ", 3) == 0)
+        tex->ea = ft_strdup_trim(line + i + 3);
+    else if (ft_strncmp(line + i, "WE ", 3) == 0)
+        tex->we = ft_strdup_trim(line + i + 3);
 }
 
 void	print_error(void)
@@ -75,7 +74,6 @@ void	check_path(char *path)
 		exit(1);
 	}
 	close(fd);
-	printf("✅ Texture trouvée : %s\n", path);
 }
 
 

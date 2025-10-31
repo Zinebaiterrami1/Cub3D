@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/31 11:42:17 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 14:15:36 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,8 +308,6 @@ void set_player_dir(t_player *p, char c)
         p->dy = 0;
         p->angle = M_PI;          // 180 degrees
     }
-    printf("pos: %c\n", c);
-    printf("angle: %f\n", p->angle);
 }
 int check_player_pos(t_map *map)
 {
@@ -339,8 +337,8 @@ int check_player_pos(t_map *map)
             }
             x++;
     }
-    printf("Found player at grid[%d][%d] -> x: %f, y: %f\n", 
-           x, y, map->player.x, map->player.y);
+    // printf("Found player at grid[%d][%d] -> x: %f, y: %f\n", 
+        //    x, y, map->player.x, map->player.y);
     if(count_pos != 1)
     {
         return (printf("Invalid map\nmust be only one player position\n"), 0);
@@ -414,7 +412,6 @@ void valid_map(t_map *map)
     if (!check_inside_2(*map))  return;
     if (!check_player_pos(map))    return;
     if (!check_space_map(*map)) return;
-    printf("✅ Map is valid!\n");
 }
 
 void print_valid()
