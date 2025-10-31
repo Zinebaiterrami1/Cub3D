@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 09:59:23 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/30 21:44:02 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 11:43:22 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ static void	draw_map(t_game *game)
 				draw_tile(game, 0x000000);
 			else if (game->map.grid[game->draw.y][game->draw.x] == '0')
 				draw_tile(game, 0xDDDDDD);
+			else
+								draw_tile(game, 0xDDFFFD);
+
 			game->draw.x++;
 		}
 		game->draw.y++;

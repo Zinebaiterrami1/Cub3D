@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/31 11:16:19 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 11:29:45 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,16 +144,13 @@ int	main(int ac, char **av)
 	free(tex.S);
 	game.gun = init_gun();
     load_texture_gun(&game);
-printf("main player x: %f y: %f\n: --------------", map.player.x, map.player.y);
+// printf("main player x: %d y: %d\n: --------------", map.player.x, map.player.y);
+//   printf("main player x: %d y: %d\n: --------------", map.player.x, map.player.y);
     game.player.x = (map.player.y + 0.5) * TILE_SIZE;
     game.player.y = (map.player.x + 0.5) * TILE_SIZE;
     game.player.angle = map.player.angle;
     game.player.dx = cos(game.player.angle) * SPEED;
     game.player.dy = sin(game.player.angle) * SPEED;
-	draw_sky_and_floor(&game);
-	draw_fov_rays(&game);
-	render_3d_textured(&game);
-		draw_gun(&game);
 
 	mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 	mlx_hook(game.gfx.win, 2, 1L << 0, key_press, &game);     // KeyPress

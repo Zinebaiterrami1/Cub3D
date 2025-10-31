@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/31 11:15:47 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 11:42:17 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,6 +332,7 @@ int check_player_pos(t_map *map)
                     map->player.x = x;
                     map->player.y = y;
                     set_player_dir(&map->player, map->grid[x][y]);
+                    map->grid[x][y] = '0';
                     count_pos++;
                 }
                 y++;
