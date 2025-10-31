@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/30 21:31:49 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 11:15:56 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define MAP_HEIGHT 8
 # define FOV (60 * (M_PI / 180))
 # define NUM_RAYS WIDTH
-# define SPEED 5
+# define SPEED 8
 # define ROT_SPEED 0.05
 # define PLAYER_SIZE 8
 # define NUM_TEXTURES 4
@@ -299,13 +299,13 @@ int             find_big_line(char **map);
 char            **square_map(char **map, int len);
 size_t	        ft_strlcpy(char *dest, const char *src, size_t dstsize);
 void            trim_newline(char **map);
-void            valid_map(t_map map);
+void            valid_map(t_map *map);
 int             check_top_border(t_map map);
 int             check_bottom_border(t_map map);
 int             check_left_right_border(t_map map);
 int             check_inside(t_map map);
 int             check_inside_2(t_map map);
-int             check_player_pos(t_map map);
+// int             check_player_pos(t_map map);
 int             check_space_map(t_map map);
 void            print_valid();
 t_map           init_map();
@@ -327,7 +327,7 @@ int parse_color(char *line, int *out_color);
 void check_texture_line(t_textures *tex, char *line);
 void check_path(char *path);
 int	key_hook(int keycode, void *param);
-int	mouse_move(int x, int y, t_game *win);
+// int	mouse_move(int x, int y, t_game *win);
 int	close_window(void *param);
 // void	draw_line_dda(t_mlx *mlx, float x0, float y0, float x1, float y1,
 // 		int color);
@@ -356,4 +356,6 @@ int moves_loop(t_game *data);
 int release_key(int keysem, t_game *data);
 int	game_loop(t_game *game);
 void load_textures(t_game *game , t_textures *tex);
+int mouse_move(int x, int y, t_game *game);
+int check_player_pos(t_map *map);
 #endif

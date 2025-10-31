@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/30 21:29:10 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 11:16:19 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	main(int ac, char **av)
 		printf("[%s], len: %d\n", map.grid[i], (int)ft_strlen(map.grid[i]));
 		i++;
 	}
-	valid_map(map);
+	valid_map(&map);
 	if (tex.NO)
 		check_path(tex.NO);
 	else
@@ -144,11 +144,12 @@ int	main(int ac, char **av)
 	free(tex.S);
 	game.gun = init_gun();
     load_texture_gun(&game);
-	game.player.x = TILE_SIZE * 1.5;
-	game.player.y = TILE_SIZE * 1.5;
-	game.player.angle = 0;
-	game.player.dx = cos(game.player.angle) * SPEED;
-	game.player.dy = sin(game.player.angle) * SPEED;
+printf("main player x: %f y: %f\n: --------------", map.player.x, map.player.y);
+    game.player.x = (map.player.y + 0.5) * TILE_SIZE;
+    game.player.y = (map.player.x + 0.5) * TILE_SIZE;
+    game.player.angle = map.player.angle;
+    game.player.dx = cos(game.player.angle) * SPEED;
+    game.player.dy = sin(game.player.angle) * SPEED;
 	draw_sky_and_floor(&game);
 	draw_fov_rays(&game);
 	render_3d_textured(&game);
@@ -157,8 +158,11 @@ int	main(int ac, char **av)
 	mlx_put_image_to_window(game.gfx.mlx, game.gfx.win, game.gfx.img, 0, 0);
 	mlx_hook(game.gfx.win, 2, 1L << 0, key_press, &game);     // KeyPress
 	mlx_hook(game.gfx.win, 3, 1L << 1, key_release, &game);   // KeyRelease
+		// mlx_hook(game.gfx.win, 6, 1L << 6, mouse_move, &game);
+
 	mlx_hook(game.gfx.win, 17, 0, close_window, NULL);
-		mlx_loop_hook(game.gfx.mlx, game_loop, &game);            // main loop	mlx_hook(game.gfx.win, 6, 1L << 6, mouse_move, &game);
+
+	mlx_loop_hook(game.gfx.mlx, game_loop, &game);            // main loop	mlx_hook(game.gfx.win, 6, 1L << 6, mouse_move, &game);
 	mlx_loop(game.gfx.mlx);
 	free(map.grid);
 	return (0);

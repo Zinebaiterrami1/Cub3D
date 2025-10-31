@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 12:56:47 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/30 12:56:48 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 11:00:19 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ t_map init_map()
     map.player.y = 0;
     map.player.dx = 0;
     map.player.dy = -1;
-    map.player.angle = 1.5 * 3.14; // facing up
+    map.player.angle = 1.5 * 3.14;
     return (map);
 }

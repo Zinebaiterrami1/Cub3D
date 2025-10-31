@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/02 12:54:50 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/10/31 11:15:47 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,31 +282,36 @@ int check_inside(t_map map)
     return (1);
 }
 
-static void set_player_dir(t_player *p, char c)
+void set_player_dir(t_player *p, char c)
 {
-    if (c == 'N')
+    if (c == 'N')  // North - facing up (negative Y in screen coords)
     {
-        p->dx = -1; p->dy = 0;   // facing up (negative X axis)
-        p->angle = 0; p->angle = 0.66; // camera plane (perpendicular)
+        p->dx = 0;
+        p->dy = -1;
+        p->angle = 3 * M_PI / 2;  // 270 degrees
     }
-    else if (c == 'S')
+    else if (c == 'S')  // South - facing down (positive Y)
     {
-        p->dx = 1; p->dy = 0;    // facing down
-        p->angle = 0; p->angle = -0.66;
+        p->dx = 0;
+        p->dy = 1;
+        p->angle = M_PI / 2;      // 90 degrees
     }
-    else if (c == 'E')
+    else if (c == 'E')  // East - facing right (positive X)
     {
-        p->dx = 0; p->dy = 1;    // facing right
-        p->angle = 0.66; p->angle = 0;
+        p->dx = 1;
+        p->dy = 0;
+        p->angle = 0;             // 0 degrees
     }
-    else if (c == 'W')
+    else if (c == 'W')  // West - facing left (negative X)
     {
-        p->dx = 0; p->dy = -1;   // facing left
-        p->angle = -0.66; p->angle = 0;
+        p->dx = -1;
+        p->dy = 0;
+        p->angle = M_PI;          // 180 degrees
     }
+    printf("pos: %c\n", c);
+    printf("angle: %f\n", p->angle);
 }
-
-int check_player_pos(t_map map)
+int check_player_pos(t_map *map)
 {
     int count_pos;
     int x;
@@ -316,23 +321,25 @@ int check_player_pos(t_map map)
     x = 1;
     y = 1;
 
-    while(x < map.rows - 1)
+    while(x < map->rows - 1)
     {
         y = 1;
-        while(y < (int)ft_strlen(map.grid[x]) - 1)
+        while(y < (int)ft_strlen(map->grid[x]) - 1)
         {
-            if(map.grid[x][y] == 'N' || map.grid[x][y] == 'S' ||
-                map.grid[x][y] == 'E' || map.grid[x][y] == 'W')
+            if(map->grid[x][y] == 'N' || map->grid[x][y] == 'S' ||
+                map->grid[x][y] == 'E' || map->grid[x][y] == 'W')
                 {
-                    map.player.x = x + 0.5;
-                    map.player.y = y + 0.5;
-                    set_player_dir(&map.player, map.grid[x][y]);
+                    map->player.x = x;
+                    map->player.y = y;
+                    set_player_dir(&map->player, map->grid[x][y]);
                     count_pos++;
                 }
-            y++;
-        }
-        x++;
+                y++;
+            }
+            x++;
     }
+    printf("Found player at grid[%d][%d] -> x: %f, y: %f\n", 
+           x, y, map->player.x, map->player.y);
     if(count_pos != 1)
     {
         return (printf("Invalid map\nmust be only one player position\n"), 0);
@@ -397,15 +404,15 @@ int check_space_map(t_map map)
     return (1);
 }
 
-void valid_map(t_map map)
+void valid_map(t_map *map)
 {
-    if (!check_top_border(map))  return;
-    if (!check_bottom_border(map)) return;
-    if (!check_left_right_border(map)) return;
-    if (!check_inside(map))    return;
-    if (!check_inside_2(map))  return;
+    if (!check_top_border(*map))  return;
+    if (!check_bottom_border(*map)) return;
+    if (!check_left_right_border(*map)) return;
+    if (!check_inside(*map))    return;
+    if (!check_inside_2(*map))  return;
     if (!check_player_pos(map))    return;
-    if (!check_space_map(map)) return;
+    if (!check_space_map(*map)) return;
     printf("✅ Map is valid!\n");
 }
 
