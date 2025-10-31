@@ -10,7 +10,7 @@ SOURCE = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 		utils/ft_split.c utils/ft_strncmp.c utils/ft_memcpy.c utils/ft_strjoin.c utils/ft_strlen.c utils/ft_strlcpy.c\
 		 Cub3D.c raycasting/raycasting.c raycasting/texture.c raycasting/texture2.c raycasting/key_hook.c\
 		 raycasting/win.c raycasting/animated_player.c raycasting/texture3.c raycasting/map.c \
-		 raycasting/utils1.c  parsing/parse_color.c parsing/parse_tex.c\
+		 raycasting/utils1.c  parsing/parse_color.c parsing/parse_tex.c parsing/free.c\
 
 OBJECT = $(SOURCE:.c=.o)
 
