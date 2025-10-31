@@ -14,7 +14,7 @@
 
 void	draw_fov_rays(t_game *game)
 {
-	float	fov_radians;
+	float		fov_radians;
 	t_ray		ray;
 	t_cast_ray	data;
 	int			i;
@@ -58,7 +58,7 @@ float	cast_ray(t_game *game, float ray_angle)
 
 void	render_3d(t_game *game)
 {
-	float	fov_radians;
+	float		fov_radians;
 	t_rend_t	rend;
 	int			i;
 

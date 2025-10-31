@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:56:56 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/30 21:39:47 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 19:47:18 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,5 @@ void	shoot(t_game *game)
 		game->gun.shooting = 1;
 		game->gun.current_frame = 1;
 		game->gun.frame_timer = 2;
-		printf("BANG!\n");
 	}
 }

@@ -6,26 +6,27 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 12:56:47 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/31 15:54:11 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:37:15 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_map init_map()
+t_map	init_map(void)
 {
-    t_map map;
+	t_map	map;
 
-    map.grid = NULL;
-    map.cols = 0;
-    map.rows = 0;
-    map.player.x = 0;
-    map.player.y = 0;
-    map.player.dx = 0;
-    map.player.dy = -1;
-    map.player.angle = 1.5 * 3.14;
-    return (map);
+	map.grid = NULL;
+	map.cols = 0;
+	map.rows = 0;
+	map.player.x = 0;
+	map.player.y = 0;
+	map.player.dx = 0;
+	map.player.dy = -1;
+	map.player.angle = 1.5 * 3.14;
+	return (map);
 }
+
 void	init_win(t_game *game)
 {
 	game->gfx.mlx = mlx_init();
@@ -45,19 +46,4 @@ void	hook_init(t_game *game)
 	mlx_hook(game->gfx.win, 17, 0, close_window, NULL);
 	mlx_loop_hook(game->gfx.mlx, game_loop, game);
 	mlx_loop(game->gfx.mlx);
-}
-
-void	free_split(char **tokens)
-{
-	int	i;
-
-	i = 0;
-	if (!tokens)
-		return ;
-	while (tokens[i])
-	{
-		free(tokens[i]);
-		i++;
-	}
-	free(tokens);
 }
