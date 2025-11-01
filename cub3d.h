@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/31 20:32:51 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/01 10:19:57 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,4 +333,6 @@ int					skip_whitespace(char *line);
 void				print_error(void);
 void				t_fil(char **tokens);
 int					str_to_int_strict(const char *str, int *out);
+int	count_pos(t_map *map);
+void	set_player_dir(t_player *p, char c);
 #endif
