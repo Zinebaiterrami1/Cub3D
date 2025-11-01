@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/01 10:19:57 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/01 11:50:25 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ typedef struct s_map
 	int				rows;
 	int				cols;
 	t_player		player;
+	int				count_pos;
 }					t_map;
 typedef struct s_draw
 {
@@ -333,6 +334,8 @@ int					skip_whitespace(char *line);
 void				print_error(void);
 void				t_fil(char **tokens);
 int					str_to_int_strict(const char *str, int *out);
-int	count_pos(t_map *map);
-void	set_player_dir(t_player *p, char c);
+int					count_pos(t_map *map);
+void				set_player_dir(t_player *p, char c);
+int					find_big_line(char **map);
+char				**get_map(char *line, int fd);
 #endif

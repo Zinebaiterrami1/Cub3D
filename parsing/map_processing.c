@@ -1,16 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map4.c                                       :+:      :+:    :+:   */
+/*   map_processing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/31 15:44:37 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/31 15:44:52 by zait-err         ###   ########.fr       */
+/*   Created: 2025/10/31 15:40:19 by zait-err          #+#    #+#             */
+/*   Updated: 2025/11/01 11:21:17 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int	find_big_line(char **map)
+{
+	int	i;
+	int	count;
+	int	big;
+
+	count = 0;
+	i = 0;
+	big = 0;
+	if (!map)
+		return (-1);
+	while (map[i])
+	{
+		count = ft_strlen(map[i]);
+		if (big < count)
+		{
+			big = count;
+		}
+		i++;
+	}
+	return (big);
+}
 
 char	**square_map(char **map, int max_len)
 {
