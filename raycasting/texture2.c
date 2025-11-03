@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:46:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/03 14:38:13 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:18:29 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	render_3d_textured(t_game *game)
 	game->ray.start_angle = game->player.angle - FOV_DEGREES * (M_PI / 180.0f) / 2;
 	game->ray.angle_step = FOV_DEGREES * (M_PI / 180.0f) / NUM_RAYS;
 	draw_tex.screen_x = 0;
-	while (draw_tex.screen_x++ < NUM_RAYS)
+	while (draw_tex.screen_x < NUM_RAYS)
 	{
 		game->ray.ray_angle = game->ray.start_angle + draw_tex.screen_x * game->ray.angle_step;
 		game->ray.dist = game->ray_distances[draw_tex.screen_x];
@@ -38,6 +38,7 @@ void	render_3d_textured(t_game *game)
 		temp_ray.raydy = sin( game->ray.ray_angle);
 		draw_textured_wall_slice(game, draw_tex.screen_x, &temp_ray,
 				draw_tex.wall_height);
+		draw_tex.screen_x++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/03 15:46:37 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:30:58 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,8 @@ static void	init_game(t_game *game, t_map map, t_textures tex)
 	init_draw(&game->draw);
 	init_all_rays(game->rays); // initialise chaque rayon à 0
 	init_textures(game->textures);
-	game->floor_color = 0;
-	game->ceiling_color = 0;
+	// game->floor_color = 0;
+	// game->ceiling_color = 0;
 
 	// 3️⃣ Charger la map et les textures
 	game->map = map;

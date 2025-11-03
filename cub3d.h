@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/03 14:07:06 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:38:17 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,4 +335,6 @@ void				set_player_dir(t_player *p, char c);
 int					find_big_line(char **map);
 void	init_draw_texture(t_draw_texture *dt);
 char				**get_map(char *line, int fd);
+int    check_collision(t_game *game, float x, float y);
+void	cleanup_game(t_game *game);
 #endif

@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 14:47:11 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/03 15:51:24 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:58:48 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	draw_sky_and_floor(t_game *game)
 
 void draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray, int wall_height)
 {
-	    printf("DEBUG: ray->wall_x = %f (screen_x: %d)\n", ray->wall_x, screen_x);
     t_texture *texture;
 
     game->dt.wall_top = (HEIGHT / 2) - (wall_height / 2);
