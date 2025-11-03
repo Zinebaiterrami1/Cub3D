@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/03 14:12:00 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:46:37 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,8 @@ int	main(int ac, char **av)
 	while (map.grid[map.rows])
 		map.rows++;
 	valid_map(&map);
-	init_ray(&game.ray);
+    init_draw_texture(&game.dt);  
+	init_all_rays(game.rays);
 	validate_textures(&tex);
 	init_game(&game, map, tex);
 	free(map.grid);

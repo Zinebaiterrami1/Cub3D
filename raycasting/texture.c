@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 14:47:11 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/03 14:12:26 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:51:24 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,33 +89,32 @@ void	draw_sky_and_floor(t_game *game)
 
 void draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray, int wall_height)
 {
-    t_draw_texture dt;
+	    printf("DEBUG: ray->wall_x = %f (screen_x: %d)\n", ray->wall_x, screen_x);
     t_texture *texture;
 
-    init_draw_texture(&dt);  
-    dt.wall_top = (HEIGHT / 2) - (wall_height / 2);
-    dt.wall_bottom = (HEIGHT / 2) + (wall_height / 2);
-    if (dt.wall_top < 0) dt.wall_top = 0;
-    if (dt.wall_bottom > HEIGHT) dt.wall_bottom = HEIGHT;
+    game->dt.wall_top = (HEIGHT / 2) - (wall_height / 2);
+    game->dt.wall_bottom = (HEIGHT / 2) + (wall_height / 2);
+    if (game->dt.wall_top < 0) game->dt.wall_top = 0;
+    if (game->dt.wall_bottom > HEIGHT) game->dt.wall_bottom = HEIGHT;
 
-    dt.tex_x = (int)(ray->wall_x * TEX_WIDTH);
-    dt.tex_num = determine_texture(ray);
+      game->dt.tex_x = (int)(ray->wall_x * TEX_WIDTH);
+      game->dt.tex_num = determine_texture(ray);
 
-    if (dt.tex_num < 0 || dt.tex_num >= NUM_TEXTURES)
-        dt.tex_num = 0;
+    if (game->dt.tex_num < 0 || game->dt.tex_num >= NUM_TEXTURES)
+        game->dt.tex_num = 0;
 
-    texture = &game->textures[dt.tex_num];
-    dt.step = (float)TEX_HEIGHT / (float)wall_height;
-    dt.tex_pos = (dt.wall_top - HEIGHT / 2 + wall_height / 2) * dt.step;
-    dt.screen_y = dt.wall_top;
+    texture = &game->textures[game->dt.tex_num];
+    game->dt.step = (float)TEX_HEIGHT / (float)wall_height;
+    game->dt.tex_pos = (game->dt.wall_top - HEIGHT / 2 + wall_height / 2) * game->dt.step;
+    game->dt.screen_y = game->dt.wall_top;
 
-    while (dt.screen_y < dt.wall_bottom)
+    while (game->dt.screen_y < game->dt.wall_bottom)
     {
-        dt.tex_y = (int)dt.tex_pos & (TEX_HEIGHT - 1);
-        dt.tex_pos += dt.step;
-        dt.color = get_texture_pixel(texture, dt.tex_x, dt.tex_y);
-        my_mlx_pixel_put(&game->gfx, screen_x, dt.screen_y, dt.color);
-        dt.screen_y++;
+        game->dt.tex_y = (int)game->dt.tex_pos & (TEX_HEIGHT - 1);
+        game->dt.tex_pos += game->dt.step;
+        game->dt.color = get_texture_pixel(texture, game->dt.tex_x, game->dt.tex_y);
+        my_mlx_pixel_put(&game->gfx, screen_x, game->dt.screen_y, game->dt.color);
+        game->dt.screen_y++;
     }
 }
 
