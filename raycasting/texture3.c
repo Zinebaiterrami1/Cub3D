@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 11:26:40 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/31 15:27:35 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/03 13:48:35 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,35 @@ t_cast_ray	init_cast_ray(void)
 	return (data);
 }
 
-t_ray	init_ray(void)
+void init_ray(t_ray *ray)
 {
-	t_ray	ray;
-
-	ray.angle = 0;
-	ray.deltadistx = 0;
-	ray.deltadisty = 0;
-	ray.dist = 0;
-	ray.raydx = 0;
-	ray.raydy = 0;
-	ray.wall_type = 0;
-	return (ray);
+    ray->ray_angle = 0.0f;
+    ray->raydx = 0.0f;
+    ray->raydy = 0.0f;
+    ray->wall_type = 0;
+    ray->dist = 0.0f;
+    ray->hit_x = 0.0f;
+    ray->hit_y = 0.0f;
+    ray->wall_x = 0.0f;
+    ray->side = 0;
+    ray->angle = 0.0f;
+    ray->ray_dir_x = 0.0f;
+    ray->ray_dir_y = 0.0f;
+    ray->start_angle = 0.0f;
+    ray->angle_step = 0.0f;
+    ray->corrected_dist = 0.0f;
+    ray->proj_plane = 0.0f;
+    ray->deltadistx = 0.0f;
+    ray->deltadisty = 0.0f;
+    ray->sidedistx = 0.0f;
+    ray->sidedisty = 0.0f;
+    ray->stepx = 0;
+    ray->stepy = 0;
+    ray->hit = 0;
+    ray->end_x = 0.0f;
+    ray->end_y = 0.0f;
 }
+
 
 int	determine_texture(t_ray *ray)
 {

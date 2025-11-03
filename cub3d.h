@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/01 10:19:57 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/03 14:07:06 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ typedef struct s_map
 	int				rows;
 	int				cols;
 	t_player		player;
+	int				count_pos;
 }					t_map;
 typedef struct s_draw
 {
@@ -192,7 +193,20 @@ typedef struct s_draw
 	int				dy;
 	int				dx;
 }					t_draw;
-
+typedef struct s_draw_texture
+{
+	int				screen_y;
+	int				screen_x;
+	unsigned int	color;
+	float			wall_top;
+	float			wall_bottom;
+	int				tex_x;
+	int				tex_num;
+	float			step;
+	float			tex_pos;
+	int				tex_y;
+	int				wall_height;
+}					t_draw_texture;
 typedef struct s_game
 {
 	t_mlx			gfx;
@@ -206,14 +220,10 @@ typedef struct s_game
 	t_keys			keys;
 	t_gun			gun;
 	t_draw			draw;
+	t_draw_texture  dt;
 	int				floor_color;
 	int				ceiling_color;
-	float			x_inc;
-	float			y_inc;
-	float			dx;
-	float			dy;
 	t_textures		tex;
-
 }					t_game;
 
 typedef struct s_cast_ray
@@ -235,20 +245,7 @@ typedef struct s_ctx
 	int				fd;
 }					t_ctx;
 
-typedef struct s_draw_texture
-{
-	int				screen_y;
-	int				screen_x;
-	unsigned int	color;
-	float			wall_top;
-	float			wall_bottom;
-	int				tex_x;
-	int				tex_num;
-	float			step;
-	float			tex_pos;
-	int				tex_y;
-	int				wall_height;
-}					t_draw_texture;
+
 
 unsigned int		get_texture_pixel(t_texture *tex, int x, int y);
 void				shoot(t_game *game);
@@ -301,7 +298,7 @@ int					is_wall(t_game *game, float x, float y);
 void				update_gun(t_game *game);
 void				calculate_wall_x(t_game *game, t_ray *ray,
 						t_cast_ray *data);
-t_ray				init_ray(void);
+void				init_ray(t_ray *ray);
 t_cast_ray			init_cast_ray(void);
 void				draw_line_dda(t_game *game, int color);
 void				wrap_mouse_position(int x, int y, t_game *game);
@@ -333,6 +330,9 @@ int					skip_whitespace(char *line);
 void				print_error(void);
 void				t_fil(char **tokens);
 int					str_to_int_strict(const char *str, int *out);
-int	count_pos(t_map *map);
-void	set_player_dir(t_player *p, char c);
+int					count_pos(t_map *map);
+void				set_player_dir(t_player *p, char c);
+int					find_big_line(char **map);
+void	init_draw_texture(t_draw_texture *dt);
+char				**get_map(char *line, int fd);
 #endif

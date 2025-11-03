@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 14:47:11 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/31 15:11:12 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/03 14:12:26 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,48 +86,36 @@ void	draw_sky_and_floor(t_game *game)
 	}
 }
 
-t_draw_texture	init_draw_texture(t_draw_texture draw_tex)
+
+void draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray, int wall_height)
 {
-	draw_tex.wall_top = 0;
-	draw_tex.wall_bottom = 0;
-	draw_tex.screen_x = 0;
-	draw_tex.screen_y = 0;
-	draw_tex.tex_x = 0;
-	draw_tex.tex_y = 0;
-	draw_tex.tex_num = 0;
-	draw_tex.tex_pos = 0;
-	draw_tex.step = 0;
-	draw_tex.color = 0;
-	draw_tex.wall_height = 0;
-	return (draw_tex);
+    t_draw_texture dt;
+    t_texture *texture;
+
+    init_draw_texture(&dt);  
+    dt.wall_top = (HEIGHT / 2) - (wall_height / 2);
+    dt.wall_bottom = (HEIGHT / 2) + (wall_height / 2);
+    if (dt.wall_top < 0) dt.wall_top = 0;
+    if (dt.wall_bottom > HEIGHT) dt.wall_bottom = HEIGHT;
+
+    dt.tex_x = (int)(ray->wall_x * TEX_WIDTH);
+    dt.tex_num = determine_texture(ray);
+
+    if (dt.tex_num < 0 || dt.tex_num >= NUM_TEXTURES)
+        dt.tex_num = 0;
+
+    texture = &game->textures[dt.tex_num];
+    dt.step = (float)TEX_HEIGHT / (float)wall_height;
+    dt.tex_pos = (dt.wall_top - HEIGHT / 2 + wall_height / 2) * dt.step;
+    dt.screen_y = dt.wall_top;
+
+    while (dt.screen_y < dt.wall_bottom)
+    {
+        dt.tex_y = (int)dt.tex_pos & (TEX_HEIGHT - 1);
+        dt.tex_pos += dt.step;
+        dt.color = get_texture_pixel(texture, dt.tex_x, dt.tex_y);
+        my_mlx_pixel_put(&game->gfx, screen_x, dt.screen_y, dt.color);
+        dt.screen_y++;
+    }
 }
 
-void	draw_textured_wall_slice(t_game *game, int screen_x, t_ray *ray,
-		int wall_height)
-{
-	t_draw_texture	draw_tex;
-	t_texture		*texture;
-
-	draw_tex.wall_top = (HEIGHT / 2) - (wall_height / 2);
-	draw_tex.wall_bottom = (HEIGHT / 2) + (wall_height / 2);
-	if (draw_tex.wall_top < 0)
-		draw_tex.wall_top = 0;
-	if (draw_tex.wall_bottom > HEIGHT)
-		draw_tex.wall_bottom = HEIGHT;
-	draw_tex.tex_x = (int)(ray->wall_x * TEX_WIDTH);
-	draw_tex.tex_num = determine_texture(ray);
-	texture = &game->textures[draw_tex.tex_num];
-	draw_tex.step = 1.0 * TEX_HEIGHT / wall_height;
-	draw_tex.tex_pos = (draw_tex.wall_top - HEIGHT / 2 + wall_height / 2)
-		* draw_tex.step;
-	draw_tex.screen_y = draw_tex.wall_top;
-	while (draw_tex.screen_y++ < draw_tex.wall_bottom)
-	{
-		draw_tex.tex_y = (int)draw_tex.tex_pos;
-		draw_tex.tex_pos += draw_tex.step;
-		draw_tex.color = get_texture_pixel(texture, draw_tex.tex_x,
-				draw_tex.tex_y);
-		my_mlx_pixel_put(&game->gfx, screen_x, draw_tex.screen_y,
-			draw_tex.color);
-	}
-}

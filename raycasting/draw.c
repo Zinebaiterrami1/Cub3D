@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:15:09 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/30 09:59:44 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/03 13:18:07 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,29 @@ void	draw_line_dda(t_game *game, int color)
 	float	x;
 	float	y;
 	int		i;
-
-	game->dx = game->ray.end_x - game->player.x;
-	game->dy = game->ray.end_x - game->player.y;
-	if (fabs(game->dx) > fabs(game->dy))
-		steps = fabs(game->dx);
+	float			x_inc;
+	float			y_inc;
+	float			dx;
+	float			dy;
+	steps = 0;
+	dx = game->ray.end_x - game->player.x;
+	dy = game->ray.end_x - game->player.y;
+	if (fabs(dx) > fabs(dy))
+		steps = fabs(dx);
 	else
-		steps = fabs(game->dy);
+		steps = fabs(dy);
 	if (steps == 0)
 		return ;
-	game->x_inc = game->dx / steps;
-	game->y_inc = game->dy / steps;
+	x_inc = dx / steps;
+y_inc = dy / steps;
 	x = game->player.x;
 	y = game->player.y;
 	i = 0;
 	while (i <= steps)
 	{
 		my_mlx_pixel_put(&game->gfx, (int)x, (int)y, color);
-		x += game->x_inc;
-		y += game->y_inc;
+		x +=x_inc;
+		y += y_inc;
 		i++;
 	}
 }

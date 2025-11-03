@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:46:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/10/31 15:40:41 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/03 14:14:53 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,21 @@
 
 void	render_3d_textured(t_game *game)
 {
-	float			fov_radians;
 	t_draw_texture	draw_tex;
 	t_ray			temp_ray;
 	t_ray			ray;
 
-	fov_radians = FOV_DEGREES * (M_PI / 180.0f);
 	clear_screen(&game->gfx);
 	draw_sky_and_floor(game);
-	ray.start_angle = game->player.angle - fov_radians / 2;
-	ray.angle_step = fov_radians / NUM_RAYS;
+	ray.start_angle = game->player.angle - FOV_DEGREES * (M_PI / 180.0f) / 2;
+	ray.angle_step = FOV_DEGREES * (M_PI / 180.0f) / NUM_RAYS;
 	draw_tex.screen_x = 0;
-	while (draw_tex.screen_x < NUM_RAYS)
+	while (draw_tex.screen_x++ < NUM_RAYS)
 	{
 		ray.ray_angle = ray.start_angle + draw_tex.screen_x * ray.angle_step;
 		ray.dist = game->ray_distances[draw_tex.screen_x];
 		ray.corrected_dist = ray.dist * cos(ray.ray_angle - game->player.angle);
-		ray.proj_plane = (WIDTH / 2) / tan(fov_radians / 2);
+		ray.proj_plane = (WIDTH / 2) / tan(FOV_DEGREES * (M_PI / 180.0f) / 2);
 		draw_tex.wall_height = (TILE_SIZE / ray.corrected_dist)
 			* ray.proj_plane;
 		temp_ray = game->rays[draw_tex.screen_x];
@@ -39,8 +37,7 @@ void	render_3d_textured(t_game *game)
 		temp_ray.raydx = cos(ray.ray_angle);
 		temp_ray.raydy = sin(ray.ray_angle);
 		draw_textured_wall_slice(game, draw_tex.screen_x, &temp_ray,
-			draw_tex.wall_height);
-		draw_tex.screen_x++;
+				draw_tex.wall_height);
 	}
 }
 
@@ -114,7 +111,6 @@ t_ray	cast_ray_textured(t_game *game, float ray_angle)
 	t_ray		ray;
 	t_cast_ray	data;
 
-	ray = init_ray();
 	data = init_cast_ray();
 	ray.angle = ray_angle;
 	ray.raydx = cos(ray.angle);

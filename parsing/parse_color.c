@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:46:21 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/31 15:52:04 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/03 13:29:10 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@ void	init_player(t_player *player, t_player map_player)
 	player->angle = map_player.angle;
 	player->dx = cos(player->angle) * SPEED;
 	player->dy = sin(player->angle) * SPEED;
+	player->has_moved = 0;
+	player->plane_x = 0;
+	player->plane_y = 0;
+	player->view_angle = 0;
+	player->move_dir = 0;
+	player->rot_dir = 0;
+	player->move_speed = 0.1;
+	player->rot_speed = 0.05;
+	player->right_x = 0;
+	player->strafe_dir = 0;
+	player->left_y = 0;
 }
 
 void	parse_args(int ac, char **av)
