@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:46:21 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/03 16:43:37 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/03 13:29:10 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	global_color(char *line, t_game *game)
 {
-	printf("Floor color = %06X, Ceiling color = %06X\n", game->floor_color, game->ceiling_color);
 	if (line[0] == 'F')
 		parse_color(line + 1, &game->floor_color);
 	else if (line[0] == 'C')

@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/03 16:12:50 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/04 11:57:08 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <string.h>
 # include <unistd.h>
 
+# define COLLISION_RADIUS 2
 # define WIDTH 1000
 # define HEIGHT 1000
 # define TILE_SIZE 64
@@ -34,8 +35,6 @@
 # define NUM_RAYS WIDTH
 # define SPEED 8
 # define ROT_SPEED 0.05
-#define COLLISION_RADIUS 5  // ou plus si nécessaire
-
 # define PLAYER_SIZE 8
 # define NUM_TEXTURES 4
 # define TEX_WIDTH 64
@@ -336,5 +335,7 @@ void				set_player_dir(t_player *p, char c);
 int					find_big_line(char **map);
 void	init_draw_texture(t_draw_texture *dt);
 char				**get_map(char *line, int fd);
-int	check_collision(t_game *game, float x, float y);
+int    check_collision(t_game *game, float x, float y);
+void	cleanup_game(t_game *game);
+void	free_map_grid(char **grid);
 #endif

@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/04 09:27:27 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/04 11:57:27 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,19 @@ static t_map	read_map_file(int fd, t_game *game, t_textures *tex)
 	}
 	return (map);
 }
+
+// static void	init_game(t_game *game, t_map map, t_textures tex)
+// {
+// 	init_keys(&game->keys);
+// 	init_win(game);
+// 	game->map = map;
+// 	load_textures(game, &tex);
+// 	line_free(tex);
+// 	game->gun = init_gun();
+// 	load_texture_gun(game);
+// 	init_player(&game->player, map.player);
+// 	hook_init(game);
+// }
 void	init_draw(t_draw *draw)
 {
 	draw->tile = 0;
@@ -101,6 +114,7 @@ void	init_textures(t_texture textures[NUM_TEXTURES])
 
 static void	init_game(t_game *game, t_map map, t_textures tex)
 {
+
 	init_keys(&game->keys);
 	init_win(game);
 	init_draw(&game->draw);
@@ -109,9 +123,12 @@ static void	init_game(t_game *game, t_map map, t_textures tex)
 	game->map = map;
 	load_textures(game, &tex);
 	line_free(tex);
+
 	game->gun = init_gun();
 	load_texture_gun(game);
+
 	init_player(&game->player, map.player);
+
 	hook_init(game);
 }
 void	init_draw_texture(t_draw_texture *dt)
@@ -135,6 +152,7 @@ int	main(int ac, char **av)
 	t_map		map;
 	int			fd;
 	t_textures	tex;
+	
 	parse_args(ac, av);
 	fd = open_map_file(av[1]);
 	map = read_map_file(fd, &game, &tex);
@@ -145,9 +163,13 @@ int	main(int ac, char **av)
 	while (map.grid[map.rows])
 		map.rows++;
 	valid_map(&map);
-	init_ray(&game.ray);
+    init_draw_texture(&game.dt);  
+	init_all_rays(game.rays);
 	validate_textures(&tex);
 	init_game(&game, map, tex);
-	free(map.grid);
+	
+	// ✅ FIX: Properly free all map grid memory
+	free_map_grid(map.grid);
+	
 	return (0);
 }

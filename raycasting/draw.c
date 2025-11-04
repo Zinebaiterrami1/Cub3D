@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:15:09 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/03 13:18:07 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/04 11:26:11 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	draw_line_dda(t_game *game, int color)
 	float			y_inc;
 	float			dx;
 	float			dy;
+	
 	steps = 0;
 	dx = game->ray.end_x - game->player.x;
 	dy = game->ray.end_x - game->player.y;

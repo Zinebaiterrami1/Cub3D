@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/03 13:10:19 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/04 11:34:10 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,23 @@ void	draw_fov_rays(t_game *game)
 	t_ray		ray;
 	t_cast_ray	data;
 	int			i;
+	float		ray_angle;
+	
 	fov_radians = FOV_DEGREES * (M_PI / 180.0f);
 	data.start_angle = game->player.angle - fov_radians / 2;
 	data.angle_step = fov_radians / NUM_RAYS;
 	i = 0;
+	
 	while (i < NUM_RAYS)
 	{
-		float ray_angle = data.start_angle + i * data.angle_step;
+		ray_angle = data.start_angle + i * data.angle_step;
 		ray = cast_ray_textured(game, ray_angle);
 		game->rays[i] = ray;
 		game->ray_distances[i] = ray.dist;
-		ray.end_x = game->player.x + cos(ray_angle) * ray.dist;
-		ray.end_y = game->player.y + sin(ray_angle) * ray.dist;
+		
+		game->ray.end_x = game->player.x + cos(ray_angle) * ray.dist;
+		game->ray.end_y = game->player.y + sin(ray_angle) * ray.dist;
+		
 		draw_line_dda(game, 0x00FF00);
 		i++;
 	}
