@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/04 11:57:08 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/04 13:30:32 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ typedef struct s_draw_texture
 	float			tex_pos;
 	int				tex_y;
 	int				wall_height;
+	t_texture		texture;
 }					t_draw_texture;
 typedef struct s_game
 {
@@ -220,7 +221,7 @@ typedef struct s_game
 	t_keys			keys;
 	t_gun			gun;
 	t_draw			draw;
-	t_draw_texture  dt;
+	t_draw_texture	dt;
 	int				floor_color;
 	int				ceiling_color;
 	t_textures		tex;
@@ -244,8 +245,6 @@ typedef struct s_ctx
 	t_map			*map;
 	int				fd;
 }					t_ctx;
-
-
 
 unsigned int		get_texture_pixel(t_texture *tex, int x, int y);
 void				shoot(t_game *game);
@@ -333,9 +332,14 @@ int					str_to_int_strict(const char *str, int *out);
 int					count_pos(t_map *map);
 void				set_player_dir(t_player *p, char c);
 int					find_big_line(char **map);
-void	init_draw_texture(t_draw_texture *dt);
+void				init_draw_texture(t_draw_texture *dt);
 char				**get_map(char *line, int fd);
-int    check_collision(t_game *game, float x, float y);
-void	cleanup_game(t_game *game);
-void	free_map_grid(char **grid);
+int					check_collision(t_game *game, float x, float y);
+void				cleanup_game(t_game *game);
+void				free_map_grid(char **grid);
+void				setup_draw_texture(t_game *game, t_ray *ray,
+						int wall_height);
+void				init_ray_data(t_cast_ray *data, t_game *game, t_ray *ray);
+
+void				performe_dda(t_ray *ray, t_cast_ray *data, t_game *game);
 #endif

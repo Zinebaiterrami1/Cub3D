@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 12:56:47 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/04 12:38:33 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/04 13:32:17 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	cleanup_game(t_game *game)
 {
 	int	i;
 
-	// Free textures
 	i = 0;
 	while (i < NUM_TEXTURES)
 	{
@@ -49,8 +48,6 @@ void	cleanup_game(t_game *game)
 			mlx_destroy_image(game->gfx.mlx, game->textures[i].img);
 		i++;
 	}
-
-	// Free gun textures
 	i = 0;
 	while (i < 2)
 	{
@@ -58,8 +55,6 @@ void	cleanup_game(t_game *game)
 			mlx_destroy_image(game->gfx.mlx, game->gun.gun_texture[i].img);
 		i++;
 	}
-
-	// Free MLX resources
 	if (game->gfx.img)
 		mlx_destroy_image(game->gfx.mlx, game->gfx.img);
 	if (game->gfx.win)
@@ -69,12 +64,9 @@ void	cleanup_game(t_game *game)
 		mlx_destroy_display(game->gfx.mlx);
 		free(game->gfx.mlx);
 	}
-	
-	// ✅ NEW: Free map grid if it exists
 	if (game->map.grid)
 		free_map_grid(game->map.grid);
 }
-
 
 int	destroy_mlx(t_game *game)
 {
@@ -89,10 +81,7 @@ void	hook_init(t_game *game)
 	mlx_hook(game->gfx.win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->gfx.win, 3, 1L << 1, key_release, game);
 	mlx_hook(game->gfx.win, 6, 1L << 6, mouse_move, game);
-	
-	// ✅ FIX: Pass 'game' pointer instead of NULL!
 	mlx_hook(game->gfx.win, 17, 0, close_window, game);
-	
 	mlx_loop_hook(game->gfx.mlx, game_loop, game);
 	mlx_loop(game->gfx.mlx);
 	destroy_mlx(game);

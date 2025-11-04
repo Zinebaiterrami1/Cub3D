@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_processing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:40:19 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/04 11:56:56 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:55:04 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	trim_newline(char **map)
 		i++;
 	}
 }
+
 void	free_map_grid(char **grid)
 {
 	int	i;

@@ -86,28 +86,24 @@ static void	move_player(t_game *game, float *next_x, float *next_y)
 	}
 }
 
-void    handle_keys(t_game *game)
+void	handle_keys(t_game *game)
 {
-    float    next_x;
-    float    next_y;
+	float	next_x;
+	float	next_y;
 
-    next_x = game->player.x;
-    next_y = game->player.y;
-    
-    if (game->keys.left)
-        game->player.angle -= ROT_SPEED;
-    if (game->keys.right)
-        game->player.angle += ROT_SPEED;
-        
-    game->player.dx = cos(game->player.angle) * SPEED;
-    game->player.dy = sin(game->player.angle) * SPEED;
-    
-    move_player(game, &next_x, &next_y);
-    
-    if (!check_collision(game, next_x, game->player.y))
-        game->player.x = next_x;
-    if (!check_collision(game, game->player.x, next_y))
-        game->player.y = next_y;
+	next_x = game->player.x;
+	next_y = game->player.y;
+	if (game->keys.left)
+		game->player.angle -= ROT_SPEED;
+	if (game->keys.right)
+		game->player.angle += ROT_SPEED;
+	game->player.dx = cos(game->player.angle) * SPEED;
+	game->player.dy = sin(game->player.angle) * SPEED;
+	move_player(game, &next_x, &next_y);
+	if (!check_collision(game, next_x, game->player.y))
+		game->player.x = next_x;
+	if (!check_collision(game, game->player.x, next_y))
+		game->player.y = next_y;
 }
 
 int	game_loop(t_game *game)

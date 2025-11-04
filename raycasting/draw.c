@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:15:09 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/04 11:26:11 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:59:17 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	draw_line_dda(t_game *game, int color)
 	float	x;
 	float	y;
 	int		i;
-	float			x_inc;
-	float			y_inc;
-	float			dx;
-	float			dy;
-	
+	float	x_inc;
+	float	y_inc;
+	float	dx;
+	float	dy;
+
 	steps = 0;
 	dx = game->ray.end_x - game->player.x;
 	dy = game->ray.end_x - game->player.y;
@@ -33,14 +33,14 @@ void	draw_line_dda(t_game *game, int color)
 	if (steps == 0)
 		return ;
 	x_inc = dx / steps;
-y_inc = dy / steps;
+	y_inc = dy / steps;
 	x = game->player.x;
 	y = game->player.y;
 	i = 0;
 	while (i <= steps)
 	{
 		my_mlx_pixel_put(&game->gfx, (int)x, (int)y, color);
-		x +=x_inc;
+		x += x_inc;
 		y += y_inc;
 		i++;
 	}

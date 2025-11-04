@@ -6,38 +6,46 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:46:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/03 16:18:29 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/04 13:28:42 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+void	process_single_ray(t_game *game, t_draw_texture *draw_tex)
+{
+	t_ray	temp_ray;
+
+	game->ray.ray_angle = game->ray.start_angle + draw_tex->screen_x
+		* game->ray.angle_step;
+	game->ray.dist = game->ray_distances[draw_tex->screen_x];
+	game->ray.corrected_dist = game->ray.dist * cos(game->ray.ray_angle
+			- game->player.angle);
+	game->ray.proj_plane = (WIDTH / 2) / tan(FOV_DEGREES * (M_PI / 180.0f) / 2);
+	draw_tex->wall_height = (TILE_SIZE / game->ray.corrected_dist)
+		* game->ray.proj_plane;
+	temp_ray = game->rays[draw_tex->screen_x];
+	temp_ray.dist = game->ray.dist;
+	temp_ray.angle = game->ray.ray_angle;
+	temp_ray.raydx = cos(game->ray.ray_angle);
+	temp_ray.raydy = sin(game->ray.ray_angle);
+	draw_textured_wall_slice(game, draw_tex->screen_x, &temp_ray,
+		draw_tex->wall_height);
+}
+
 void	render_3d_textured(t_game *game)
 {
 	t_draw_texture	draw_tex;
-	t_ray			temp_ray;
-	// t_ray			ray;
 
 	clear_screen(&game->gfx);
 	draw_sky_and_floor(game);
-	game->ray.start_angle = game->player.angle - FOV_DEGREES * (M_PI / 180.0f) / 2;
+	game->ray.start_angle = game->player.angle - FOV_DEGREES * (M_PI / 180.0f)
+		/ 2;
 	game->ray.angle_step = FOV_DEGREES * (M_PI / 180.0f) / NUM_RAYS;
 	draw_tex.screen_x = 0;
 	while (draw_tex.screen_x < NUM_RAYS)
 	{
-		game->ray.ray_angle = game->ray.start_angle + draw_tex.screen_x * game->ray.angle_step;
-		game->ray.dist = game->ray_distances[draw_tex.screen_x];
-		game->ray.corrected_dist = game->ray.dist * cos(game->ray.ray_angle - game->player.angle);
-		game->ray.proj_plane = (WIDTH / 2) / tan(FOV_DEGREES * (M_PI / 180.0f) / 2);
-		draw_tex.wall_height = (TILE_SIZE / game->ray.corrected_dist)
-			* game->ray.proj_plane;
-		temp_ray = game->rays[draw_tex.screen_x];
-		temp_ray.dist =  game->ray.dist;
-		temp_ray.angle =  game->ray.ray_angle;
-		temp_ray.raydx = cos( game->ray.ray_angle);
-		temp_ray.raydy = sin( game->ray.ray_angle);
-		draw_textured_wall_slice(game, draw_tex.screen_x, &temp_ray,
-				draw_tex.wall_height);
+		process_single_ray(game, &draw_tex);
 		draw_tex.screen_x++;
 	}
 }
@@ -105,28 +113,4 @@ void	performe_dda(t_ray *ray, t_cast_ray *data, t_game *game)
 		data->perpwalldist = (ray->sidedistx - ray->deltadistx);
 	else
 		data->perpwalldist = (ray->sidedisty - ray->deltadisty);
-}
-
-t_ray	cast_ray_textured(t_game *game, float ray_angle)
-{
-	t_ray		ray;
-	t_cast_ray	data;
-
-	data = init_cast_ray();
-	ray.angle = ray_angle;
-	ray.raydx = cos(ray.angle);
-	ray.raydy = sin(ray.angle);
-	data.mapx = (int)(game->player.x / TILE_SIZE);
-	data.mapy = (int)(game->player.y / TILE_SIZE);
-	ray.deltadistx = fabs(1 / ray.raydx);
-	ray.deltadisty = fabs(1 / ray.raydy);
-	init_ray_data(&data, game, &ray);
-	performe_dda(&ray, &data, game);
-	calculate_wall_x(game, &ray, &data);
-	if (data.mapx >= 0 && data.mapx < game->map.cols && data.mapy >= 0
-		&& data.mapy < game->map.rows)
-		ray.wall_type = game->map.grid[data.mapy][data.mapx];
-	else
-		ray.wall_type = '1';
-	return (ray);
 }

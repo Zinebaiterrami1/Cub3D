@@ -1,11 +1,12 @@
-NO  ./textures/colorstone.xpm
-SO  ./textures/wood.xpm 
-WE  ./textures/wall2h.xpm
-EA  ./textures/wall2v.xpm
+NO  ./textures/textures-new/wall1.xpm
+SO  ./textures/textures-new/wall2.xpm
+WE  ./textures/textures-new/wall3.xpm
+EA  ./textures/textures-new/wall1.xpm
 
 
-F 0,0,100
-C 0,100,0
+
+F 50,40,25
+C 100,80,50  
 
 
         1111111111111111111111111
