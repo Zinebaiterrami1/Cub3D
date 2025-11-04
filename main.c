@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/03 14:12:00 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/04 09:27:27 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,6 @@ static t_map	read_map_file(int fd, t_game *game, t_textures *tex)
 	}
 	return (map);
 }
-
-// static void	init_game(t_game *game, t_map map, t_textures tex)
-// {
-// 	init_keys(&game->keys);
-// 	init_win(game);
-// 	game->map = map;
-// 	load_textures(game, &tex);
-// 	line_free(tex);
-// 	game->gun = init_gun();
-// 	load_texture_gun(game);
-// 	init_player(&game->player, map.player);
-// 	hook_init(game);
-// }
 void	init_draw(t_draw *draw)
 {
 	draw->tile = 0;
@@ -114,28 +101,17 @@ void	init_textures(t_texture textures[NUM_TEXTURES])
 
 static void	init_game(t_game *game, t_map map, t_textures tex)
 {
-	memset(game, 0, sizeof(t_game));
-
 	init_keys(&game->keys);
-	init_win(game); // suppose que tu ouvres la fenêtre ici
+	init_win(game);
 	init_draw(&game->draw);
-	init_all_rays(game->rays); // initialise chaque rayon à 0
+	init_all_rays(game->rays);
 	init_textures(game->textures);
-	game->floor_color = 0;
-	game->ceiling_color = 0;
-
-	// 3️⃣ Charger la map et les textures
 	game->map = map;
 	load_textures(game, &tex);
 	line_free(tex);
-
-	// 4️⃣ Initialiser les armes et autres éléments
 	game->gun = init_gun();
 	load_texture_gun(game);
-
-	// 5️⃣ Initialiser le joueur (à partir de la map)
 	init_player(&game->player, map.player);
-
 	hook_init(game);
 }
 void	init_draw_texture(t_draw_texture *dt)

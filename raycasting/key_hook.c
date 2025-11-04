@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:24:24 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/03 12:53:10 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:23:03 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,20 @@ void	handle_keys(t_game *game)
 
 	next_x = game->player.x;
 	next_y = game->player.y;
+	
 	if (game->keys.left)
 		game->player.angle -= ROT_SPEED;
 	if (game->keys.right)
 		game->player.angle += ROT_SPEED;
+		
 	game->player.dx = cos(game->player.angle) * SPEED;
 	game->player.dy = sin(game->player.angle) * SPEED;
+	
 	move_player(game, &next_x, &next_y);
-	if (!is_wall(game, next_x, game->player.y))
+	
+	if (!check_collision(game, next_x, game->player.y))
 		game->player.x = next_x;
-	if (!is_wall(game, game->player.x, next_y))
+	if (!check_collision(game, game->player.x, next_y))
 		game->player.y = next_y;
 }
 
