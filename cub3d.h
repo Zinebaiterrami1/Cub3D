@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/04 13:30:32 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:23:23 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,17 @@ typedef struct s_map
 	t_player		player;
 	int				count_pos;
 }					t_map;
+typedef struct s_d
+{
+	int		steps;
+	float	x;
+	float	y;
+	int		i;
+	float	x_inc;
+	float	y_inc;
+	float	dx;
+	float	dy;
+}				t_d;
 typedef struct s_draw
 {
 	int				tile;
@@ -222,6 +233,7 @@ typedef struct s_game
 	t_gun			gun;
 	t_draw			draw;
 	t_draw_texture	dt;
+	t_d				d;
 	int				floor_color;
 	int				ceiling_color;
 	t_textures		tex;
@@ -340,6 +352,12 @@ void				free_map_grid(char **grid);
 void				setup_draw_texture(t_game *game, t_ray *ray,
 						int wall_height);
 void				init_ray_data(t_cast_ray *data, t_game *game, t_ray *ray);
-
+void				init_draw(t_draw *draw);
+void				init_keys(t_keys *keys);
+void				init_all_rays(t_ray rays[NUM_RAYS]);
+void				init_textures(t_texture textures[NUM_TEXTURES]);
+void				f(t_game *game);
 void				performe_dda(t_ray *ray, t_cast_ray *data, t_game *game);
+void				color_logo(const char **logo);
+void				print_cub3d_logo(void);
 #endif
