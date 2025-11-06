@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:56:56 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/05 14:05:54 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/06 12:38:19 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	load_texture_gun(t_game *game)
 	char	*gun_path[2];
 
 	i = 0;
-	gun_path[0] = "textures/sprites/gun-_2_.xpm";
-	gun_path[1] = "textures/sprites/gun_shoot-_1_.xpm";
+	gun_path[0] = "textures-cub/sprites/gun-_2_.xpm";
+	gun_path[1] = "textures-cub/sprites/gun_shoot-_1_.xpm";
 	while (i < 2)
 	{
 		game->gun.gun_texture[i].img = mlx_xpm_file_to_image(game->gfx.mlx,

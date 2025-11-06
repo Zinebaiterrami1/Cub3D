@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:44:37 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/05 15:46:03 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/06 12:33:01 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	check_space_map(t_map map)
 					&& map.grid[x][y - 1] != '1' && map.grid[x][y + 1] != '1')
 				{
 					printf("Invalid map\nSpace must be surrounded by '1'\n");
+					printf("line: %s, %d, %d\n", map.grid[x], x, y);
 					return (0);
 				}
 			}
