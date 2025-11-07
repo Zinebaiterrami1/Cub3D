@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/07 10:52:26 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/07 11:51:24 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,18 +276,18 @@ char				**square_map(char **map, int len);
 size_t				ft_strlcpy(char *dest, const char *src, size_t dstsize);
 void				trim_newline(char **map);
 void				valid_map(t_map *map);
-int					check_top_border(t_map *map);
-int					check_bottom_border(t_map *map);
-int					check_left_right_border(t_map *map);
-int					check_inside(t_map *map);
-int					check_inside_2(t_map *map);
-int					check_space_map(t_map *map);
-// int					check_top_border(t_map map);
-// int					check_bottom_border(t_map map);
-// int					check_left_right_border(t_map map);
-// int					check_inside(t_map map);
-// int					check_inside_2(t_map map);
-// int					check_space_map(t_map map);
+// int					check_top_border(t_map *map);
+// int					check_bottom_border(t_map *map);
+// int					check_left_right_border(t_map *map);
+// int					check_inside(t_map *map);
+// int					check_inside_2(t_map *map);
+// int					check_space_map(t_map *map);
+int					check_top_border(t_map map);
+int					check_bottom_border(t_map map);
+int					check_left_right_border(t_map map);
+int					check_inside(t_map map);
+int					check_inside_2(t_map map);
+int					check_space_map(t_map map);
 void				print_valid(void);
 t_map				init_map(void);
 void				render_3d_map(t_game *game, t_ray *ray, int i);

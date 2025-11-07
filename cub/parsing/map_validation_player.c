@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 11:19:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/07 11:11:51 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/07 14:28:40 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,53 +145,128 @@ void	check_first_last_line(char **maze)
 	}
 }
 
-int check_left_right(char **maze)
-{
-	int x;
-	int y;
+// int check_left_right(char **maze)
+// {
+// 	int x;
+// 	int y;
 	
-	x = 0;
+// 	x = 0;
+// 	y = 0;
+// 	while(maze[x][y])
+// 	{
+// 		if(maze[x][0] == '0')
+// 		{
+// 			printf("Invalid map\nOpen At left border\n");
+// 			return (0);
+// 		}
+// 		while(maze[x][y])
+// 			y++;
+// 		if(maze[x][y - 1] == '0')
+// 		{
+// 			printf("Invalid map\nOpen at right border\n");
+// 			return (0);
+// 		}
+// 		x++;
+// 	}
+// 	return (1);
+// }
+
+// int	check_left_right(char **maze)
+// {
+// 	int	x;
+// 	int y;
+	
+// 	x = 0;
+// 	y = 0;
+// 	while(maze[y])
+// 	{
+// 		x = 0;
+// 		while(maze[y][x])
+// 		{
+// 			while(maze[y][x] == ' ' || maze[y][x] == '\t' || maze[y][x] == '\n')
+// 				x++;
+// 			if((x == 0 && maze[y][x] != '1') || maze[y][x] != '1')
+// 			{
+// 				printf("error left is open\n");
+// 				printf("line %s, char %c\n", maze[y], maze[y][x]);
+// 				return (0);
+// 			}
+// 			x++;
+// 		}
+// 		while(maze[y][x])
+// 		{
+// 			if(maze[y][x + 1] == '\0' && maze[y][x] != '1')
+// 			{
+// 				printf("error right is open\n");
+// 				return (0);
+// 			}
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	return (1);
+// }
+
+int	check_left_right(char **maze)
+{
+	int	y;
+	int	x;
+
 	y = 0;
-	while(maze[x][y])
+	while (maze[y])
 	{
-		if(maze[x][0] == '0')
+		// --- Check left border ---
+		x = 0;
+		while (maze[y][x] == ' ' || maze[y][x] == '\t' || maze[y][x] == '\n')
+			x++;
+		if (maze[y][x] != '\0' && maze[y][x] != '1')
 		{
-			printf("Invalid map\nOpen At left border\n");
+			printf("Error: left border open at line %d\n", y);
 			return (0);
 		}
-		while(maze[x][y])
-			y++;
-		if(maze[x][y - 1] == '0')
+
+		// --- Check right border ---
+		x = 0;
+		while (maze[y][x])
+			x++;
+		x--; // Move to last valid char
+		while (x > 0 && (maze[y][x] == ' ' || maze[y][x] == '\t' || maze[y][x] == '\n'))
+			x--;
+		if (x >= 0 && maze[y][x] != '1')
 		{
-			printf("Invalid map\nOpen at right border\n");
+			printf("Error: right border open at line %d\n", y);
 			return (0);
 		}
-		x++;
+		y++;
 	}
 	return (1);
 }
 
+
 void	valid_map(t_map *map)
 {
-	check_map2(map->grid);
-	check_first_last_line(map->grid);
-	if (!check_top_border(map))
+	// check_map2(map->grid);
+	// check_first_last_line(map->grid);
+	if(!check_left_right(map->grid))
 		print_error();
-	if (!check_bottom_border(map))
+	if (!check_top_border(*map))
 		print_error();
-	if (!check_left_right_border(map->grid))
+	if (!check_bottom_border(*map))
 		print_error();
-	if (!check_inside(map))
+	// if (!check_left_right_border(*map))
+	// 	print_error();
+	if (!check_inside(*map))
 		print_error();
-	if (!check_inside_2(map))
+	if (!check_inside_2(*map))
 		print_error();
 	if (!check_player_pos(map))
 		print_error();
 	// if(!check_new_line(*map))
 	// 	print_error();
-	if (!check_space_map(map))
+	if (!check_space_map(*map))
 		print_error();
 }
+
 
 void	print_valid(void)
 {
