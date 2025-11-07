@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:44:37 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/07 11:50:50 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/07 15:17:39 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	check_inside(t_map map)
 {
 	int	x;
 	int	y;
-
+	printf("am here\n");
 	x = 1;
 	y = 1;
 	while (x < map.rows - 1)
@@ -25,10 +25,11 @@ int	check_inside(t_map map)
 		while (y < map.cols - 1)
 		{
 			if (map.grid[x][y] == '0')
-			{
+			{printf(" here\n");
 				if (map.grid[x - 1][y] == ' ' || map.grid[x + 1][y] == ' '
 					|| map.grid[x][y - 1] == ' ' || map.grid[x][y + 1] == ' '
-					|| map.grid[x][y + 1] == '\0')
+					|| map.grid[x][y + 1] == '\0' || map.grid[x][y - 1] == '\0'
+					|| map.grid[x - 1][y] == '\0' || map.grid[x + 1][y] == '\0')
 				{
 					return (printf("Invalid map\n '0' next to space or \\0 \n"),
 						0);
@@ -95,7 +96,7 @@ static int	find_content_end(char *line)
 	return (i);
 }
 
-int	check_space_map(t_map *map)
+int	check_space_map(t_map map)
 {
 	int	x;
 	int	y;
@@ -104,20 +105,20 @@ int	check_space_map(t_map *map)
 
 	x = 1;
 	y = 1;
-	while (x < map->rows - 1)
+	while (x < map.rows - 1)
 	{
-		start_y = skip_leading_spaces(map->grid[x]);
-		end_y = find_content_end(map->grid[x]);
+		start_y = skip_leading_spaces(map.grid[x]);
+		end_y = find_content_end(map.grid[x]);
 		y = start_y;
 		while (y < end_y)
 		{
-			if (map->grid[x][y] == ' ' || map->grid[x][y] == '\t')
+			if (map.grid[x][y] == ' ' || map.grid[x][y] == '\t')
 			{
-				if (map->grid[x - 1][y] != '1' && map->grid[x + 1][y] != '1'
-					&& map->grid[x][y - 1] != '1' && map->grid[x][y + 1] != '1')
+				if (map.grid[x - 1][y] != '1' && map.grid[x + 1][y] != '1'
+					&& map.grid[x][y - 1] != '1' && map.grid[x][y + 1] != '1')
 				{
 					printf("Invalid map\nSpace must be surrounded by '1'\n");
-					printf("line: %s, %d, %d\n", map->grid[x], x, y);
+					printf("line: %s, %d, %d\n", map.grid[x], x, y);
 					return (0);
 				}
 			}

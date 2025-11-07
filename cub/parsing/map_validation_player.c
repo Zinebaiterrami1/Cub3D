@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 11:19:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/07 14:28:40 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/07 15:38:24 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	count_pos(t_map *map)
 	return (1);
 }
 
-void	check_map2(char **maze)
+int	check_map2(char **maze)
 {
 	int	x;
 	int	y;
@@ -89,24 +89,20 @@ void	check_map2(char **maze)
 		x = 0;
 		while (maze[y][x])
 		{
-			if (maze[y][x] == '1' || maze[y][x] == '0' || maze[y][x] == ' ' || maze[y][x] == '\t'
-				|| maze[y][x] == 'N' || maze[y][x] == 'S' || maze[y][x] == 'E'
-				|| maze[y][x] == 'W')
-			{
-				x++;
-			}
+			if (maze[y][x] == '1' || maze[y][x] == '0'
+				|| maze[y][x] == ' ' || maze[y][x] == '\t'
+				|| maze[y][x] == 'N' || maze[y][x] == 'S'
+				|| maze[y][x] == 'E' || maze[y][x] == 'W')
+					x++;
 			else
-			{
-				printf("Error\n");
-				printf("Invalid character in the maze :/\n");
-				exit (1);
-			}
+				return (printf("Invalid character in the maze :/\n"), 0);
 		}
 		y++;
 	}
+	return (1);
 }
 
-void	check_first_last_line(char **maze)
+int	check_first_last_line(char **maze)
 {
 	int	x;
 	int	y;
@@ -118,9 +114,8 @@ void	check_first_last_line(char **maze)
 			x++;
 		else
 		{
-			printf("Error\n");
 			printf("First line should contain just 1s and spaces!\n");
-			exit (1);
+			return (0);
 		}
 	}
 	y = 0;
@@ -138,11 +133,11 @@ void	check_first_last_line(char **maze)
 			x++;
 		else
 		{
-			printf("Error\n");
 			printf("Last line should contain just 1s and spaces!\n");
-			exit (1);
+			return (0);
 		}
 	}
+	return (1);
 }
 
 // int check_left_right(char **maze)
@@ -245,25 +240,27 @@ int	check_left_right(char **maze)
 
 void	valid_map(t_map *map)
 {
-	// check_map2(map->grid);
-	// check_first_last_line(map->grid);
-	if(!check_left_right(map->grid))
+	if (!check_map2(map->grid))//checked check on characters
 		print_error();
-	if (!check_top_border(*map))
+	if (!check_first_last_line(map->grid))//checked
 		print_error();
-	if (!check_bottom_border(*map))
+	if(!check_left_right(map->grid))//checked
 		print_error();
+	// if (!check_top_border(*map))
+	// 	print_error();
+	// if (!check_bottom_border(*map))
+	// 	print_error();
 	// if (!check_left_right_border(*map))
 	// 	print_error();
-	if (!check_inside(*map))
+	if (!check_inside(*map))//checked, check on 0
 		print_error();
-	if (!check_inside_2(*map))
-		print_error();
-	if (!check_player_pos(map))
+	// if (!check_inside_2(*map))
+	// 	print_error();
+	if (!check_player_pos(map))//checked
 		print_error();
 	// if(!check_new_line(*map))
 	// 	print_error();
-	if (!check_space_map(*map))
+	if (!check_space_map(*map))//checked
 		print_error();
 }
 
