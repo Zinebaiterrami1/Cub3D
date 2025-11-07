@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:55:15 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/05 14:31:53 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:43:37 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,25 @@ void	draw_fov_rays(t_game *game)
 	}
 }
 
-float	cast_ray(t_game *game, float ray_angle)
-{
-	float	ray_x;
-	float	ray_y;
-	float	ray_dx;
-	float	ray_dy;
+// float	cast_ray(t_game *game, float ray_angle)
+// {
+// 	float	ray_x;
+// 	float	ray_y;
+// 	float	ray_dx;
+// 	float	ray_dy;
 
-	ray_x = game->player.x;
-	ray_y = game->player.y;
-	ray_dx = cos(ray_angle);
-	ray_dy = sin(ray_angle);
-	while (!is_wall(game, ray_x, ray_y))
-	{
-		ray_x += ray_dx * 0.1f;
-		ray_y += ray_dy * 0.1f;
-	}
-	return (sqrt(pow(ray_x - game->player.x, 2) + pow(ray_y - game->player.y,
-				2)));
-}
+// 	ray_x = game->player.x;
+// 	ray_y = game->player.y;
+// 	ray_dx = cos(ray_angle);
+// 	ray_dy = sin(ray_angle);
+// 	while (!is_wall(game, ray_x, ray_y))
+// 	{
+// 		ray_x += ray_dx * 0.1f;
+// 		ray_y += ray_dy * 0.1f;
+// 	}
+// 	return (sqrt(pow(ray_x - game->player.x, 2) + pow(ray_y - game->player.y,
+// 				2)));
+// }
 
 void	render_3d(t_game *game)
 {

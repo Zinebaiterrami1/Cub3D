@@ -6,20 +6,11 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:24:24 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/05 14:04:18 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:03:53 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
-
-#define KEY_W 119
-#define KEY_S 115
-#define KEY_A 97
-#define KEY_D 100
-#define KEY_LEFT 65361
-#define KEY_RIGHT 65363
-#define KEY_ESC 65307
-#define KEY_SPC 32
 
 int	key_press(int keycode, t_game *game)
 {
@@ -98,10 +89,11 @@ void	handle_keys(t_game *game)
 	game->player.dx = cos(game->player.angle) * SPEED;
 	game->player.dy = sin(game->player.angle) * SPEED;
 	move_player(game, &next_x, &next_y);
-	if (!check_collision(game, next_x, game->player.y))
-		game->player.x = next_x;
-	if (!check_collision(game, game->player.x, next_y))
-		game->player.y = next_y;
+	if (!check_collision(game, next_x, next_y))
+    {
+        game->player.x = next_x;
+        game->player.y = next_y;
+    }
 }
 
 int	game_loop(t_game *game)

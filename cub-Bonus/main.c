@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/05 15:24:34 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:36:07 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ int	main(int ac, char **av)
 	map.grid = square_map(map.grid, map.cols);
 	while (map.grid[map.rows])
 		map.rows++;
+	for(int i = 0; i < map.rows; i ++)
+		printf("line : %s\n", map.grid[i]);
 	print_cub3d_logo();
 	valid_map(&map);
 	init_draw_texture(&game.dt);
