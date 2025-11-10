@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:44:37 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/10 16:38:50 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/10 21:39:09 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,8 @@ int	check_inside(t_map map)
 					|| map.grid[x][y - 1] == ' ' || map.grid[x][y + 1] == ' '
 					|| map.grid[x][y + 1] == '\0' || map.grid[x][y - 1] == '\0'
 					|| map.grid[x - 1][y] == '\0' || map.grid[x + 1][y] == '\0')
-				{
 					return (printf("Invalid map\n '0' next to space or \\0 \n"),
 						0);
-				}
 			}
 			y++;
 		}
@@ -42,27 +40,42 @@ int	check_inside(t_map map)
 	return (1);
 }
 
+int	is_player(char c)
+{
+	return (c == 'W' || c == 'E' || c == 'N' || c == 'S');
+}
+
+int	check_zero(t_map map, int x, int y)
+{
+	if (map.grid[x - 1][y] == ' ' || map.grid[x + 1][y] == ' '
+		|| map.grid[x][y - 1] == ' ' || map.grid[x][y + 1] == ' '
+		|| map.grid[x][y + 1] == '\0' || map.grid[x][y - 1] == '\0'
+		|| map.grid[x - 1][y] == '\0' || map.grid[x + 1][y] == '\0')
+	{
+		return (0);
+	}
+	return (1);
+}
+
 int	check_inside_2(t_map map)
 {
-	int		x;
-	int		y;
-	char	c;
+	int	x;
+	int	y;
 
-	x = 0;
-	y = 0;
-	while (x < map.rows && map.grid[x][y] != '\0')
+	x = 1;
+	y = 1;
+	while (x < map.rows - 1)
 	{
-		y = 0;
-		while (y < map.cols && map.grid[x][y] != '\0')
+		y = 1;
+		while (y < map.cols - 1)
 		{
-			c = map.grid[x][y];
-			if (c != 'N' && c != 'S' && c != 'E' && c != 'W' && c != '1'
-				&& c != '0' && c != ' ' && c != '\t' && c == '\0')
+			if (is_player(map.grid[x][y]))
 			{
-				printf("Invalid map\nWrong character %c at (%d, %d)\n", c, x,
-					y);
-				printf("line %s\n", map.grid[x]);
-				return (0);
+				if (!check_zero(map, x, y))
+				{
+					printf("Invalid map\n player next to space or \\0 \n");
+					return (0);
+				}
 			}
 			y++;
 		}
@@ -90,10 +103,21 @@ static int	find_content_end(char *line)
 	i = 0;
 	while (line[i] && line[i] != '\n')
 		i++;
-	// Move backwards to skip trailing spaces
-	while (i > 0 && (line[i - 1] == ' ' || line[i - 1] == '\t' ||  line[i - 1] == '\0'))
+	while (i > 0 && (line[i - 1] == ' ' || line[i - 1] == '\t' || line[i
+				- 1] == '\0'))
 		i--;
 	return (i);
+}
+
+int	check_one(t_map map, int x, int y)
+{
+	if (map.grid[x][y] == ' ' || map.grid[x][y] == '\t')
+	{
+		if (map.grid[x - 1][y] != '1' || map.grid[x + 1][y] != '1'
+			|| map.grid[x][y - 1] != '1' || map.grid[x][y + 1] != '1')
+			return (0);
+	}
+	return (1);
 }
 
 int	check_space_map(t_map map)
@@ -101,7 +125,7 @@ int	check_space_map(t_map map)
 	int	x;
 	int	y;
 	int	start_y;
-	int end_y;
+	int	end_y;
 
 	x = 1;
 	y = 1;
@@ -112,17 +136,11 @@ int	check_space_map(t_map map)
 		y = start_y;
 		while (y < end_y && map.grid[x][y])
 		{
-			if (map.grid[x][y] == ' ' || map.grid[x][y] == '\t')
+			if (!check_one(map, x, y))
 			{
-				if (map.grid[x - 1][y] != '1' || map.grid[x + 1][y] != '1'
-					|| map.grid[x][y - 1] != '1' || map.grid[x][y + 1] != '1')
-				{
-					printf("start: %d\n", start_y);
-					printf("end: %d\n", end_y);
-					printf("Invalid map\nSpace must be surrounded by '1'\n");
-					printf("line: %s, %d, %d\n", map.grid[x], x, y);
-					return (0);
-				}
+				printf("Invalid map\nSpace must be surrounded by '1'\n");
+				printf("line : %s\n", map.grid[x]);
+				return (0);
 			}
 			y++;
 		}
@@ -131,65 +149,42 @@ int	check_space_map(t_map map)
 	return (1);
 }
 
+int	check_content(t_map map, int x, int i)
+{
+	int	has_started;
+	int	has_ended;
 
-// int check_new_line(t_map map)
-// {
-// 	int x;
-// 	int y;
-	
-// 	x = 1;
-// 	y = 1;
-// 	while (x < map.rows - 1)
-// 	{
-// 		y = 1;
-// 		while(y < map.cols - 1)
-// 		{
-// 			if(map.grid[x][0] == '\n' || map.grid[x][0] == '\0')
-// 			{
-// 				printf("Invalid map\n");
-// 				printf("line: %s\n", map.grid[x]);
-// 				return (0);
-// 			}
-// 			y++;
-// 		}
-// 		x++;
-// 	}
-// 	return (1);
-// }
+	has_started = 0;
+	has_ended = 0;
+	if (map.grid[x][i] == '\n' || map.grid[x][i] == '\0')
+	{
+		if (has_started)
+			has_ended = 1;
+	}
+	else
+	{
+		if (has_ended)
+			return (0);
+		has_started = 1;
+	}
+	return (1);
+}
 
 int	check_new_line(t_map map)
 {
 	int	x;
-	int	has_started;
-	int	has_ended;
+	int	i;
 
 	x = 0;
-	has_started = 0;
-	has_ended = 0;
-
 	while (x < map.rows)
 	{
-		// Skip lines that contain only spaces or tabs or are empty
-		int	i = 0;
+		i = 0;
 		while (map.grid[x][i] == ' ' || map.grid[x][i] == '\t')
 			i++;
-
-		if (map.grid[x][i] == '\n' || map.grid[x][i] == '\0')
+		if (!check_content(map, x, i))
 		{
-			// Empty line
-			if (has_started)
-				has_ended = 1;
-		}
-		else
-		{
-			// Non-empty line
-			if (has_ended)
-			{
-				printf("Invalid map: content found after empty line.\n");
-				printf("line: %s\n", map.grid[x]);
-				return (0);
-			}
-			has_started = 1;
+			printf("Invalid map: content found after empty line.\n");
+			return (0);
 		}
 		x++;
 	}

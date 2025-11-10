@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 11:19:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/10 15:49:26 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/10 21:39:52 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,10 @@ int	check_map2(char **maze)
 		x = 0;
 		while (maze[y][x])
 		{
-			if (maze[y][x] == '1' || maze[y][x] == '0'
-				|| maze[y][x] == ' ' || maze[y][x] == '\t'
-				|| maze[y][x] == 'N' || maze[y][x] == 'S'
+			if (maze[y][x] == '1' || maze[y][x] == '0' || maze[y][x] == ' '
+				|| maze[y][x] == '\t' || maze[y][x] == 'N' || maze[y][x] == 'S'
 				|| maze[y][x] == 'E' || maze[y][x] == 'W')
-					x++;
+				x++;
 			else
 				return (printf("Invalid character in the maze :/\n"), 0);
 		}
@@ -102,10 +101,9 @@ int	check_map2(char **maze)
 	return (1);
 }
 
-int	check_first_last_line(char **maze)
+int	check_first(char **maze)
 {
 	int	x;
-	int	y;
 
 	x = 0;
 	while (maze[0][x])
@@ -113,11 +111,16 @@ int	check_first_last_line(char **maze)
 		if (maze[0][x] == ' ' || maze[0][x] == '\t' || maze[0][x] == '1')
 			x++;
 		else
-		{
-			printf("First line should contain just 1s and spaces!\n");
 			return (0);
-		}
 	}
+	return (1);
+}
+
+int	check_last(char **maze)
+{
+	int	x;
+	int	y;
+
 	y = 0;
 	while (maze[y])
 	{
@@ -132,75 +135,26 @@ int	check_first_last_line(char **maze)
 		if (maze[y][x] == ' ' || maze[y][x] == '\t' || maze[y][x] == '1')
 			x++;
 		else
-		{
-			printf("Last line should contain just 1s and spaces!\n");
 			return (0);
-		}
 	}
 	return (1);
 }
 
-// int check_left_right(char **maze)
-// {
-// 	int x;
-// 	int y;
-	
-// 	x = 0;
-// 	y = 0;
-// 	while(maze[x][y])
-// 	{
-// 		if(maze[x][0] == '0')
-// 		{
-// 			printf("Invalid map\nOpen At left border\n");
-// 			return (0);
-// 		}
-// 		while(maze[x][y])
-// 			y++;
-// 		if(maze[x][y - 1] == '0')
-// 		{
-// 			printf("Invalid map\nOpen at right border\n");
-// 			return (0);
-// 		}
-// 		x++;
-// 	}
-// 	return (1);
-// }
-
-// int	check_left_right(char **maze)
-// {
-// 	int	x;
-// 	int y;
-	
-// 	x = 0;
-// 	y = 0;
-// 	while(maze[y])
-// 	{
-// 		x = 0;
-// 		while(maze[y][x])
-// 		{
-// 			while(maze[y][x] == ' ' || maze[y][x] == '\t' || maze[y][x] == '\n')
-// 				x++;
-// 			if((x == 0 && maze[y][x] != '1') || maze[y][x] != '1')
-// 			{
-// 				printf("error left is open\n");
-// 				printf("line %s, char %c\n", maze[y], maze[y][x]);
-// 				return (0);
-// 			}
-// 			x++;
-// 		}
-// 		while(maze[y][x])
-// 		{
-// 			if(maze[y][x + 1] == '\0' && maze[y][x] != '1')
-// 			{
-// 				printf("error right is open\n");
-// 				return (0);
-// 			}
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// 	return (1);
-// }
+int	check_first_last_line(char **maze)
+{
+	if (!check_first(maze))
+	{
+		printf("First line should contain just 1s and spaces!\n");
+		return (0);
+	}
+	if (!check_last(maze))
+	{
+		printf("Last line should contain just 1s and spaces!\n");
+		return (0);
+	}
+	else
+		return (1);
+}
 
 int	check_left_right(char **maze)
 {
@@ -210,59 +164,42 @@ int	check_left_right(char **maze)
 	y = 0;
 	while (maze[y])
 	{
-		// --- Check left border ---
 		x = 0;
 		while (maze[y][x] == ' ' || maze[y][x] == '\t' || maze[y][x] == '\n')
 			x++;
 		if (maze[y][x] != '\0' && maze[y][x] != '1')
-		{
-			printf("Error: left border open at line %d\n", y);
-			return (0);
-		}
-
-		// --- Check right border ---
+			return (printf("Error: left border open at line %d\n", y), 0);
 		x = 0;
 		while (maze[y][x])
 			x++;
-		x--; // Move to last valid char
-		while (x > 0 && (maze[y][x] == ' ' || maze[y][x] == '\t' || maze[y][x] == '\n'))
+		x--;
+		while (x > 0 && (maze[y][x] == ' ' || maze[y][x] == '\t'
+				|| maze[y][x] == '\n'))
 			x--;
 		if (x >= 0 && maze[y][x] != '1')
-		{
-			printf("Error: right border open at line %d\n", y);
-			return (0);
-		}
+			return (printf("Error: right border open at line %d\n", y), 0);
 		y++;
 	}
 	return (1);
 }
 
-
 void	valid_map(t_map *map)
 {
-	// if (!check_map2(map->grid))//checked check on characters
+	if (!check_map2(map->grid))
+		print_error();
+	if (!check_first_last_line(map->grid))
+		print_error();
+	if (!check_left_right(map->grid))
+		print_error();
+	if (!check_inside(*map))
+		print_error();
+	if (!check_inside_2(*map))
+		print_error();
+	if (!check_new_line(*map))
+		print_error();
+	// if (!check_space_map(*map))
 	// 	print_error();
-	// if (!check_first_last_line(map->grid))//checked
-	// 	print_error();
-	// if(!check_left_right(map->grid))//checked
-	// 	print_error();
-	// if (!check_top_border(*map))
-	// 	print_error();
-	// if (!check_bottom_border(*map))
-	// 	print_error();
-	// if (!check_left_right_border(*map))
-	// 	print_error();
-	// if (!check_inside(*map))//checked, check on 0
-	// 	print_error();
-	// if (!check_inside_2(*map))
-	// 	print_error();
-	// if(!check_new_line(*map)) //checked
-	// 	print_error();
-	if (!check_space_map(*map))//checked
-		print_error(); //checked on if space surronded by 1, but
-	//if there is space in the end of the map, mochkiiiiilaaaa
 }
-
 
 void	print_valid(void)
 {
