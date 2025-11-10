@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 11:19:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/07 15:38:24 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:49:26 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,28 +240,27 @@ int	check_left_right(char **maze)
 
 void	valid_map(t_map *map)
 {
-	if (!check_map2(map->grid))//checked check on characters
-		print_error();
-	if (!check_first_last_line(map->grid))//checked
-		print_error();
-	if(!check_left_right(map->grid))//checked
-		print_error();
+	// if (!check_map2(map->grid))//checked check on characters
+	// 	print_error();
+	// if (!check_first_last_line(map->grid))//checked
+	// 	print_error();
+	// if(!check_left_right(map->grid))//checked
+	// 	print_error();
 	// if (!check_top_border(*map))
 	// 	print_error();
 	// if (!check_bottom_border(*map))
 	// 	print_error();
 	// if (!check_left_right_border(*map))
 	// 	print_error();
-	if (!check_inside(*map))//checked, check on 0
-		print_error();
+	// if (!check_inside(*map))//checked, check on 0
+	// 	print_error();
 	// if (!check_inside_2(*map))
 	// 	print_error();
-	if (!check_player_pos(map))//checked
-		print_error();
-	// if(!check_new_line(*map))
+	// if(!check_new_line(*map)) //checked
 	// 	print_error();
 	if (!check_space_map(*map))//checked
-		print_error();
+		print_error(); //checked on if space surronded by 1, but
+	//if there is space in the end of the map, mochkiiiiilaaaa
 }
 
 
