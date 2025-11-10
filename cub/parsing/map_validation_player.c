@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 11:19:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/10 21:39:52 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/10 22:30:12 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ int	check_map2(char **maze)
 				|| maze[y][x] == 'E' || maze[y][x] == 'W')
 				x++;
 			else
+			{
+				printf("line : %s\n", maze[y]);
 				return (printf("Invalid character in the maze :/\n"), 0);
+			}
 		}
 		y++;
 	}
@@ -194,6 +197,8 @@ void	valid_map(t_map *map)
 	if (!check_inside(*map))
 		print_error();
 	if (!check_inside_2(*map))
+		print_error();
+	if(!check_player_pos(map))
 		print_error();
 	if (!check_new_line(*map))
 		print_error();

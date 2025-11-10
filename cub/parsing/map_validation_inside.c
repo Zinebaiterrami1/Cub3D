@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:44:37 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/10 21:39:09 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/10 21:52:25 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,23 +149,16 @@ int	check_space_map(t_map map)
 	return (1);
 }
 
-int	check_content(t_map map, int x, int i)
+int	is_line_empty(char *line)
 {
-	int	has_started;
-	int	has_ended;
+	int	i;
 
-	has_started = 0;
-	has_ended = 0;
-	if (map.grid[x][i] == '\n' || map.grid[x][i] == '\0')
+	i = 0;
+	while (line[i])
 	{
-		if (has_started)
-			has_ended = 1;
-	}
-	else
-	{
-		if (has_ended)
+		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 			return (0);
-		has_started = 1;
+		i++;
 	}
 	return (1);
 }
@@ -173,15 +166,15 @@ int	check_content(t_map map, int x, int i)
 int	check_new_line(t_map map)
 {
 	int	x;
-	int	i;
+	int	empty_found;
 
 	x = 0;
+	empty_found = 0;
 	while (x < map.rows)
 	{
-		i = 0;
-		while (map.grid[x][i] == ' ' || map.grid[x][i] == '\t')
-			i++;
-		if (!check_content(map, x, i))
+		if (is_line_empty(map.grid[x]))
+			empty_found = 1;
+		else if (empty_found)
 		{
 			printf("Invalid map: content found after empty line.\n");
 			return (0);

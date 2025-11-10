@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/07 09:48:01 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/10 22:03:41 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	main(int ac, char **av)
 	parse_args(ac, av);
 	fd = open_map_file(av[1]);
 	map = read_map_file(fd, &game, &tex);
+	if(!map.grid)
+		print_error();
 	close(fd);
 	trim_newline(map.grid);
 	map.cols = find_big_line(map.grid);
