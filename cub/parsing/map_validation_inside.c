@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:44:37 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/10 15:41:43 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/10 16:38:50 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int	find_content_end(char *line)
 	while (line[i] && line[i] != '\n')
 		i++;
 	// Move backwards to skip trailing spaces
-	while (i > 0 && (line[i - 1] == ' ' || line[i - 1] == '\t'))
+	while (i > 0 && (line[i - 1] == ' ' || line[i - 1] == '\t' ||  line[i - 1] == '\0'))
 		i--;
 	return (i);
 }
@@ -106,7 +106,7 @@ int	check_space_map(t_map map)
 	x = 1;
 	y = 1;
 	while (x < map.rows - 1)
-	{printf("dssssadsa\n");
+	{
 		start_y = skip_leading_spaces(map.grid[x]);
 		end_y = find_content_end(map.grid[x]);
 		y = start_y;
@@ -117,6 +117,8 @@ int	check_space_map(t_map map)
 				if (map.grid[x - 1][y] != '1' || map.grid[x + 1][y] != '1'
 					|| map.grid[x][y - 1] != '1' || map.grid[x][y + 1] != '1')
 				{
+					printf("start: %d\n", start_y);
+					printf("end: %d\n", end_y);
 					printf("Invalid map\nSpace must be surrounded by '1'\n");
 					printf("line: %s, %d, %d\n", map.grid[x], x, y);
 					return (0);
