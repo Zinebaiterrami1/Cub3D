@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 11:19:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/10 22:30:12 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:16:18 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,132 +78,24 @@ int	count_pos(t_map *map)
 	return (1);
 }
 
-int	check_map2(char **maze)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (maze[y] != NULL)
-	{
-		x = 0;
-		while (maze[y][x])
-		{
-			if (maze[y][x] == '1' || maze[y][x] == '0' || maze[y][x] == ' '
-				|| maze[y][x] == '\t' || maze[y][x] == 'N' || maze[y][x] == 'S'
-				|| maze[y][x] == 'E' || maze[y][x] == 'W')
-				x++;
-			else
-			{
-				printf("line : %s\n", maze[y]);
-				return (printf("Invalid character in the maze :/\n"), 0);
-			}
-		}
-		y++;
-	}
-	return (1);
-}
-
-int	check_first(char **maze)
-{
-	int	x;
-
-	x = 0;
-	while (maze[0][x])
-	{
-		if (maze[0][x] == ' ' || maze[0][x] == '\t' || maze[0][x] == '1')
-			x++;
-		else
-			return (0);
-	}
-	return (1);
-}
-
-int	check_last(char **maze)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (maze[y])
-	{
-		if (maze[y][0] == '\0')
-			break ;
-		y++;
-	}
-	y--;
-	x = 0;
-	while (maze[y][x])
-	{
-		if (maze[y][x] == ' ' || maze[y][x] == '\t' || maze[y][x] == '1')
-			x++;
-		else
-			return (0);
-	}
-	return (1);
-}
-
-int	check_first_last_line(char **maze)
-{
-	if (!check_first(maze))
-	{
-		printf("First line should contain just 1s and spaces!\n");
-		return (0);
-	}
-	if (!check_last(maze))
-	{
-		printf("Last line should contain just 1s and spaces!\n");
-		return (0);
-	}
-	else
-		return (1);
-}
-
-int	check_left_right(char **maze)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (maze[y])
-	{
-		x = 0;
-		while (maze[y][x] == ' ' || maze[y][x] == '\t' || maze[y][x] == '\n')
-			x++;
-		if (maze[y][x] != '\0' && maze[y][x] != '1')
-			return (printf("Error: left border open at line %d\n", y), 0);
-		x = 0;
-		while (maze[y][x])
-			x++;
-		x--;
-		while (x > 0 && (maze[y][x] == ' ' || maze[y][x] == '\t'
-				|| maze[y][x] == '\n'))
-			x--;
-		if (x >= 0 && maze[y][x] != '1')
-			return (printf("Error: right border open at line %d\n", y), 0);
-		y++;
-	}
-	return (1);
-}
-
 void	valid_map(t_map *map)
 {
-	if (!check_map2(map->grid))
+	while (map->grid[map->rows])
+		map->rows++;
+	if (!check_new_line(*map))
 		print_error();
 	if (!check_first_last_line(map->grid))
 		print_error();
 	if (!check_left_right(map->grid))
 		print_error();
+	if (!check_map2(map->grid))
+		print_error();
 	if (!check_inside(*map))
 		print_error();
 	if (!check_inside_2(*map))
 		print_error();
-	if(!check_player_pos(map))
+	if (!check_player_pos(map))
 		print_error();
-	if (!check_new_line(*map))
-		print_error();
-	// if (!check_space_map(*map))
-	// 	print_error();
 }
 
 void	print_valid(void)

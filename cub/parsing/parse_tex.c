@@ -6,11 +6,28 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:51:39 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/05 14:02:31 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:38:46 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
+
+void	check_texture_line(t_textures *tex, char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] == ' ' || line[i] == '\t')
+		i++;
+	if (ft_strncmp(line + i, "NO ", 3) == 0)
+		assign_texture(&tex->no, line + i + 3);
+	else if (ft_strncmp(line + i, "SO ", 3) == 0)
+		assign_texture(&tex->so, line + i + 3);
+	else if (ft_strncmp(line + i, "EA ", 3) == 0)
+		assign_texture(&tex->ea, line + i + 3);
+	else if (ft_strncmp(line + i, "WE ", 3) == 0)
+		assign_texture(&tex->we, line + i + 3);
+}
 
 int	tex_global(char *line, t_textures *tex)
 {
@@ -42,22 +59,22 @@ void	validate_textures(t_textures *tex)
 		print_error();
 }
 
-void	check_texture_line(t_textures *tex, char *line)
-{
-	int	i;
+// void	check_texture_line(t_textures *tex, char *line)
+// {
+// 	int	i;
 
-	i = 0;
-	while (line[i] == ' ' || line[i] == '\t')
-		i++;
-	if (ft_strncmp(line + i, "NO ", 3) == 0)
-		tex->no = ft_strdup_trim(line + i + 3);
-	else if (ft_strncmp(line + i, "SO ", 3) == 0)
-		tex->so = ft_strdup_trim(line + i + 3);
-	else if (ft_strncmp(line + i, "EA ", 3) == 0)
-		tex->ea = ft_strdup_trim(line + i + 3);
-	else if (ft_strncmp(line + i, "WE ", 3) == 0)
-		tex->we = ft_strdup_trim(line + i + 3);
-}
+// 	i = 0;
+// 	while (line[i] == ' ' || line[i] == '\t')
+// 		i++;
+// 	if (ft_strncmp(line + i, "NO ", 3) == 0)
+// 		tex->no = ft_strdup_trim(line + i + 3);
+// 	else if (ft_strncmp(line + i, "SO ", 3) == 0)
+// 		tex->so = ft_strdup_trim(line + i + 3);
+// 	else if (ft_strncmp(line + i, "EA ", 3) == 0)
+// 		tex->ea = ft_strdup_trim(line + i + 3);
+// 	else if (ft_strncmp(line + i, "WE ", 3) == 0)
+// 		tex->we = ft_strdup_trim(line + i + 3);
+// }
 
 int	parse_color(char *line, int *out_color)
 {
@@ -94,8 +111,7 @@ void	check_path(char *path)
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("❌ Erreur : le fichier%s n'existe pas \n",
-			path);
+		printf("❌ Erreur : le fichier%s n'existe pas \n", path);
 		exit(1);
 	}
 	close(fd);

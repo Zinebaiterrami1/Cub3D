@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/05 14:07:00 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:49:51 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ char	*read_map(int fd)
 		free(tmp);
 		tmp = get_next_line(fd);
 	}
-	printf("TMP: %s\n", tmp);
 	while (tmp)
 	{
 		old_str = new_str;

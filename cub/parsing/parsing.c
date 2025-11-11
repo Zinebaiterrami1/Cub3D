@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:19:12 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/05 14:02:45 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 09:41:00 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	print_error(void)
 {
-	printf("errooooor\n");
+	printf("Error\n");
+	printf("Invalid map :/\n");
 	exit(EXIT_FAILURE);
 }
 

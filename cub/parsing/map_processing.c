@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:40:19 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/10 22:02:07 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 10:30:49 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**square_map(char **map, int max_len)
 	int		len_line;
 
 	i = 0;
-	if(!map)
+	if (!map)
 		return (NULL);
 	while (map[i])
 	{
@@ -70,7 +70,7 @@ void	trim_newline(char **map)
 	int	len;
 
 	i = 0;
-	if(!map)
+	if (!map)
 		return ;
 	while (map[i])
 	{

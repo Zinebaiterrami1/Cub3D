@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 20:36:33 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/05 14:02:39 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:38:02 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,17 @@ void	line_free(t_textures tex)
 	free(tex.so);
 	free(tex.ea);
 	free(tex.we);
+}
+
+void	duplicate_tex(void)
+{
+	printf("Error: Duplicate texture\n");
+	exit(EXIT_FAILURE);
+}
+
+void	assign_texture(char **tex_ptr, char *value)
+{
+	if (*tex_ptr != NULL)
+		duplicate_tex();
+	*tex_ptr = ft_strdup_trim(value);
 }

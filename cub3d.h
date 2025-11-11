@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/07 15:13:11 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:43:19 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,15 +181,15 @@ typedef struct s_map
 }					t_map;
 typedef struct s_d
 {
-	int		steps;
-	float	x;
-	float	y;
-	int		i;
-	float	x_inc;
-	float	y_inc;
-	float	dx;
-	float	dy;
-}				t_d;
+	int				steps;
+	float			x;
+	float			y;
+	int				i;
+	float			x_inc;
+	float			y_inc;
+	float			dx;
+	float			dy;
+}					t_d;
 typedef struct s_draw
 {
 	int				tile;
@@ -234,6 +234,8 @@ typedef struct s_game
 	t_draw			draw;
 	t_draw_texture	dt;
 	t_d				d;
+	int				floor_set;
+	int				ceiling_set;
 	int				floor_color;
 	int				ceiling_color;
 	t_textures		tex;
@@ -276,12 +278,6 @@ char				**square_map(char **map, int len);
 size_t				ft_strlcpy(char *dest, const char *src, size_t dstsize);
 void				trim_newline(char **map);
 void				valid_map(t_map *map);
-// int					check_top_border(t_map *map);
-// int					check_bottom_border(t_map *map);
-// int					check_left_right_border(t_map *map);
-// int					check_inside(t_map *map);
-// int					check_inside_2(t_map *map);
-// int					check_space_map(t_map *map);
 int					check_top_border(t_map map);
 int					check_bottom_border(t_map map);
 int					check_left_right_border(t_map map);
@@ -367,4 +363,19 @@ void				performe_dda(t_ray *ray, t_cast_ray *data, t_game *game);
 void				color_logo(const char **logo);
 void				print_cub3d_logo(void);
 int					check_new_line(t_map map);
+char				*ft_strnstr(const char *str, const char *substr,
+						size_t len);
+int					is_line_empty(char *line);
+int					is_player(char c);
+int					check_zero(t_map map, int x, int y);
+int					check_one(t_map map, int x, int y);
+int					check_first(char **maze);
+int					check_last(char **maze);
+int					check_first_last_line(char **maze);
+int					check_left_right(char **maze);
+int					check_map2(char **maze);
+void				duplicate_color(void);
+void				duplicate_tex(void);
+void				assign_texture(char **tex_ptr, char *value);
+void				check_tex(t_textures	*tex);
 #endif

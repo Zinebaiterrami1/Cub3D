@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 11:19:50 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/07 09:13:12 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:16:18 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,21 @@ int	count_pos(t_map *map)
 
 void	valid_map(t_map *map)
 {
-	if (!check_top_border(*map))
+	while (map->grid[map->rows])
+		map->rows++;
+	if (!check_new_line(*map))
 		print_error();
-	if (!check_bottom_border(*map))
+	if (!check_first_last_line(map->grid))
 		print_error();
-	if (!check_left_right_border(*map))
+	if (!check_left_right(map->grid))
+		print_error();
+	if (!check_map2(map->grid))
 		print_error();
 	if (!check_inside(*map))
 		print_error();
 	if (!check_inside_2(*map))
 		print_error();
 	if (!check_player_pos(map))
-		print_error();
-	if (!check_space_map(*map))
 		print_error();
 }
 

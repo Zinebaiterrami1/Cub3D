@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:24:24 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/06 15:03:53 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:12:56 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ void	handle_keys(t_game *game)
 	game->player.dy = sin(game->player.angle) * SPEED;
 	move_player(game, &next_x, &next_y);
 	if (!check_collision(game, next_x, next_y))
-    {
-        game->player.x = next_x;
-        game->player.y = next_y;
-    }
+	{
+		game->player.x = next_x;
+		game->player.y = next_y;
+	}
 }
 
 int	game_loop(t_game *game)

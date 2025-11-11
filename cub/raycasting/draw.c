@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:15:09 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/05 14:31:30 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:39:39 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,12 @@ void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color)
 		return ;
 	pixel = y * mlx->line_len + x * (mlx->bpp / 8);
 	*(unsigned int *)(mlx->addr + pixel) = color;
+}
+
+void	check_tex(t_textures	*tex)
+{
+	tex->no = NULL;
+	tex->so = NULL;
+	tex->ea = NULL;
+	tex->we = NULL;
 }

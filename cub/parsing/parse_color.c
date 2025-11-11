@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:46:21 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/05 14:02:20 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:33:54 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,25 @@
 int	global_color(char *line, t_game *game)
 {
 	if (line[0] == 'F')
+	{
+		if (game->floor_set == 1)
+			duplicate_color();
 		parse_color(line + 1, &game->floor_color);
+		game->floor_set = 1;
+		return (0);
+	}
 	else if (line[0] == 'C')
+	{
+		if (game->ceiling_set == 1)
+		{
+			printf("Error: Duplicate C (ceiling) color\n");
+			exit(EXIT_FAILURE);
+		}
 		parse_color(line + 1, &game->ceiling_color);
-	else
-		return (1);
-	return (0);
+		game->ceiling_set = 1;
+		return (0);
+	}
+	return (1);
 }
 
 void	init_player(t_player *player, t_player map_player)

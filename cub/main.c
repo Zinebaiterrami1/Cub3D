@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/10 22:03:41 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:39:09 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	process_line(char *line, int i, t_ctx *ctx)
 		return (0);
 	if (tex_global(line + i, ctx->tex) == 0)
 		return (0);
-	if (line[i] == '1')
+	if (ft_strnstr(line, "1111", ft_strlen(line)))
 	{
 		ctx->map->grid = get_map(line, ctx->fd);
 		return (1);
@@ -63,6 +63,8 @@ static void	init_game(t_game *game, t_map map, t_textures tex)
 	init_draw(&game->draw);
 	init_all_rays(game->rays);
 	init_textures(game->textures);
+	game->floor_set = 0;
+	game->ceiling_set = 0;
 	game->map = map;
 	load_textures(game, &tex);
 	line_free(tex);
@@ -93,18 +95,15 @@ int	main(int ac, char **av)
 	t_textures	tex;
 
 	parse_args(ac, av);
+	check_tex(&tex);
 	fd = open_map_file(av[1]);
 	map = read_map_file(fd, &game, &tex);
-	if(!map.grid)
+	if (!map.grid)
 		print_error();
 	close(fd);
 	trim_newline(map.grid);
 	map.cols = find_big_line(map.grid);
 	map.grid = square_map(map.grid, map.cols);
-	while (map.grid[map.rows])
-		map.rows++;
-	for(int i = 0; i < map.rows; i ++)
-		printf("line : %s\n", map.grid[i]);
 	print_cub3d_logo();
 	valid_map(&map);
 	init_draw_texture(&game.dt);
