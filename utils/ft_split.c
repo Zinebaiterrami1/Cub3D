@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:01:38 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/05 14:00:57 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:36:24 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*fill_word(const char *s, char c)
 	size_t	len_src;
 
 	len_src = len_word(s, c);
-	arr = (char *)malloc((len_src + 1) * sizeof(char));
+	arr = (char *)gc_malloc((len_src + 1) * sizeof(char));
 	if (arr == NULL)
 		return (NULL);
 	ft_memcpy(arr, (char *)s, len_src);
@@ -68,15 +68,7 @@ static char	*fill_word(const char *s, char c)
 
 static char	**ft_free(char **s)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		free(s[i]);
-		i++;
-	}
-	free(s);
+	(void)s;
 	return (NULL);
 }
 
@@ -90,7 +82,7 @@ char	**ft_split(char *s, char c)
 	j = 0;
 	if (!s)
 		return (NULL);
-	str = (char **)malloc((count_word(s, c) + 1) * sizeof(char *));
+	str = (char **)gc_malloc((count_word(s, c) + 1) * sizeof(char *));
 	if (!str)
 		return (NULL);
 	while (s[i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_processing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:40:19 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 10:30:49 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:20:15 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ char	**square_map(char **map, int max_len)
 		len_line = (int)ft_strlen(map[i]);
 		if (len_line < max_len)
 		{
-			new_line = malloc(max_len + 1);
+			new_line = gc_malloc(max_len + 1);
 			if (!new_line)
 				return (NULL);
 			ft_memcpy(new_line, map[i], len_line);
 			while (len_line < max_len)
 				new_line[len_line++] = '\0';
 			new_line[max_len] = '\0';
-			free(map[i]);
+			(void)map[i];
 			map[i] = new_line;
 		}
 		i++;
@@ -90,8 +90,8 @@ void	free_map_grid(char **grid)
 	i = 0;
 	while (grid[i])
 	{
-		free(grid[i]);
+		(void)grid[i];
 		i++;
 	}
-	free(grid);
+	(void)grid;
 }

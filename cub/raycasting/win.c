@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   win.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:50:14 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/05 14:34:04 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:44:50 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ int	close_window(void *param)
 	if (!param)
 	{
 		printf("Error: close_window called with NULL\n");
+		gc_free_all();
 		exit(1);
 	}
 	game = (t_game *)param;
 	cleanup_game(game);
+	gc_free_all();
 	exit(0);
 	return (0);
 }

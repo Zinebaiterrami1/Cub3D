@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:49:00 by zait-err          #+#    #+#             */
-/*   Updated: 2024/11/28 11:19:04 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:36:24 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 char	*get_next_line(int fd);
 char	*_fill_line_buffer(int fd, char *str);
 char	*_set_line(char *line_buffer);
+void	*gc_malloc(size_t size);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
 char	*ft_strchr(const char *str, int c);

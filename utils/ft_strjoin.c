@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:54:30 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/10/31 15:55:11 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:36:23 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_strjoinn(char *s1, char *s2)
 	}
 	printf("s1: %s\n", s1);
 	printf("s2: %s\n", s2);
-	new_str = (char *)malloc((sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)
+	new_str = (char *)gc_malloc((sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)
 					+ 1)));
 	if (!new_str)
 		return (NULL);

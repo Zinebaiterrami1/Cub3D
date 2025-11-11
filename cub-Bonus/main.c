@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 13:09:28 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:20:15 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ static t_map	read_map_file(int fd, t_game *game, t_textures *tex)
 	{
 		i = skip_whitespace(line);
 		ret = process_line(line, i, &ctx);
-		free(line);
+		(void)line;
 		if (ret == 1)
 			break ;
 		else if (ret == -1)
 			print_error();
 		line = get_next_line(fd);
 	}
+	get_next_line(-1);
 	return (map);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 11:05:59 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 11:45:57 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:44:50 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ int	is_line_empty(char *line)
 void	duplicate_color(void)
 {
 	printf("Error: Duplicate F (floor)  color\n");
+	gc_free_all();
 	exit(EXIT_FAILURE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 14:47:11 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/05 14:33:39 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:44:51 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	load_textures(t_game *game, t_textures *tex)
 		if (!game->textures[i].img)
 		{
 			printf("Error: Could not load texture %s\n", texture_files[i]);
+			gc_free_all();
 			exit(EXIT_FAILURE);
 		}
 		game->textures[i].addr = mlx_get_data_addr(game->textures[i].img,

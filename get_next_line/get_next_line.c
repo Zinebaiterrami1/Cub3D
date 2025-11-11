@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:48:18 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 15:50:05 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:36:15 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*get_next_line(int fd)
 	{
 		if (stash)
 		{
-			free(stash);
 			stash = NULL;
 		}
 		return (NULL);
@@ -47,7 +46,7 @@ char	*_fill_line_buffer(int fd, char *str)
 	char	*buffer;
 
 	r = 1;
-	buffer = malloc(BUFFER_SIZE * sizeof(char) + 1);
+	buffer = gc_malloc(BUFFER_SIZE * sizeof(char) + 1);
 	if (!buffer)
 		return (NULL);
 	if (fd == -1)
@@ -57,8 +56,6 @@ char	*_fill_line_buffer(int fd, char *str)
 		r = read(fd, buffer, BUFFER_SIZE);
 		if (r == -1)
 		{
-			free(str);
-			free(buffer);
 			return (NULL);
 		}
 		buffer[r] = '\0';
@@ -66,7 +63,7 @@ char	*_fill_line_buffer(int fd, char *str)
 		if (!str)
 			return (NULL);
 	}
-	free(buffer);
+	(void)buffer;
 	return (str);
 }
 
@@ -80,7 +77,6 @@ char	*_helper_function(char *line)
 		i++;
 	if (!line[i])
 	{
-		free(line);
 		return (NULL);
 	}
 	if (line[i] == '\n')
@@ -88,10 +84,8 @@ char	*_helper_function(char *line)
 	left_c = ft_substr(line, i, ft_strlen(line) - i);
 	if (!left_c)
 	{
-		free(line);
 		return (NULL);
 	}
-	free(line);
 	return (left_c);
 }
 
@@ -108,9 +102,9 @@ char	*_set_line(char *line_buffer)
 	while (line_buffer[i] && line_buffer[i] != '\n')
 		i++;
 	if (line_buffer[i] == '\n')
-		line = malloc(sizeof(char) * (i + 2));
+		line = gc_malloc(sizeof(char) * (i + 2));
 	else
-		line = malloc(sizeof(char) * (i + 1));
+		line = gc_malloc(sizeof(char) * (i + 1));
 	if (!line)
 		return (NULL);
 	while (j <= i && line_buffer[j])

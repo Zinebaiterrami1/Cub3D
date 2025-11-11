@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 20:36:33 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 11:40:45 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:20:15 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,16 @@ void	free_split(char **tokens)
 		return ;
 	while (tokens[i])
 	{
-		free(tokens[i]);
+		(void)tokens[i];
 		i++;
 	}
-	free(tokens);
+	(void)tokens;
 }
 
 void	line_free(t_textures tex)
 {
-	free(tex.no);
-	free(tex.so);
-	free(tex.ea);
-	free(tex.we);
-}
-
-void	duplicate_tex(void)
-{
-	printf("Error: Duplicate texture\n");
-	exit(EXIT_FAILURE);
-}
-
-void	assign_texture(char **tex_ptr, char *value)
-{
-	if (*tex_ptr != NULL)
-		duplicate_tex();
-	*tex_ptr = ft_strdup_trim(value);
+	(void)tex.no;
+	(void)tex.so;
+	(void)tex.ea;
+	(void)tex.we;
 }

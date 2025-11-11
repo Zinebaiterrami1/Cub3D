@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 14:33:25 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:36:24 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ static t_map	read_map_file(int fd, t_game *game, t_textures *tex)
 	{
 		i = skip_whitespace(line);
 		ret = process_line(line, i, &ctx);
-		free(line);
+		(void)line;
 		if (ret == 1)
 			break ;
 		else if (ret == -1)
 			print_error_map(&map);
 		line = get_next_line(fd);
 	}
+	get_next_line(-1);
 	return (map);
 }
 
@@ -84,6 +85,10 @@ void	init_draw_texture(t_draw_texture *dt)
 	dt->tex_y = 0;
 	dt->wall_height = 0;
 }
+void	cleanup_get_next_line(void)
+{
+	get_next_line(-1);
+}
 
 int	main(int ac, char **av)
 {
@@ -103,6 +108,7 @@ int	main(int ac, char **av)
 	close(fd);
 	trim_newline(map.grid);
 	map.cols = find_big_line(map.grid);
+	
 	map.grid = square_map(map.grid, map.cols);
 	print_cub3d_logo();
 	valid_map(&map);
@@ -113,3 +119,4 @@ int	main(int ac, char **av)
 	free_map_grid(map.grid);
 	return (0);
 }
+

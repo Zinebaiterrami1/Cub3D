@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 11:49:51 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:20:15 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	**fill_lines(char **map, char *line, int count)
 	int		i;
 	char	**full_map;
 
-	full_map = malloc(sizeof(char *) * (count + 2));
+	full_map = gc_malloc(sizeof(char *) * (count + 2));
 	if (!full_map)
 		return (NULL);
 	i = 0;
@@ -46,7 +46,7 @@ static char	**fill_lines(char **map, char *line, int count)
 	if (!full_map)
 		return (NULL);
 	full_map[i + 1] = NULL;
-	free(map);
+	(void)map;
 	return (full_map);
 }
 
@@ -66,7 +66,7 @@ char	**get_map(char *line, int fd)
 		map = fill_lines(map, line, count++);
 		if (!map)
 			return (NULL);
-		free(line);
+		(void)line;
 		line = get_next_line(fd);
 	}
 	return (map);
@@ -79,21 +79,21 @@ char	*read_map(int fd)
 	char	*new_str;
 
 	tmp = get_next_line(fd);
-	new_str = malloc(1);
+	new_str = gc_malloc(1);
 	if (!new_str)
 		return (NULL);
 	new_str[0] = '\0';
 	while (tmp && !get_first_line_map(tmp))
 	{
-		free(tmp);
+		(void)tmp;
 		tmp = get_next_line(fd);
 	}
 	while (tmp)
 	{
 		old_str = new_str;
 		new_str = ft_strjoinn(old_str, tmp);
-		free(old_str);
-		free(tmp);
+		(void)old_str;
+		(void)tmp;
 		tmp = get_next_line(fd);
 	}
 	return (new_str);
