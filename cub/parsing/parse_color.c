@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:46:21 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 11:33:54 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:59:11 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	global_color(char *line, t_game *game)
 {
+
 	if (line[0] == 'F')
 	{
 		if (game->floor_set == 1)

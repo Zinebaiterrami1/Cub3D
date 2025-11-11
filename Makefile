@@ -2,7 +2,7 @@ NAME = cub3D
 BONUS_NAME = cub3D-Bonus
 CC = cc
 MLXFLAGS = -Lmlx -lmlx -lXext -lX11 -lm
-CFLAGS = -Wextra -Wall -Werror #-g -fsanitize=address -g3
+CFLAGS = -Wextra -Wall -Werror -g3 #-fsanitize=address -g3
 
 
 SOURCE = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\

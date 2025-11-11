@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 09:47:15 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:31:05 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ char	*read_map(int fd)
 		free(tmp);
 		tmp = get_next_line(fd);
 	}
-	printf("TMP: %s\n", tmp);
 	while (tmp)
 	{
 		old_str = new_str;
@@ -98,4 +97,11 @@ char	*read_map(int fd)
 		tmp = get_next_line(fd);
 	}
 	return (new_str);
+}
+
+void	print_error_map(t_map *map)
+{
+	printf("Error\n");
+	free_map_grid(map->grid);
+	exit(EXIT_FAILURE);
 }

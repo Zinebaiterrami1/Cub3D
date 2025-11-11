@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 11:43:19 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:33:44 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,4 +378,5 @@ void				duplicate_color(void);
 void				duplicate_tex(void);
 void				assign_texture(char **tex_ptr, char *value);
 void				check_tex(t_textures	*tex);
+void				print_error_map(t_map *map);
 #endif

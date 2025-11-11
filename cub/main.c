@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 11:39:09 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:33:25 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_map	read_map_file(int fd, t_game *game, t_textures *tex)
 		if (ret == 1)
 			break ;
 		else if (ret == -1)
-			print_error();
+			print_error_map(&map);
 		line = get_next_line(fd);
 	}
 	return (map);
@@ -63,8 +63,6 @@ static void	init_game(t_game *game, t_map map, t_textures tex)
 	init_draw(&game->draw);
 	init_all_rays(game->rays);
 	init_textures(game->textures);
-	game->floor_set = 0;
-	game->ceiling_set = 0;
 	game->map = map;
 	load_textures(game, &tex);
 	line_free(tex);
@@ -94,12 +92,14 @@ int	main(int ac, char **av)
 	int			fd;
 	t_textures	tex;
 
+	game.floor_set = 0;
+	game.ceiling_set = 0;
 	parse_args(ac, av);
 	check_tex(&tex);
 	fd = open_map_file(av[1]);
 	map = read_map_file(fd, &game, &tex);
 	if (!map.grid)
-		print_error();
+		print_error_map(&map);
 	close(fd);
 	trim_newline(map.grid);
 	map.cols = find_big_line(map.grid);
