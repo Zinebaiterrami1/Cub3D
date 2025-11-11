@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 17:58:38 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/11 20:12:31 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ typedef struct s_keys
 	int				right;
 	int				space;
 }					t_keys;
+
+typedef struct s_gc
+{
+	void		*ptr;
+	struct s_gc	*next;
+}				t_gc;
 
 typedef struct s_player
 {
@@ -302,8 +308,6 @@ void				check_texture_line(t_textures *tex, char *line);
 void				check_path(char *path);
 int					key_hook(int keycode, void *param);
 int					close_window(void *param);
-
-
 void				draw_minimap(t_game *game);
 int					extra_number(const char *a, int i, int num);
 void				free_split(char **tokens);
@@ -379,8 +383,9 @@ int					check_map2(char **maze);
 void				duplicate_color(void);
 void				check_tex(t_textures	*tex);
 void				print_error_map(t_map *map);
-void free_textures_strings(t_textures *tex);
-void *gc_malloc(size_t size);
-void gc_free_all(void);
-void gc_free_all(void);
+void				free_textures_strings(t_textures *tex);
+void				*gc_malloc(size_t size);
+void				gc_free_all(void);
+void				gc_free_all(void);
+void				init_draw_texture(t_draw_texture *dt);
 #endif

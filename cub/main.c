@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 16:36:24 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/11 20:10:56 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,6 @@ static void	init_game(t_game *game, t_map map, t_textures tex)
 	hook_init(game);
 }
 
-void	init_draw_texture(t_draw_texture *dt)
-{
-	dt->screen_y = 0;
-	dt->screen_x = 0;
-	dt->color = 0;
-	dt->wall_top = 0.0f;
-	dt->wall_bottom = 0.0f;
-	dt->tex_x = 0;
-	dt->tex_num = 0;
-	dt->step = 0.0f;
-	dt->tex_pos = 0.0f;
-	dt->tex_y = 0;
-	dt->wall_height = 0;
-}
 void	cleanup_get_next_line(void)
 {
 	get_next_line(-1);
@@ -108,7 +94,6 @@ int	main(int ac, char **av)
 	close(fd);
 	trim_newline(map.grid);
 	map.cols = find_big_line(map.grid);
-	
 	map.grid = square_map(map.grid, map.cols);
 	print_cub3d_logo();
 	valid_map(&map);
@@ -119,4 +104,3 @@ int	main(int ac, char **av)
 	free_map_grid(map.grid);
 	return (0);
 }
-

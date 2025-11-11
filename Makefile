@@ -10,6 +10,7 @@ SOURCE = \
 	get_next_line/get_next_line.c \
 	get_next_line/get_next_line_utils.c \
 	cub/gc.c \
+	cub/parsing/parse_utils_tex.c \
 	cub/raycasting/draw.c \
 	cub/raycasting/key_hook.c \
 	cub/raycasting/raycasting.c \

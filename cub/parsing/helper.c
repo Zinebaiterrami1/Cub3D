@@ -19,10 +19,10 @@ int	is_player(char c)
 
 int	check_zero(t_map map, int x, int y)
 {
-	if (map.grid[x - 1][y] == ' ' || map.grid[x + 1][y] == ' '
-		|| map.grid[x][y - 1] == ' ' || map.grid[x][y + 1] == ' '
-		|| map.grid[x][y + 1] == '\0' || map.grid[x][y - 1] == '\0'
-		|| map.grid[x - 1][y] == '\0' || map.grid[x + 1][y] == '\0')
+	if (map.grid[x - 1][y] == ' ' || map.grid[x + 1][y] == ' ' || map.grid[x][y
+		- 1] == ' ' || map.grid[x][y + 1] == ' ' || map.grid[x][y + 1] == '\0'
+		|| map.grid[x][y - 1] == '\0' || map.grid[x - 1][y] == '\0'
+		|| map.grid[x + 1][y] == '\0')
 	{
 		return (0);
 	}

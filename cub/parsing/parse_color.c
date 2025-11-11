@@ -14,7 +14,6 @@
 
 int	global_color(char *line, t_game *game)
 {
-
 	if (line[0] == 'F')
 	{
 		if (game->floor_set == 1)

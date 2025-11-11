@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:48:18 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 16:36:15 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/11 20:01:45 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ char	*get_next_line(int fd)
 	static char	*stash;
 
 	lines = NULL;
-	
-	// ═══ LIBÉRER STASH SI fd == -1 ═══
 	if (fd == -1)
 	{
 		if (stash)
@@ -29,7 +27,6 @@ char	*get_next_line(int fd)
 		}
 		return (NULL);
 	}
-	
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	stash = _fill_line_buffer(fd, stash);
