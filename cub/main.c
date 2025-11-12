@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 20:10:56 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/12 11:45:39 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,18 @@ void	cleanup_get_next_line(void)
 	get_next_line(-1);
 }
 
+void print_map(char **map)
+{
+	int i;
+
+	i = 0;
+	while(map[i])
+	{
+		printf("%s", map[i]);
+		i++;
+	}
+}
+
 int	main(int ac, char **av)
 {
 	t_game		game;
@@ -95,7 +107,7 @@ int	main(int ac, char **av)
 	trim_newline(map.grid);
 	map.cols = find_big_line(map.grid);
 	map.grid = square_map(map.grid, map.cols);
-	print_cub3d_logo();
+	// print_cub3d_logo();
 	valid_map(&map);
 	init_draw_texture(&game.dt);
 	init_all_rays(game.rays);

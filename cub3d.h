@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/12 09:20:02 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/12 11:34:19 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,5 +388,6 @@ void				*gc_malloc(size_t size);
 void				gc_free_all(void);
 void				gc_free_all(void);
 void				init_draw_texture(t_draw_texture *dt);
-void	validate_textures(t_textures *tex);
+void				validate_textures(t_textures *tex);
+void				print_map(char **map);
 #endif
