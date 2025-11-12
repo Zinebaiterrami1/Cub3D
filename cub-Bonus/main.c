@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 20:13:22 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/12 15:25:56 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	process_line(char *line, int i, t_ctx *ctx)
 		return (0);
 	if (tex_global(line + i, ctx->tex) == 0)
 		return (0);
-	if (ft_strnstr(line, "1111", ft_strlen(line)))
+	if (ft_strnstr(line, "111", ft_strlen(line)))
 	{
 		ctx->map->grid = get_map(line, ctx->fd);
 		return (1);

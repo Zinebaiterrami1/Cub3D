@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:27 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 18:20:15 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/12 13:21:38 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,12 @@ char	*read_map(int fd)
 		tmp = get_next_line(fd);
 	}
 	return (new_str);
+}
+
+void	print_error_map(t_map *map)
+{
+	printf("Error\n");
+	free_map_grid(map->grid);
+	gc_free_all();
+	exit(EXIT_FAILURE);
 }

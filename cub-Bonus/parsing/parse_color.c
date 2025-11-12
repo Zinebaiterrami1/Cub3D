@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:46:21 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 11:41:38 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/12 11:45:02 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	global_color(char *line, t_game *game)
 		if (game->ceiling_set == 1)
 		{
 			printf("Error: Duplicate C (ceiling) color\n");
+			gc_free_all();
 			exit(EXIT_FAILURE);
 		}
 		parse_color(line + 1, &game->ceiling_color);
@@ -72,6 +73,7 @@ int	open_map_file(char *file_name)
 	if (fd < 0)
 	{
 		perror("Erreur ouverture fichier");
+		gc_free_all();
 		exit(1);
 	}
 	return (fd);

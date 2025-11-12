@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:51:39 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 20:14:08 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/11 20:08:27 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	duplicate_tex(t_textures *tex)
 		free_textures_strings(tex);
 	printf("Error: Duplicate texture\n");
 	get_next_line(-1);
+	gc_free_all();
 	exit(EXIT_FAILURE);
 }
 

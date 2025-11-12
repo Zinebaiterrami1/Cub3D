@@ -100,6 +100,6 @@ fclean: clean
 	rm -rf $(NAME) $(BONUS_NAME)
 	# On ne supprime plus le dossier cub-Bonus, sinon make re échoue
 
-re: fclean all bonus
+re: fclean all
 
 .SECONDARY: $(OBJECT) $(OBJECT_BONUS)

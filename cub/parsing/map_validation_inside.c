@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:44:37 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/12 11:43:49 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/12 13:59:38 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,8 @@ int	check_inside(t_map map)
 					|| map.grid[x][y - 1] == ' ' || map.grid[x][y + 1] == ' '
 					|| map.grid[x][y + 1] == '\0' || map.grid[x][y - 1] == '\0'
 					|| map.grid[x - 1][y] == '\0' || map.grid[x + 1][y] == '\0')
-					{	
-						return (printf("Invalid map\n '0' next to space or \\0 \n"),
-							0);
-					}
+					return (printf("Invalid map\n '0' next to space or \\0 \n"),
+						0);
 			}
 			y++;
 		}

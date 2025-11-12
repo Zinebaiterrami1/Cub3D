@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation_inside.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:44:37 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 19:56:56 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/12 14:00:58 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	check_map2(char **maze)
 				x++;
 			else
 			{
-				printf("line : %s\n", maze[y]);
 				return (printf("Invalid character in the maze :/\n"), 0);
 			}
 		}

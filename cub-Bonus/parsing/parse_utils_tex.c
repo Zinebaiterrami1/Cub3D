@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils_tex.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 20:13:51 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/12 09:35:52 by fakoukou         ###   ########.fr       */
+/*   Created: 2025/11/11 20:08:04 by fakoukou          #+#    #+#             */
+/*   Updated: 2025/11/12 14:01:12 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ void	check_path(char *path)
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("❌ Erreur : le fichier%s n'existe pas \n", path);
+		printf("❌ Erreur : le fichier%s n'existe pas \n",
+			path);
+		gc_free_all();
 		exit(1);
 	}
 	close(fd);
