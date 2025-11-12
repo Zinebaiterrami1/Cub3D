@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:21:06 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/05 15:21:24 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/12 10:03:12 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	color_logo(const char **logo)
 	}
 	printf("\n🌈 \033[1;37mWelcome to \033[1;35mCUB3D\033[1;37m "
 		"— powered by Luna && KouKou 🌙\033[0m\n\n");
-}
+}   
 
 void	print_cub3d_logo(void)
 {
