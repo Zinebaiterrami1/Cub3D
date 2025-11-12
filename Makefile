@@ -10,7 +10,6 @@ SOURCE = \
 	get_next_line/get_next_line.c \
 	get_next_line/get_next_line_utils.c \
 	cub/gc.c \
-	cub/parsing/parse_utils_tex.c \
 	cub/raycasting/draw.c \
 	cub/raycasting/key_hook.c \
 	cub/raycasting/raycasting.c \
@@ -39,7 +38,8 @@ SOURCE = \
 	cub/parsing/map_processing.c \
 	cub/parsing/map_validation_borders.c \
 	cub/parsing/map_validation_inside.c \
-	cub/parsing/map_validation_player.c
+	cub/parsing/map_validation_player.c\
+	cub/parsing/parse_utils_tex.c \
 
 SOURCE_BONUS = \
 	get_next_line/get_next_line.c \
@@ -75,6 +75,7 @@ SOURCE_BONUS = \
 	cub-Bonus/parsing/map_validation_borders.c \
 	cub-Bonus/parsing/map_validation_inside.c \
 	cub-Bonus/parsing/map_validation_player.c \
+	cub-Bonus/parsing/parse_utils_tex.c \
 	cub-Bonus/gc.c
 
 # -------------------- OBJECTS --------------------
