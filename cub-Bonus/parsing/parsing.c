@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:19:12 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/13 09:13:48 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:55:46 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	print_error(void)
 {
 	printf("Error\n");
-	printf("Invalid map :\n");
 	gc_free_all();
 	exit(EXIT_FAILURE);
 }

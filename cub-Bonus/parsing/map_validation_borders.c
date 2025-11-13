@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:42:04 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 11:07:25 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/12 10:42:28 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	check_first(char **maze)
 	int	x;
 
 	x = 0;
-	if (!maze[0] || maze[0][0] == '\0' || maze[0][0] != '1')
-		return (0);
 	while (maze[0][x])
 	{
 		if (maze[0][x] != ' ' && maze[0][x] != '\t' && maze[0][x] != '1')
