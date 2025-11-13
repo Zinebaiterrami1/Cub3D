@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 20:36:33 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 16:36:24 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/13 22:34:30 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,8 @@ void	t_fil(char **tokens)
 
 void	free_split(char **tokens)
 {
-	int	i;
-
-	i = 0;
 	if (!tokens)
 		return ;
-	while (tokens[i])
-	{
-		(void)tokens[i];
-		i++;
-	}
-	(void)tokens;
 }
 
 void	line_free(t_textures tex)

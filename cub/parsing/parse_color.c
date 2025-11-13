@@ -3,64 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:46:21 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/13 09:56:09 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/13 23:02:12 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
+static void	handle_floor_color(char *line, t_game *game)
+{
+	if (game->floor_set == 1)
+	{
+		printf("Error: Duplicate F (floor) color\n");
+		gc_free_all();
+		exit(EXIT_FAILURE);
+	}
+	if (line[1] != ' ' && line[1] != '\t')
+	{
+		printf("Error: Invalid floor color format (expected 'F R,G,B')\n");
+		gc_free_all();
+		exit(EXIT_FAILURE);
+	}
+	parse_color(line + 2, &game->floor_color);
+	game->floor_set = 1;
+}
+
+static void	handle_ceiling_color(char *line, t_game *game)
+{
+	if (game->ceiling_set == 1)
+	{
+		printf("Error: Duplicate C (ceiling) color\n");
+		gc_free_all();
+		exit(EXIT_FAILURE);
+	}
+	if (line[1] != ' ' && line[1] != '\t')
+	{
+		printf("Error: Invalid ceiling color format\n");
+		gc_free_all();
+		exit(EXIT_FAILURE);
+	}
+	parse_color(line + 2, &game->ceiling_color);
+	game->ceiling_set = 1;
+}
 
 int	global_color(char *line, t_game *game)
 {
-	
-	// Supprimer les espaces/tabs au début s'il y en a
 	while (*line == ' ' || *line == '\t')
 		line++;
-
 	if (line[0] == 'F')
 	{
-		if (game->floor_set == 1)
-		{
-			printf("Error: Duplicate F (floor) color\n");
-			gc_free_all();
-			exit(EXIT_FAILURE);
-		}
-
-		if (line[1] != ' ' && line[1] != '\t')
-		{
-			printf("Error: Invalid floor color format (expected 'F R,G,B')\n");
-			gc_free_all();
-			exit(EXIT_FAILURE);
-		}
-
-		parse_color(line + 2, &game->floor_color);
-		game->floor_set = 1;
+		handle_floor_color(line, game);
 		return (0);
 	}
 	else if (line[0] == 'C')
 	{
-		if (game->ceiling_set == 1)
-		{
-			printf("Error: Duplicate C (ceiling) color\n");
-			gc_free_all();
-			exit(EXIT_FAILURE);
-		}
-
-		// Vérifier qu'il y a un espace après C
-		if (line[1] != ' ' && line[1] != '\t')
-		{
-			printf("Error: Invalid ceiling color format (expected 'C R,G,B')\n");
-			gc_free_all();
-			exit(EXIT_FAILURE);
-		}
-
-		parse_color(line + 2, &game->ceiling_color);
-		game->ceiling_set = 1;
+		handle_ceiling_color(line, game);
 		return (0);
 	}
-	return (1); // ni F ni C → ce n'est pas une ligne de couleur
+	return (1);
 }
 
 void	init_player(t_player *player, t_player map_player)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/13 09:53:03 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/13 23:00:30 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	process_line(char *line, int i, t_ctx *ctx)
 		return (0);
 	if (tex_global(line + i, ctx->tex) == 0)
 		return (0);
-	if (ft_strnstr(line, "1111", ft_strlen(line)))
+	if (ft_strnstr(line, "111", ft_strlen(line)))
 	{
 		ctx->map->grid = get_map(line, ctx->fd);
 		return (1);
@@ -75,7 +75,10 @@ void	cleanup_get_next_line(void)
 {
 	get_next_line(-1);
 }
-
+// void color_test( game *game)
+// {
+	
+// }
 int	main(int ac, char **av)
 {
 	t_game		game;

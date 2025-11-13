@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gc.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 16:22:38 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/12 11:13:59 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/13 22:41:47 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 
 static t_gc	**get_gc_head(void)
 {
-	static t_gc	*head;
+	static t_gc	*head = NULL;
 
-	head = NULL;
 	return (&head);
 }
 

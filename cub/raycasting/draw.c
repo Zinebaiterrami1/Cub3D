@@ -6,27 +6,27 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:15:09 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 11:39:39 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/13 22:34:30 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-void	init_d(t_d d)
+void	init_d(t_d *d)
 {
-	d.steps = 0;
-	d.x = 0.0;
-	d.y = 0.0;
-	d.i = 0;
-	d.x_inc = 0.0;
-	d.y_inc = 0.0;
-	d.dx = 0.0;
-	d.dy = 0.0;
+	d->steps = 0;
+	d->x = 0.0;
+	d->y = 0.0;
+	d->i = 0;
+	d->x_inc = 0.0;
+	d->y_inc = 0.0;
+	d->dx = 0.0;
+	d->dy = 0.0;
 }
 
 void	draw_line_dda(t_game *game, int color)
 {
-	init_d(game->d);
+	init_d(&game->d);
 	game->d.steps = 0;
 	game->d.dx = game->ray.end_x - game->player.x;
 	game->d.dy = game->ray.end_x - game->player.y;

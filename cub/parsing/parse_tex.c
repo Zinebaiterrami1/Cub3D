@@ -26,27 +26,24 @@ static void	assign_texture(char **tex_ptr, char *value, t_textures *tex)
 {
 	char	*new_value;
 	char	*trimmed;
+	int		len;
 
 	if (*tex_ptr != NULL)
 		duplicate_tex(tex);
-
 	trimmed = ft_strdup_trim(value);
 	if (!trimmed)
 		print_error();
-
-	int len = ft_strlen(trimmed);
+	len = ft_strlen(trimmed);
 	if (len > 0 && (trimmed[len - 1] == '\n' || trimmed[len - 1] == '\r'))
 		trimmed[len - 1] = '\0';
-
-	
-if (!ft_strnstr(trimmed, ".xpm", ft_strlen(trimmed)))
-{
-    printf("❌ Erreur : le fichier '%s' n'est pas une texture .xpm\n", trimmed);
-	(void)trimmed;
-	gc_free_all();
-	exit(EXIT_FAILURE);
-}
-
+	if (!ft_strnstr(trimmed, ".xpm", ft_strlen(trimmed)))
+	{
+		printf("❌ Erreur : le fichier '%s' n'est pas une texture .xpm\n",
+			trimmed);
+		(void)trimmed;
+		gc_free_all();
+		exit(EXIT_FAILURE);
+	}
 	new_value = trimmed;
 	*tex_ptr = new_value;
 }
