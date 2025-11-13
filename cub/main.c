@@ -103,14 +103,14 @@ int	main(int ac, char **av)
 	if (game.floor_set == 0)
 	{
 		printf("Warning: floor color not set, using default (black)\n");
-			gc_free_all();
-			exit(EXIT_FAILURE);
+		gc_free_all();
+		exit(EXIT_FAILURE);
 	}
 	if (game.ceiling_set == 0)
 	{
 		printf("Warning: ceiling color not set, using default (white)\n");
-			gc_free_all();
-			exit(EXIT_FAILURE);
+		gc_free_all();
+		exit(EXIT_FAILURE);
 	}
 	init_game(&game, map, tex);
 	free_map_grid(map.grid);

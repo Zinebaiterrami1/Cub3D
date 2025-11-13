@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/13 09:33:48 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/13 21:20:36 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 
 # include "get_next_line/get_next_line.h"
-# include "mlx.h"
+# include "minilibx-linux/mlx.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <fcntl.h>
@@ -62,9 +62,9 @@ typedef struct s_keys
 
 typedef struct s_gc
 {
-	void		*ptr;
-	struct s_gc	*next;
-}				t_gc;
+	void			*ptr;
+	struct s_gc		*next;
+}					t_gc;
 
 typedef struct s_player
 {
@@ -304,7 +304,7 @@ void				draw_textured_wall_slice(t_game *game, int screen_x,
 						t_ray *ray, int wall_height);
 char				**ft_split(char *s, char c);
 int					parse_color(char *line, int *out_color);
-int	mouse_move(int x, int y, t_game *game);
+int					mouse_move(int x, int y, t_game *game);
 void				check_texture_line(t_textures *tex, char *line);
 void				check_path(char *path);
 int					key_hook(int keycode, void *param);
@@ -382,12 +382,12 @@ int					check_first_last_line(char **maze);
 int					check_left_right(char **maze);
 int					check_map2(char **maze);
 void				duplicate_color(void);
-void				check_tex(t_textures	*tex);
+void				check_tex(t_textures *tex);
 void				print_error_map(t_map *map);
 void				free_textures_strings(t_textures *tex);
 void				*gc_malloc(size_t size);
 void				gc_free_all(void);
 void				gc_free_all(void);
 void				init_draw_texture(t_draw_texture *dt);
-void	validate_textures(t_textures *tex);
+void				validate_textures(t_textures *tex);
 #endif
