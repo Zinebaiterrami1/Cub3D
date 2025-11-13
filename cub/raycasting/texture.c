@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 14:47:11 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/11 16:44:51 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/12 14:19:14 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	load_textures(t_game *game, t_textures *tex)
 	int		i;
 
 	i = 0;
+	validate_textures(tex);
 	texture_files[0] = tex->no;
 	texture_files[1] = tex->so;
 	texture_files[2] = tex->ea;

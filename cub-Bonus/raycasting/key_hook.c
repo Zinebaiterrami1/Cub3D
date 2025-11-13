@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 20:24:24 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/06 15:32:42 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/13 09:26:59 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	key_press(int keycode, t_game *game)
 	if (keycode == KEY_ESC)
 	{
 		cleanup_game(game);
+		gc_free_all();
 		exit(0);
 	}
 	if (keycode == KEY_W)

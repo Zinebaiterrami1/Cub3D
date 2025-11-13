@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 20:08:04 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 20:11:11 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/13 09:53:49 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	validate_textures(t_textures *tex)
 {
-	if (tex->no)
+	if (tex->no != NULL)
 		check_path(tex->no);
 	else
 		print_error();
-	if (tex->so)
+	if (tex->so!= NULL)
 		check_path(tex->so);
 	else
 		print_error();
-	if (tex->ea)
+	if (tex->ea != NULL)
 		check_path(tex->ea);
 	else
 		print_error();
-	if (tex->we)
+	if (tex->we != NULL)
 		check_path(tex->we);
 	else
 		print_error();
@@ -67,8 +67,7 @@ void	check_path(char *path)
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("❌ Erreur : le fichier%s n'existe pas \n",
-			path);
+		printf("❌ Erreur : le fichier%s n'existe pas \n", path);
 		gc_free_all();
 		exit(1);
 	}

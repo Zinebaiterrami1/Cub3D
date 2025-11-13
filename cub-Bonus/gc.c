@@ -6,19 +6,24 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 16:22:38 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 20:36:07 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/13 09:32:38 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "../cub3d.h"
+#include <stdlib.h>
 
-static t_gc		*g_head = NULL; // global list head
+static t_gc	**get_gc_head(void)
+{
+	static t_gc	*head = NULL;
+	return (&head);
+}
 
 void	*gc_malloc(size_t size)
 {
 	void	*mem;
 	t_gc	*node;
+	t_gc	**head;
 
 	mem = malloc(size);
 	if (!mem)
@@ -29,20 +34,23 @@ void	*gc_malloc(size_t size)
 		free(mem);
 		return (NULL);
 	}
+	head = get_gc_head();
 	node->ptr = mem;
-	node->next = g_head;
-	g_head = node;
+	node->next = *head;
+	*head = node;
 	return (mem);
 }
 
 void	gc_free_all(void)
 {
+	t_gc	**head;
 	t_gc	*tmp;
 
-	while (g_head)
+	head = get_gc_head();
+	while (*head)
 	{
-		tmp = g_head;
-		g_head = g_head->next;
+		tmp = *head;
+		*head = (*head)->next;
 		free(tmp->ptr);
 		free(tmp);
 	}

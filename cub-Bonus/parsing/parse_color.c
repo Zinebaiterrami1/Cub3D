@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:46:21 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 11:41:38 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/13 09:26:59 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,28 @@
 
 int	global_color(char *line, t_game *game)
 {
+	
+	// Supprimer les espaces/tabs au début s'il y en a
+	while (*line == ' ' || *line == '\t')
+		line++;
+
 	if (line[0] == 'F')
 	{
 		if (game->floor_set == 1)
-			duplicate_color();
-		parse_color(line + 1, &game->floor_color);
+		{
+			printf("Error: Duplicate F (floor) color\n");
+			gc_free_all();
+			exit(EXIT_FAILURE);
+		}
+
+		if (line[1] != ' ' && line[1] != '\t')
+		{
+			printf("Error: Invalid floor color format (expected 'F R,G,B')\n");
+			gc_free_all();
+			exit(EXIT_FAILURE);
+		}
+
+		parse_color(line + 2, &game->floor_color);
 		game->floor_set = 1;
 		return (0);
 	}
@@ -27,14 +44,25 @@ int	global_color(char *line, t_game *game)
 		if (game->ceiling_set == 1)
 		{
 			printf("Error: Duplicate C (ceiling) color\n");
+			gc_free_all();
 			exit(EXIT_FAILURE);
 		}
-		parse_color(line + 1, &game->ceiling_color);
+
+		// Vérifier qu'il y a un espace après C
+		if (line[1] != ' ' && line[1] != '\t')
+		{
+			printf("Error: Invalid ceiling color format (expected 'C R,G,B')\n");
+			gc_free_all();
+			exit(EXIT_FAILURE);
+		}
+
+		parse_color(line + 2, &game->ceiling_color);
 		game->ceiling_set = 1;
 		return (0);
 	}
-	return (1);
+	return (1); // ni F ni C → ce n'est pas une ligne de couleur
 }
+
 
 void	init_player(t_player *player, t_player map_player)
 {
@@ -72,6 +100,7 @@ int	open_map_file(char *file_name)
 	if (fd < 0)
 	{
 		perror("Erreur ouverture fichier");
+		gc_free_all();
 		exit(1);
 	}
 	return (fd);

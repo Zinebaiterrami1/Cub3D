@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 20:13:51 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/12 09:35:52 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/12 10:43:07 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	check_path(char *path)
 	if (fd == -1)
 	{
 		printf("❌ Erreur : le fichier%s n'existe pas \n", path);
+		gc_free_all();
 		exit(1);
 	}
 	close(fd);

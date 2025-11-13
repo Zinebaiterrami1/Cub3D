@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:51:39 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 20:14:08 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/13 09:26:59 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,38 @@ void	duplicate_tex(t_textures *tex)
 		free_textures_strings(tex);
 	printf("Error: Duplicate texture\n");
 	get_next_line(-1);
+	gc_free_all();
 	exit(EXIT_FAILURE);
 }
-
 static void	assign_texture(char **tex_ptr, char *value, t_textures *tex)
 {
 	char	*new_value;
+	char	*trimmed;
 
 	if (*tex_ptr != NULL)
-	{
 		duplicate_tex(tex);
-	}
-	new_value = ft_strdup_trim(value);
-	if (!new_value)
+
+	trimmed = ft_strdup_trim(value);
+	if (!trimmed)
 		print_error();
+
+	int len = ft_strlen(trimmed);
+	if (len > 0 && (trimmed[len - 1] == '\n' || trimmed[len - 1] == '\r'))
+		trimmed[len - 1] = '\0';
+
+	
+if (!ft_strnstr(trimmed, ".xpm", ft_strlen(trimmed)))
+{
+    printf("❌ Erreur : le fichier '%s' n'est pas une texture .xpm\n", trimmed);
+	(void)trimmed;
+	gc_free_all();
+	exit(EXIT_FAILURE);
+}
+
+	new_value = trimmed;
 	*tex_ptr = new_value;
 }
+
 
 void	free_textures_strings(t_textures *tex)
 {

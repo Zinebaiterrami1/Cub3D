@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/12 09:20:02 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/13 09:33:48 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,6 +304,7 @@ void				draw_textured_wall_slice(t_game *game, int screen_x,
 						t_ray *ray, int wall_height);
 char				**ft_split(char *s, char c);
 int					parse_color(char *line, int *out_color);
+int	mouse_move(int x, int y, t_game *game);
 void				check_texture_line(t_textures *tex, char *line);
 void				check_path(char *path);
 int					key_hook(int keycode, void *param);

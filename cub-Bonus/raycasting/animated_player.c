@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   animated_player.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 10:56:56 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/06 12:38:19 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/13 09:26:59 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	load_texture_gun(t_game *game)
 		if (!game->gun.gun_texture[i].img)
 		{
 			printf("Error: Could not load gun texture! : %s\n", gun_path[i]);
+			gc_free_all();
 			exit(EXIT_FAILURE);
 		}
 		game->gun.gun_texture[i].addr = mlx_get_data_addr(

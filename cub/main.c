@@ -6,7 +6,7 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/11 20:10:56 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/13 09:53:03 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,18 @@ int	main(int ac, char **av)
 	init_draw_texture(&game.dt);
 	init_all_rays(game.rays);
 	validate_textures(&tex);
+	if (game.floor_set == 0)
+	{
+		printf("Warning: floor color not set, using default (black)\n");
+			gc_free_all();
+			exit(EXIT_FAILURE);
+	}
+	if (game.ceiling_set == 0)
+	{
+		printf("Warning: ceiling color not set, using default (white)\n");
+			gc_free_all();
+			exit(EXIT_FAILURE);
+	}
 	init_game(&game, map, tex);
 	free_map_grid(map.grid);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 12:56:47 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/05 14:06:10 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/13 09:39:17 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	cleanup_game(t_game *game)
 int	destroy_mlx(t_game *game)
 {
 	cleanup_game(game);
+	gc_free_all();
 	exit(0);
 	return (0);
 }
@@ -75,11 +76,11 @@ int	destroy_mlx(t_game *game)
 void	hook_init(t_game *game)
 {
 	mlx_put_image_to_window(game->gfx.mlx, game->gfx.win, game->gfx.img, 0, 0);
-	mlx_hook(game->gfx.win, 2, 1L << 0, key_press, game);
-	mlx_hook(game->gfx.win, 3, 1L << 1, key_release, game);
-	mlx_hook(game->gfx.win, 6, 1L << 6, mouse_move, game);
-	mlx_hook(game->gfx.win, 17, 0, close_window, game);
-	mlx_loop_hook(game->gfx.mlx, game_loop, game);
+	mlx_hook(game->gfx.win, 2, 1L << 0, (int (*)())key_press, game);
+	mlx_hook(game->gfx.win, 3, 1L << 1, (int (*)())key_release, game);
+	mlx_hook(game->gfx.win, 6, 1L << 6, (int (*)())mouse_move, game);
+	mlx_hook(game->gfx.win, 17, 0, (int (*)())close_window, game);
+	mlx_loop_hook(game->gfx.mlx, (int (*)())game_loop, game);
 	mlx_loop(game->gfx.mlx);
 	destroy_mlx(game);
 }
