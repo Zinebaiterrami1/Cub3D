@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 09:59:23 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/05 14:10:41 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:50:14 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static void	draw_map(t_game *game)
 		while (game->draw.x < game->map.cols)
 		{
 			if (game->map.grid[game->draw.y][game->draw.x] == '1')
-				draw_tile(game, 0x000000);
+				draw_tile(game, 0x372819);
 			else if (game->map.grid[game->draw.y][game->draw.x] == '0')
-				draw_tile(game, 0xDDDDDD);
+				draw_tile(game, 0x8C7864);
 			game->draw.x++;
 		}
 		game->draw.y++;
@@ -69,7 +69,7 @@ static void	draw_player_on_minimap(t_game *game)
 			my_mlx_pixel_put(&game->gfx,
 				game->draw.px + dx,
 				game->draw.py + dy,
-				0xFF3333);
+				0x5A4530);
 			dx++;
 		}
 		dy++;
