@@ -6,46 +6,11 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:46:21 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/13 23:02:12 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/14 09:19:05 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
-static void	handle_floor_color(char *line, t_game *game)
-{
-	if (game->floor_set == 1)
-	{
-		printf("Error: Duplicate F (floor) color\n");
-		gc_free_all();
-		exit(EXIT_FAILURE);
-	}
-	if (line[1] != ' ' && line[1] != '\t')
-	{
-		printf("Error: Invalid floor color format (expected 'F R,G,B')\n");
-		gc_free_all();
-		exit(EXIT_FAILURE);
-	}
-	parse_color(line + 2, &game->floor_color);
-	game->floor_set = 1;
-}
-
-static void	handle_ceiling_color(char *line, t_game *game)
-{
-	if (game->ceiling_set == 1)
-	{
-		printf("Error: Duplicate C (ceiling) color\n");
-		gc_free_all();
-		exit(EXIT_FAILURE);
-	}
-	if (line[1] != ' ' && line[1] != '\t')
-	{
-		printf("Error: Invalid ceiling color format\n");
-		gc_free_all();
-		exit(EXIT_FAILURE);
-	}
-	parse_color(line + 2, &game->ceiling_color);
-	game->ceiling_set = 1;
-}
 
 int	global_color(char *line, t_game *game)
 {

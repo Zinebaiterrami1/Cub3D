@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils_tex.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 20:13:51 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/12 10:43:07 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:16:39 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,44 +32,59 @@ void	validate_textures(t_textures *tex)
 		print_error();
 }
 
-int	parse_color(char *line, int *out_color)
+int	ft_isdigit(char c)
 {
-	char	**tokens;
-	int		values[3];
-	int		i;
-	int		error;
-
-	tokens = ft_split(line, ',');
-	if (!tokens)
-		return (1);
-	i = 0;
-	while (tokens[i] && i < 3)
-	{
-		error = str_to_int_strict(tokens[i], &values[i]);
-		if (error)
-			t_fil(tokens);
-		i++;
-	}
-	if (i != 3)
-	{
-		free_split(tokens);
-		print_error();
-	}
-	free_split(tokens);
-	*out_color = (values[0] << 16) | (values[1] << 8) | values[2];
-	return (0);
+	return (c >= '0' && c <= '9');
 }
 
-void	check_path(char *path)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	int	fd;
+	size_t	start;
+	size_t	end;
 
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
+	if (!s1 || !set)
+		return (NULL);
+	start = 0;
+	while (s1[start] && ft_strchr(set, s1[start]))
+		start++;
+	end = ft_strlen(s1);
+	while (end > start && ft_strchr(set, s1[end - 1]))
+		end--;
+	return (ft_substr(s1, start, end - start));
+}
+
+void	ft_erreur(void)
+{
+	printf("Error\nInvalid color format in F/C element (expected R,G,B)\n");
+	gc_free_all();
+	exit(EXIT_FAILURE);
+}
+
+void	is_rgb_valid(char *line)
+{
+	char	*tmp;
+	int		i;
+	int		comma;
+
+	tmp = ft_strtrim(line, " \t\r\n");
+	if (!tmp)
+		return ;
+	i = 0;
+	comma = 0;
+	while (tmp[i])
 	{
-		printf("❌ Erreur : le fichier%s n'existe pas \n", path);
-		gc_free_all();
-		exit(1);
+		if (tmp[i] == ',')
+			comma++;
+		else if (!ft_isdigit(tmp[i]))
+		{
+			printf("Error\nInvalid character in color\n");
+			gc_free_all();
+			exit(EXIT_FAILURE);
+		}
+		i++;
 	}
-	close(fd);
+	if (comma != 2)
+	{
+		ft_erreur();
+	}
 }

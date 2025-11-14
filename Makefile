@@ -33,6 +33,8 @@ SOURCE = \
 	cub/parsing/parse_color.c \
 	cub/parsing/parse_tex.c \
 	cub/parsing/free.c \
+	cub/parsing/parse_utils_tex2.c\
+	cub/parsing/init_color.c\
 	cub/parsing/parsing.c \
 	cub/parsing/parse_map_utils.c \
 	cub/parsing/map_processing.c \
@@ -76,6 +78,8 @@ SOURCE_BONUS = \
 	cub-Bonus/parsing/map_validation_inside.c \
 	cub-Bonus/parsing/map_validation_player.c \
 	cub-Bonus/parsing/parse_utils_tex.c \
+	cub-Bonus/parsing/parse_utils_tex2.c\
+	cub-Bonus/parsing/init_color.c\
 	cub-Bonus/gc.c
 
 # -------------------- OBJECTS --------------------
@@ -98,7 +102,6 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME) $(BONUS_NAME)
-	# On ne supprime plus le dossier cub-Bonus, sinon make re échoue
 
 re: fclean all bonus
 

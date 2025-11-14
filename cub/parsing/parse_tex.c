@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:51:39 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/13 09:55:33 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:22:16 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,12 @@ void	check_texture_line(t_textures *tex, char *line)
 		assign_texture(&tex->ea, line + i + 3, tex);
 	else if (ft_strncmp(line + i, "WE ", 3) == 0)
 		assign_texture(&tex->we, line + i + 3, tex);
+	else
+	{
+		printf("Error\nInvalid character in map\n");
+		gc_free_all();
+		exit(EXIT_FAILURE);
+	}
 }
 
 int	tex_global(char *line, t_textures *tex)

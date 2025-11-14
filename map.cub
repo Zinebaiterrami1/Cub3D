@@ -1,10 +1,9 @@
 NO textures-cub/11.xpm
 SO textures-cub/11.xpm
 WE textures-cub/2.xpm
-EA textures-cub/2.xpm
+EA  textures-cub/2.xpm
 
-
-F ,,55,35  
+F 10,55,35  
 C 75,55,5
 
     1111111111111111111111111
@@ -12,4 +11,5 @@ C 75,55,5
 1111111111110000000000001111
 1111100000000N0000001111111
 111111111111111111111111111
+
 

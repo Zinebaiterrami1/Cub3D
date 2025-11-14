@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/13 23:00:30 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/14 09:46:27 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,7 @@ void	cleanup_get_next_line(void)
 {
 	get_next_line(-1);
 }
-// void color_test( game *game)
-// {
-	
-// }
+
 int	main(int ac, char **av)
 {
 	t_game		game;
@@ -86,10 +83,9 @@ int	main(int ac, char **av)
 	int			fd;
 	t_textures	tex;
 
-	game.floor_set = 0;
-	game.ceiling_set = 0;
 	parse_args(ac, av);
 	check_tex(&tex);
+	init_color_set(&game);
 	fd = open_map_file(av[1]);
 	map = read_map_file(fd, &game, &tex);
 	if (!map.grid)
@@ -103,18 +99,7 @@ int	main(int ac, char **av)
 	init_draw_texture(&game.dt);
 	init_all_rays(game.rays);
 	validate_textures(&tex);
-	if (game.floor_set == 0)
-	{
-		printf("Warning: floor color not set, using default (black)\n");
-		gc_free_all();
-		exit(EXIT_FAILURE);
-	}
-	if (game.ceiling_set == 0)
-	{
-		printf("Warning: ceiling color not set, using default (white)\n");
-		gc_free_all();
-		exit(EXIT_FAILURE);
-	}
+	color_test(&game);
 	init_game(&game, map, tex);
 	free_map_grid(map.grid);
 	return (0);

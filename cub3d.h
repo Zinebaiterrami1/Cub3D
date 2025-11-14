@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:49:39 by zait-err          #+#    #+#             */
-/*   Updated: 2025/11/13 21:20:36 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:26:50 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 
 # include "get_next_line/get_next_line.h"
-# include "minilibx-linux/mlx.h"
+# include "mlx.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <fcntl.h>
@@ -390,4 +390,9 @@ void				gc_free_all(void);
 void				gc_free_all(void);
 void				init_draw_texture(t_draw_texture *dt);
 void				validate_textures(t_textures *tex);
+void				handle_floor_color(char *line, t_game *game);
+void				handle_ceiling_color(char *line, t_game *game);
+void				is_rgb_valid(char *line);
+void				color_test(t_game *game);
+void				init_color_set(t_game *game);
 #endif

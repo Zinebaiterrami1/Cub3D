@@ -6,7 +6,7 @@
 /*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:41:25 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/13 22:35:04 by zait-err         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:22:53 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 static int	process_line(char *line, int i, t_ctx *ctx)
 {
-	// Ignorer les lignes vides
 	if (line[i] == '\0' || line[i] == '\n')
 		return (0);
-	if (line[i] == 'F' || line[i] == 'C')
-	{
-		global_color(line + i, ctx->game);
+	if (global_color(line + i, ctx->game) == 0)
 		return (0);
-	}
 	if (tex_global(line + i, ctx->tex) == 0)
 		return (0);
 	if (ft_strnstr(line, "111", ft_strlen(line)))
@@ -29,7 +25,7 @@ static int	process_line(char *line, int i, t_ctx *ctx)
 		ctx->map->grid = get_map(line, ctx->fd);
 		return (1);
 	}
-	return (0);
+	return (-1);
 }
 
 static t_map	read_map_file(int fd, t_game *game, t_textures *tex)
@@ -101,8 +97,7 @@ int	main(int ac, char **av)
 	int			fd;
 	t_textures	tex;
 
-	game.ceiling_set = 0;
-	game.floor_set = 0;
+	init_color_set(&game);
 	parse_args(ac, av);
 	check_tex(&tex);
 	fd = open_map_file(av[1]);
@@ -118,18 +113,7 @@ int	main(int ac, char **av)
 	init_draw_texture(&game.dt);
 	init_all_rays(game.rays);
 	validate_textures(&tex);
-	if (game.floor_set == 0)
-	{
-		printf("Warning: floor color not set, using default (black)\n");
-		gc_free_all();
-		exit(EXIT_FAILURE);
-	}
-	if (game.ceiling_set == 0)
-	{
-		printf("Warning: ceiling color not set, using default (white)\n");
-		gc_free_all();
-		exit(EXIT_FAILURE);
-	}
+	color_test(&game);
 	init_game(&game, map, tex);
 	free_map_grid(map.grid);
 	return (0);

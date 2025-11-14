@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zait-err <zait-err@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:51:39 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/11/13 09:26:59 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:16:07 by zait-err         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,32 @@ void	duplicate_tex(t_textures *tex)
 	gc_free_all();
 	exit(EXIT_FAILURE);
 }
+
 static void	assign_texture(char **tex_ptr, char *value, t_textures *tex)
 {
 	char	*new_value;
 	char	*trimmed;
+	int		len;
 
 	if (*tex_ptr != NULL)
 		duplicate_tex(tex);
-
 	trimmed = ft_strdup_trim(value);
 	if (!trimmed)
 		print_error();
-
-	int len = ft_strlen(trimmed);
+	len = ft_strlen(trimmed);
 	if (len > 0 && (trimmed[len - 1] == '\n' || trimmed[len - 1] == '\r'))
 		trimmed[len - 1] = '\0';
-
-	
-if (!ft_strnstr(trimmed, ".xpm", ft_strlen(trimmed)))
-{
-    printf("❌ Erreur : le fichier '%s' n'est pas une texture .xpm\n", trimmed);
-	(void)trimmed;
-	gc_free_all();
-	exit(EXIT_FAILURE);
-}
-
+	if (!ft_strnstr(trimmed, ".xpm", ft_strlen(trimmed)))
+	{
+		printf("❌ Erreur : le fichier '%s' n'est pas une texture .xpm\n",
+			trimmed);
+		(void)trimmed;
+		gc_free_all();
+		exit(EXIT_FAILURE);
+	}
 	new_value = trimmed;
 	*tex_ptr = new_value;
 }
-
 
 void	free_textures_strings(t_textures *tex)
 {
@@ -92,6 +89,12 @@ void	check_texture_line(t_textures *tex, char *line)
 		assign_texture(&tex->ea, line + i + 3, tex);
 	else if (ft_strncmp(line + i, "WE ", 3) == 0)
 		assign_texture(&tex->we, line + i + 3, tex);
+	else
+	{
+		printf("Error\nInvalid character in map\n");
+		gc_free_all();
+		exit(EXIT_FAILURE);
+	}
 }
 
 int	tex_global(char *line, t_textures *tex)
