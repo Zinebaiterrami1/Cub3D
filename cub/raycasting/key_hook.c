@@ -1,0 +1,108 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key_hook.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/27 20:24:24 by fakoukou          #+#    #+#             */
+/*   Updated: 2025/11/11 16:44:50 by fakoukou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../cub3d.h"
+
+int	key_press(int keycode, t_game *game)
+{
+	if (keycode == KEY_ESC)
+	{
+		cleanup_game(game);
+		gc_free_all();
+		exit(0);
+	}
+	if (keycode == KEY_W)
+		game->keys.w = 1;
+	if (keycode == KEY_S)
+		game->keys.s = 1;
+	if (keycode == KEY_A)
+		game->keys.a = 1;
+	if (keycode == KEY_D)
+		game->keys.d = 1;
+	if (keycode == KEY_LEFT)
+		game->keys.left = 1;
+	if (keycode == KEY_RIGHT)
+		game->keys.right = 1;
+	return (0);
+}
+
+int	key_release(int keycode, t_game *game)
+{
+	if (keycode == KEY_W)
+		game->keys.w = 0;
+	if (keycode == KEY_S)
+		game->keys.s = 0;
+	if (keycode == KEY_A)
+		game->keys.a = 0;
+	if (keycode == KEY_D)
+		game->keys.d = 0;
+	if (keycode == KEY_LEFT)
+		game->keys.left = 0;
+	if (keycode == KEY_RIGHT)
+		game->keys.right = 0;
+	return (0);
+}
+
+static void	move_player(t_game *game, float *next_x, float *next_y)
+{
+	if (game->keys.w)
+	{
+		*next_x += game->player.dx;
+		*next_y += game->player.dy;
+	}
+	if (game->keys.s)
+	{
+		*next_x -= game->player.dx;
+		*next_y -= game->player.dy;
+	}
+	if (game->keys.a)
+	{
+		*next_x += game->player.dy;
+		*next_y -= game->player.dx;
+	}
+	if (game->keys.d)
+	{
+		*next_x -= game->player.dy;
+		*next_y += game->player.dx;
+	}
+}
+
+void	handle_keys(t_game *game)
+{
+	float	next_x;
+	float	next_y;
+
+	next_x = game->player.x;
+	next_y = game->player.y;
+	if (game->keys.left)
+		game->player.angle -= ROT_SPEED;
+	if (game->keys.right)
+		game->player.angle += ROT_SPEED;
+	game->player.dx = cos(game->player.angle) * SPEED;
+	game->player.dy = sin(game->player.angle) * SPEED;
+	move_player(game, &next_x, &next_y);
+	if (!check_collision(game, next_x, next_y))
+	{
+		game->player.x = next_x;
+		game->player.y = next_y;
+	}
+}
+
+int	game_loop(t_game *game)
+{
+	handle_keys(game);
+	clear_screen(&game->gfx);
+	draw_fov_rays(game);
+	render_3d_textured(game);
+	mlx_put_image_to_window(game->gfx.mlx, game->gfx.win, game->gfx.img, 0, 0);
+	return (0);
+}
